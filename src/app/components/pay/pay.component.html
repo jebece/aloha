@@ -1,0 +1,112 @@
+<app-header></app-header>
+<main class="pay container-fluid">
+    <div class="container-xl">
+        <div class="pay__title pt-4">
+            <div class="pay__title-text">Confirmación y pago</div>
+        </div>
+        <div class="container xl">
+            <div class="row mt-4">
+                <section class="pay__book-details col-md-6 pb-3">
+                    <div class="pay__book-details-title">
+                        <div class="pay__book-details-text">Detalles de la reserva</div>
+                    </div>
+                    <div class="pay__book-details-holder mt-2">
+                        <div class="pay__book-details-info">Titular</div>
+                    </div>
+                    <div class="pay__book-details-holder">
+                        <div class="pay__book-details-value">Pedro Sánchez Castejón</div>
+                    </div>
+                    <div class="pay__book-details-email mt-2">
+                        <div class="pay__book-details-info">Email</div>
+                    </div>
+                    <div class="pay__book-details-email">
+                        <div class="pay__book-details-value">psanchez.iesruizgijón.com</div>
+                    </div>
+                    <div class="pay__book-details-arrival mt-2">
+                        <div class="pay__book-details-info">Fecha de entrada</div>
+                    </div>
+                    <div class="pay__book-details-arrival">
+                        <div class="pay__book-details-value">02/05/2024</div>
+                    </div>
+                    <div class="pay__book-details-exit mt-2">
+                        <div class="pay__book-details-info">Fecha de salida</div>
+                    </div>
+                    <div class="pay__book-details-exit">
+                        <div class="pay__book-details-value">03/05/2024</div>
+                    </div>
+                    <div class="pay__book-details-people mt-2">
+                        <div class="pay__book-details-info">N° personas</div>
+                    </div>
+                    <div class="pay__book-details-people">
+                        <div class="pay__book-details-value">2</div>
+                    </div>
+                    <div class="pay__book-details-total mt-2">
+                        <div class="pay__book-details-info">Total</div>
+                    </div>
+                    <div class="pay__book-details-total">
+                        <div class="pay__book-details-value">100€</div>
+                    </div>
+                </section>
+                <section class="pay__accomm-details col-md-6">
+                    <div class="ms-lg-5">
+                        <div class="pay__accomm-details-title">
+                            <div class="pay__accomm-details-text">Detalles del alojamiento</div>
+                        </div>
+                        <div class="pay__accomm-details-name mt-2">
+                            <div>NH Collection Sevilla</div>
+                        </div>
+                        <div class="pay__accomm-details-location">
+                            <div>Av. de Diego Martínez Barrio, 8, 41013 Sevilla</div>
+                        </div>
+                        <div class="pay__accomm-details-type mt-2">
+                            <div class="pay__accomm-details-info">Tipo</div>
+                        </div>
+                        <div class="pay__accomm-details-type">
+                            <div class="pay__accomm-details-value">Hotel</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="row mt-5">
+                <div class="pay__book-form mb-4">
+                    <div class="pay__book-form-title mt-3">
+                        <div class="pay__book-form-text">Datos de pago</div>
+                    </div>
+                    <form class="needs-validation" novalidate>
+                        <div class="pay__book-form-informations row gx-3">
+                            <div
+                                class="pay__book-form-information col-lg-5 d-flex flex-column justify-content-end pt-lg-3">
+                                <div class="pay__book-form-info">N° tarjeta</div>
+                            </div>
+                            <div class="pay__book-form-information col-lg-3 d-flex flex-column justify-content-end">
+                                <div class="pay__book-form-info">Caducidad</div>
+                            </div>
+                            <div class="pay__book-form-information col-lg-2 d-flex flex-column justify-content-end">
+                                <div class="pay__book-form-info">CVC</div>
+                            </div>
+                        </div>
+                        <div class="row gx-3">
+                            <div class="pay__book-form-controls col-lg-5 mt-2">
+                                <div class="pay__book-form-hidden">N° tarjeta</div>
+                                <input type="text" class="pay__book-form-control form-control" required>
+                            </div>
+                            <div class="pay__book-form-controls col-lg-3 mt-2">
+                                <div class="pay__book-form-hidden">Caducidad</div>
+                                <input type="text" class="pay__book-form-control form-control" required>
+                            </div>
+                            <div class="pay__book-form-controls col-lg-2 mt-2">
+                                <div class="pay__book-form-hidden">CVC</div>
+                                <input type="text" class="pay__book-form-control form-control" required>
+                            </div>
+                            <div class="pay__book-form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
+                                <button class="consulta__form-submit btn btn-secondary" type="submit">PAGAR</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<app-footer></app-footer>

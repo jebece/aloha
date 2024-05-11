@@ -1,0 +1,40 @@
+<app-header></app-header>
+<main class="login container-fluid">
+    <div class="row">
+        <section class="login__image col-lg-6">
+        </section>
+        <section class="login__form col-lg-6 d-flex flex-column justify-content-center">
+            <div class="row">
+                <div class="login__card col-sm-6 offset-sm-3">
+                    <div class="login__card-header">
+                        <p class="login__card-title text-center">Iniciar sesión</p>
+                    </div>
+                    <div class="login__card-body">
+                        <form class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="user" class="login__card-label form-label">Usuario</label>
+                                <input type="email" class="login__card-control form-control" id="user" required>
+                                <div class="invalid-feedback">
+                                    Introduzca su usuario
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="login__card-label form-label">Contraseña</label>
+                                <input type="password" class="login__card-control form-control" id="password" required>
+                                <div class="invalid-feedback">
+                                    Introduzca su contraseña
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="login__card-submit btn btn-secondary" type="submit" [routerLink]="['']">Iniciar sesión</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    </div>
+                </div>
+        </section>
+    </div>
+</main>
