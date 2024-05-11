@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InicioComponent } from './components/inicio/inicio.component';
@@ -14,8 +13,9 @@ import { PayComponent } from './components/pay/pay.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -46,7 +46,9 @@ const appRoutes: Routes = [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     DatePipe

@@ -10,27 +10,28 @@
                         <p class="login__card-title text-center">Iniciar sesión</p>
                     </div>
                     <div class="login__card-body">
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" novalidate [formGroup]="loginForm">
                             <div class="mb-3">
                                 <label for="user" class="login__card-label form-label">Usuario</label>
-                                <input type="email" class="login__card-control form-control" id="user" required>
-                                <div class="invalid-feedback">
-                                    Introduzca su usuario
+                                <input type="email" class="login__card-control form-control" id="user" formControlName="email" required>
+                                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+                                    <div *ngIf="email.errors?.['required']">Introduzca su usuario</div>
+                                    <div *ngIf="email.errors?.['email']">El usuario debe tener formato email</div>
                                 </div>
                             </div>
                             <div class="mb-4">
                                 <label for="password" class="login__card-label form-label">Contraseña</label>
-                                <input type="password" class="login__card-control form-control" id="password" required>
-                                <div class="invalid-feedback">
-                                    Introduzca su contraseña
+                                <input type="password" class="login__card-control form-control" id="password" formControlName="password" required>
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1">
+                                    <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
                                 </div>
+                                <div class="text-danger mt-2 text-center">{{loginError}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <button class="login__card-submit btn btn-secondary" type="submit" [routerLink]="['']">Iniciar sesión</button>
+                                    <button class="login__card-submit btn btn-secondary" type="submit" (click)="login()">Iniciar sesión</button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                     </div>

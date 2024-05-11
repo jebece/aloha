@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 import { User } from '../auth/user';
 import { environment } from '../../environments/environments';
+import { LoginRequest } from '../auth/loginRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class UserService {
 
   constructor(private http:HttpClient) {}
 
-  getUser(id:number):Observable<User> {
-    return this.http.get<User>(environment.urlApi + 'users/' + id).pipe(
+  getUser(credentials:LoginRequest):Observable<User> {
+    return this.http.post<User>(environment.urlApi, credentials).pipe(
       catchError(this.handleError)
     )
   }

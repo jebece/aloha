@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
     urlHost: 'http://localhost:8080',
-    urlApi: 'http://localhost:8080/auth/registerClient'
+    urlApi: 'http://localhost:8080/auth/loginClient'
 }
