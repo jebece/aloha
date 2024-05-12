@@ -17,14 +17,33 @@
             <div class="navigation__content collapse navbar-collapse d-lg-flex justify-content-lg-around"
                 id="navbarNavAltMarkup">
                 <div class="navigation__links navbar-nav">
-                    <a class="navigation__link nav-link text-center hidden" href="/login">Iniciar sesión</a>
-                    <a class="navigation__link nav-link hidden ms-lg-3 text-center" href="/registro">Crear cuenta</a>
+                    <a *ngIf="!userLoginOn" class="navigation__link nav-link text-center hidden" href="/login">Iniciar sesión</a>
+                    <a *ngIf="!userLoginOn" class="navigation__link nav-link hidden ms-lg-3 text-center" href="/registro">Crear cuenta</a>
+                    <a *ngIf="userLoginOn" class="navigation__link nav-link text-center hidden" href="/client">Mi cuenta</a>
+                    <a *ngIf="userLoginOn" class="navigation__link nav-link text-center hidden" (click)="logout()" href="">Cerrar sesión</a>
                 </div>
             </div>
         </nav>
-        <div class="header__buttons col-lg-4">
-            <a class="header__btn btn btn-primary" href="/login">Iniciar sesión</a>
-            <a class="header__btn btn btn-primary ms-lg-2 me-lg-4" href="/registro">Crear cuenta</a>
+        <div class="header__buttons col-lg-4 d-lg-flex align-items-center">
+            <a *ngIf="!userLoginOn" class="header__btn btn btn-primary" href="/login">Iniciar sesión</a>
+            <a *ngIf="!userLoginOn" class="header__btn btn btn-primary ms-lg-2 me-lg-4" href="/registro">Crear cuenta</a>
+            <a *ngIf="userLoginOn" class="header__btn-close btn btn-primary d-flex align-items-center" (click)="logout()" href="">
+                <div>Cerrar sesión</div>
+            </a>
+            <a *ngIf="userLoginOn" class="header__icon ms-lg-4 me-lg-4 d-flex align-items-center" href="/client">
+                <div>
+                    <svg width="40" height="40" viewBox="0 0 21 21" fill="FFFFFF" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_27_23)">
+                        <path d="M10.5 0.000255585C16.2984 0.000255585 21 4.70095 21 10.4998C21 16.2986 16.2988 20.9993 10.5 20.9993C4.70069 20.9993 -2.2363e-06 16.2986 -2.2363e-06 10.4998C-2.2363e-06 4.70095 4.70069 0.000255585 10.5 0.000255585ZM10.5 3.13974C8.58135 3.13974 7.0266 4.69495 7.0266 6.61268C7.0266 8.53087 8.58135 10.0856 10.5 10.0856C12.4177 10.0856 13.9725 8.53087 13.9725 6.61268C13.9725 4.69495 12.4177 3.13974 10.5 3.13974ZM10.5023 18.2542C12.4159 18.2542 14.1685 17.5573 15.5203 16.4038C15.8496 16.1229 16.0396 15.7111 16.0396 15.2789C16.0396 13.334 14.4655 11.7774 12.5201 11.7774H8.47896C6.5331 11.7774 4.96497 13.334 4.96497 15.2789C4.96497 15.7115 5.15407 16.1225 5.48384 16.4033C6.83519 17.5573 8.58827 18.2542 10.5023 18.2542Z" fill="white"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_27_23">
+                        <rect width="21" height="21" fill="white" transform="matrix(-1 0 0 1 21 0)"/>
+                        </clipPath>
+                        </defs>
+                        </svg>
+                </div>
+            </a>
         </div>
     </div>
 </header>

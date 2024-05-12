@@ -12463,6 +12463,18 @@ body {
     font-size: 0.75rem;
     font-weight: bold;
   }
+  .header__btn-close {
+    max-height: 2rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .header__icon {
+    transition: fill 0.3s ease, transform 0.3s ease;
+  }
+  .header__icon:hover {
+    fill: white;
+    transform: scale(1.1);
+  }
 }
 
 .navigation__logo .logo {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/auth/login.service';
 import { User } from '../../services/auth/user';
 
@@ -21,8 +21,9 @@ export class HeaderComponent implements OnInit{
         this.userLoginOn = userLoginOn;
       }
     });
-
   }
 
-
+  logout(): void {
+    this.loginService.logout();
+  }
 }

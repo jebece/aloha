@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { User } from '../auth/user';
 import { environment } from '../../environments/environments';
-import { LoginRequest } from '../auth/loginRequest';
 import { RegistroRequest } from '../auth/registroRequest';
 
 @Injectable({
@@ -12,10 +11,19 @@ import { RegistroRequest } from '../auth/registroRequest';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUser(credentials: LoginRequest): Observable<User> {
-    return this.http
-      .post<User>(environment.urlApi, credentials)
-      .pipe(catchError(this.handleError));
+  getUser(): Observable<User> {
+    // Obtenemos el token del usuario actualmente autenticado desde la sesión 
+    const token = sessionStorage.getItem('token');
+
+    const user: User = {
+      token: token || ''
+    };
+
+    // Devolvemos los datos del usuario como un observable
+    return new Observable<User>(observer => {
+      observer.next(user);
+      observer.complete();
+    });
   }
 
   public addClient(user: RegistroRequest) {
