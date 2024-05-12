@@ -2,106 +2,65 @@
 <main class="registro container-fluid">
   <div class="row">
     <section class="registro__image col-lg-6"></section>
-    <section
-      class="registro__form col-lg-6 d-flex flex-column justify-content-center"
-    >
+    <section class="registro__form col-lg-6 d-flex flex-column justify-content-center">
       <div class="row">
         <div class="registro__card col-sm-6 offset-sm-3 my-5">
           <div class="registro__card-header">
             <p class="registro__card-title text-center">Crear cuenta</p>
           </div>
           <div class="registro__card-body">
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" novalidate [formGroup]="registroForm">
               <div class="mb-3">
-                <label for="name" class="registro__card-label form-label"
-                  >Nombre</label
-                >
-                <input
-                  [(ngModel)]="user.name"
-                  type="text"
-                  class="registro__card-control form-control"
-                  id="name"
-                  name="name"
-                  required
-                />
-                <div class="invalid-feedback">Introduzca su nombre</div>
+                <label for="name" class="registro__card-label form-label">Nombre</label>
+                <input formControlName="name" type="text" class="registro__card-control form-control" id="name"
+                  name="name" required />
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1">
+                  <div *ngIf="name.errors?.['required']">Introduzca su nombre</div>
+                </div>
               </div>
               <div class="mb-3">
-                <label for="surname" class="registro__card-label form-label"
-                  >Apellidos</label
-                >
-                <input
-                  [(ngModel)]="user.surname"
-                  type="text"
-                  class="registro__card-control form-control"
-                  id="surname"
-                  name="surname"
-                  required
-                />
-                <div class="invalid-feedback">Introduzca sus apellidos</div>
+                <label for="surname" class="registro__card-label form-label">Apellidos</label>
+                <input formControlName="surname" type="text" class="registro__card-control form-control" id="surname"
+                  name="surname" required />
+                  <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="text-danger mt-1">
+                    <div *ngIf="surname.errors?.['required']">Introduzca sus apellidos</div>
+                  </div>
               </div>
               <div class="mb-3">
-                <label for="email" class="registro__card-label form-label"
-                  >Email</label
-                >
-                <input
-                  [(ngModel)]="user.email"
-                  type="email"
-                  class="registro__card-control form-control"
-                  id="email"
-                  name="email"
-                  required
-                />
-                <div class="invalid-feedback">Introduzca su email</div>
+                <label for="phone" class="registro__card-label form-label">Teléfono</label>
+                <input formControlName="phone" type="text" class="registro__card-control form-control" id="phone" required />
+                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger mt-1">
+                  <div *ngIf="phone.errors?.['required']">Introduzca su teléfono</div>
+                </div>
               </div>
               <div class="mb-3">
-                <label for="role" class="registro__card-label form-label"
-                  >Perfil:</label
-                >
-                <select
-                  class="registro__card-control form-select"
-                  id="role"
-                  required
-                >
+                <label for="email" class="registro__card-label form-label">Email</label>
+                <input formControlName="email" type="email" class="registro__card-control form-control" id="email"
+                  name="email" required />
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+                    <div *ngIf="email.errors?.['required']">Introduzca su email</div>
+                    <div *ngIf="email.errors?.['email']">Su correo electrónico debe tener formato email</div>
+                  </div>
+              </div>
+              <div class="mb-4">
+                <label for="role" class="registro__card-label form-label">Perfil:</label>
+                <select class="registro__card-control form-select" id="role" required>
                   <option selected>Encontrar alojamiento</option>
                   <option>Ofrecer alojamientos</option>
                 </select>
               </div>
-              <div class="mb-4">
-                <label for="password" class="registro__card-label form-label"
-                  >Contraseña</label
-                >
-                <input
-                  [(ngModel)]="user.password"
-                  type="password"
-                  class="registro__card-control form-control"
-                  id="password"
-                  name="password"
-                  required
-                />
-                <div class="invalid-feedback">Introduzca su contraseña</div>
-              </div>
               <div class="mb-5">
-                <label
-                  for="passwordConfirm"
-                  class="registro__card-label form-label"
-                  >Confirme su contraseña</label
-                >
-                <input
-                  type="password"
-                  class="registro__card-control form-control"
-                  id="passwordConfirm"
-                  required
-                />
-                <div class="invalid-feedback">Confirme su contraseña</div>
+                <label for="password" class="registro__card-label form-label">Contraseña</label>
+                <input formControlName="password" type="password" class="registro__card-control form-control"
+                  id="password" name="password" required />
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1">
+                    <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
+                  </div>
+                  <div class="text-danger mt-2 text-center">{{registroError}}</div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <button
-                    class="registro__card-submit btn btn-secondary"
-                    type="submit"
-                    (click)="formSubmit()"
-                  >
+                  <button class="registro__card-submit btn btn-secondary" type="submit" (click)="formSubmit()">
                     Crear cuenta
                   </button>
                 </div>

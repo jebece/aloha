@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { RegistroRequest } from '../../services/auth/registroRequest';
 
 @Component({
   selector: 'app-registro',
@@ -7,32 +10,57 @@ import { UserService } from '../../services/user/user.service';
   styleUrl: './registro.component.css',
 })
 export class RegistroComponent implements OnInit {
-  public user = {
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
-    phone: '',
-  };
+  registroError:string='';
+  registroForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    surname: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    phone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]]
+  })
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private formBuilder:FormBuilder, private router:Router) {}
 
   ngOnInit(): void {}
 
   formSubmit() {
-    console.log(this.user);
-    if (this.user.email == '' || this.user.email == null) {
-      console.log('Faltan datos');
-      return;
+    if(this.registroForm.valid){
+      this.userService.addClient(this.registroForm.value as RegistroRequest).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.log(errorData);
+          this.registroError = errorData;
+        },
+        complete: () => {
+          console.info('Registro completo');
+          this.router.navigate(['']);
+          this.registroForm.reset();
+        }
+    });
+    }else{
+      this.registroForm.markAllAsTouched();
     }
+  }
 
-    this.userService.addClient(this.user).subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  get name() {
+    return this.registroForm.controls.name;
+  }
+
+  get surname() {
+    return this.registroForm.controls.surname;
+  }
+
+  get phone() {
+    return this.registroForm.controls.phone;
+  }
+
+  get email() {
+    return this.registroForm.controls.email;
+  }
+
+  get password() {
+    return this.registroForm.controls.password;
   }
 }

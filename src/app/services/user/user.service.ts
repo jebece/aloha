@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { User } from '../auth/user';
 import { environment } from '../../environments/environments';
 import { LoginRequest } from '../auth/loginRequest';
+import { RegistroRequest } from '../auth/registroRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,9 @@ export class UserService {
       .pipe(catchError(this.handleError));
   }
 
-  public addClient(user: any) {
-    return this.http.post(environment.urlHost + '/auth/registerClient', user);
+  public addClient(user: RegistroRequest) {
+    return this.http.post(environment.urlHost + '/auth/registerClient', user)
+    .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

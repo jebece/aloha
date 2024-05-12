@@ -3,9 +3,6 @@ import { FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
-import { User } from '../../services/auth/user';
-import { UserService } from '../../services/user/user.service';
-import { environment } from '../../environments/environments';
 
 @Component({
   selector: 'app-login',
