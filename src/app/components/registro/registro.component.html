@@ -1,72 +1,115 @@
 <app-header></app-header>
 <main class="registro container-fluid">
-    <div class="row">
-        <section class="registro__image col-lg-6">
-        </section>
-        <section class="registro__form col-lg-6 d-flex flex-column justify-content-center">
-            <div class="row">
-                <div class="registro__card col-sm-6 offset-sm-3 my-5">
-                    <div class="registro__card-header">
-                        <p class="registro__card-title text-center">Crear cuenta</p>
-                    </div>
-                    <div class="registro__card-body">
-                        <form class="needs-validation" novalidate>
-                            <div class="mb-3">
-                                <label for="name" class="registro__card-label form-label">Nombre</label>
-                                <input type="text" class="registro__card-control form-control" id="name" required>
-                                <div class="invalid-feedback">
-                                    Introduzca su nombre
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="surname" class="registro__card-label form-label">Apellidos</label>
-                                <input type="text" class="registro__card-control form-control" id="surname"
-                                    required>
-                                <div class="invalid-feedback">
-                                    Introduzca sus apellidos
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="registro__card-label form-label">Email</label>
-                                <input type="email" class="registro__card-control form-control" id="email" required>
-                                <div class="invalid-feedback">
-                                    Introduzca su email
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="role" class="registro__card-label form-label">Perfil:</label>
-                                <select class="registro__card-control form-select" id="role" required>
-                                    <option selected>Encontrar alojamiento</option>
-                                    <option>Ofrecer alojamientos</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label for="password" class="registro__card-label form-label">Contraseña</label>
-                                <input type="password" class="registro__card-control form-control" id="password"
-                                    required>
-                                <div class="invalid-feedback">
-                                    Introduzca su contraseña
-                                </div>
-                            </div>
-                            <div class="mb-5">
-                                <label for="passwordConfirm" class="registro__card-label form-label">Confirme su
-                                    contraseña</label>
-                                <input type="password" class="registro__card-control form-control"
-                                    id="passwordConfirm" required>
-                                <div class="invalid-feedback">
-                                    Confirme su contraseña
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <button class="registro__card-submit btn btn-secondary" type="submit" [routerLink]="['']">Crear
-                                        cuenta</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+  <div class="row">
+    <section class="registro__image col-lg-6"></section>
+    <section
+      class="registro__form col-lg-6 d-flex flex-column justify-content-center"
+    >
+      <div class="row">
+        <div class="registro__card col-sm-6 offset-sm-3 my-5">
+          <div class="registro__card-header">
+            <p class="registro__card-title text-center">Crear cuenta</p>
+          </div>
+          <div class="registro__card-body">
+            <form class="needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="name" class="registro__card-label form-label"
+                  >Nombre</label
+                >
+                <input
+                  [(ngModel)]="user.name"
+                  type="text"
+                  class="registro__card-control form-control"
+                  id="name"
+                  name="name"
+                  required
+                />
+                <div class="invalid-feedback">Introduzca su nombre</div>
+              </div>
+              <div class="mb-3">
+                <label for="surname" class="registro__card-label form-label"
+                  >Apellidos</label
+                >
+                <input
+                  [(ngModel)]="user.surname"
+                  type="text"
+                  class="registro__card-control form-control"
+                  id="surname"
+                  name="surname"
+                  required
+                />
+                <div class="invalid-feedback">Introduzca sus apellidos</div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="registro__card-label form-label"
+                  >Email</label
+                >
+                <input
+                  [(ngModel)]="user.email"
+                  type="email"
+                  class="registro__card-control form-control"
+                  id="email"
+                  name="email"
+                  required
+                />
+                <div class="invalid-feedback">Introduzca su email</div>
+              </div>
+              <div class="mb-3">
+                <label for="role" class="registro__card-label form-label"
+                  >Perfil:</label
+                >
+                <select
+                  class="registro__card-control form-select"
+                  id="role"
+                  required
+                >
+                  <option selected>Encontrar alojamiento</option>
+                  <option>Ofrecer alojamientos</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label for="password" class="registro__card-label form-label"
+                  >Contraseña</label
+                >
+                <input
+                  [(ngModel)]="user.password"
+                  type="password"
+                  class="registro__card-control form-control"
+                  id="password"
+                  name="password"
+                  required
+                />
+                <div class="invalid-feedback">Introduzca su contraseña</div>
+              </div>
+              <div class="mb-5">
+                <label
+                  for="passwordConfirm"
+                  class="registro__card-label form-label"
+                  >Confirme su contraseña</label
+                >
+                <input
+                  type="password"
+                  class="registro__card-control form-control"
+                  id="passwordConfirm"
+                  required
+                />
+                <div class="invalid-feedback">Confirme su contraseña</div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    class="registro__card-submit btn btn-secondary"
+                    type="submit"
+                    (click)="formSubmit()"
+                  >
+                    Crear cuenta
+                  </button>
                 </div>
-            </div>
-        </section>
-    </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
