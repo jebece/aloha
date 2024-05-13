@@ -24,15 +24,15 @@
                 </div>
                 <div class="consulta__form-controls col-lg-2 mt-2">
                     <div class="consulta__form-hidden">Fecha de entrada</div>
-                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="start" name="start">
+                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="start" name="start" [min]="minDate" (ngModelChange)="updateMinEndDate($event)">
                 </div>
                 <div class="consulta__form-controls col-lg-2 mt-2">
                     <div class="consulta__form-hidden">Fecha de salida</div>
-                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="end" name="end">
+                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="end" name="end" [min]="minEndDate">
                 </div>
                 <div class="consulta__form-controls col-lg-2 mt-2">
                     <div class="consulta__form-hidden">N° de personas</div>
-                    <input type="number" class="consulta__form-control form-control" [(ngModel)]="people" name="people">
+                    <input type="number" class="consulta__form-control form-control" [(ngModel)]="people" name="people" min="1">
                 </div>
                 <div class="consulta__form-hidden mt-3">
                     <a class="consulta__form-hidden-link text-end" data-bs-toggle="collapse" href="#desplegable"

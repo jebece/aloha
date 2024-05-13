@@ -12,8 +12,8 @@ import { RegistroRequest } from '../../services/auth/registroRequest';
 export class RegistroComponent implements OnInit {
   registroError:string='';
   registroForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    surname: ['', Validators.required],
+    name: ['', [Validators.required, Validators.maxLength(50)]],
+    surname: ['', [Validators.required, Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     phone: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]]

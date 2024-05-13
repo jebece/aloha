@@ -81,14 +81,13 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-4 col-md-3">
-                                <input type="date" class="inicio__card-control form-control" [(ngModel)]="start" name="start">
+                                <input type="date" class="inicio__card-control form-control" [(ngModel)]="start" name="start" [min]="minDate" (ngModelChange)="updateMinEndDate($event)">
                             </div>
                             <div class="col-4 col-md-3">
-                                <input type="date" class="inicio__card-control form-control" [(ngModel)]="end" name="end">
+                                <input type="date" class="inicio__card-control form-control" [(ngModel)]="end" name="end" [min]="minEndDate">
                             </div>
                             <div class="col-4 col-md-3 offset-md-3">
-                                <input type="number" class="inicio__card-control form-control"
-                                    placeholder="N° personas" [(ngModel)]="people" name="people">
+                                <input type="number" class="inicio__card-control form-control" [(ngModel)]="people" name="people" min="1">
                             </div>
                         </div>
                         <div class="row">

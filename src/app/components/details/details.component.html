@@ -19,19 +19,19 @@
             <div class="row gx-3">
                 <div class="details__form-controls col-lg-4 mt-2">
                     <div class="details__form-hidden">¿Dónde quieres alojarte?</div>
-                    <input type="text" class="details__form-control form-control" placeholder="Introduce ubicación">
+                    <input type="text" class="details__form-control form-control" placeholder="Introduce ubicación" [(ngModel)]="location" name="location">
                 </div>
                 <div class="details__form-controls col-lg-2 mt-2">
                     <div class="details__form-hidden">Fecha de entrada</div>
-                    <input type="date" class="details__form-control form-control">
+                    <input type="date" class="details__form-control form-control" [(ngModel)]="start" name="start" [min]="minDate" (ngModelChange)="updateMinEndDate($event)">
                 </div>
                 <div class="details__form-controls col-lg-2 mt-2">
                     <div class="details__form-hidden">Fecha de salida</div>
-                    <input type="date" class="details__form-control form-control">
+                    <input type="date" class="details__form-control form-control" [(ngModel)]="end" name="end" [min]="minEndDate">
                 </div>
                 <div class="details__form-controls col-lg-2 mt-2">
                     <div class="details__form-hidden">N° de personas</div>
-                    <input type="number" class="details__form-control form-control">
+                    <input type="number" class="details__form-control form-control" [(ngModel)]="people" name="people" min="1">
                 </div>
 
                 <div

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../services/auth/user';
 import { UserService } from '../../services/user/user.service';
@@ -8,12 +8,27 @@ import { UserService } from '../../services/user/user.service';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css'] 
 })
-export class InicioComponent{
+export class InicioComponent implements OnInit {
   user?: User;
   errorMessage: string = '';
   
-  constructor(private router: Router, private userService:UserService) {
+  location: string = '';
+  start: Date = new Date();
+  end: Date = new Date();
+  people: number = 2;
 
+  minDate: string = '';
+  minEndDate: string = '';
+
+  constructor(private router: Router, private userService:UserService) {}
+
+  ngOnInit(): void {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
+  
     this.userService.getUser().subscribe({
       next: (userData) =>{
         this.user=userData;
@@ -24,14 +39,21 @@ export class InicioComponent{
       complete: () =>{
         console.info('Petición completada');
       }
-    })
+    });
   }
 
-  location: string = '';
-  start: Date = new Date();
-  end: Date = new Date();
-  people: number = 0;
-
+  updateMinEndDate(startDate: string): void {
+    if (startDate) {
+      const selectedDate = new Date(startDate);
+      selectedDate.setDate(selectedDate.getDate() + 1);
+  
+      const year = selectedDate.getFullYear();
+      const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+      const day = selectedDate.getDate().toString().padStart(2, '0');
+      this.minEndDate = `${year}-${month}-${day}`;
+    }
+  }
+  
   searchAccommodation(): void {
     const queryParams = {
       location: this.location,
