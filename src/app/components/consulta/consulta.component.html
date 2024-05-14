@@ -101,7 +101,7 @@
                             <div
                                 class="consulta__form-filters-categories d-flex flex-column justify-content-between align-items-start ms-2 my-2">
                                 <input type="checkbox" class="consulta__form-filters-check btn-check" id="casa"
-                                    autocomplete="off">
+                                    autocomplete="off" [(ngModel)]="houses" name="houses">
                                 <label
                                     class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
                                     for="casa">
@@ -113,7 +113,7 @@
                                     <span class="consulta__form-filters-checklabel-text ms-2">Casas / Chalets</span>
                                 </label>
                                 <input type="checkbox" class="consulta__form-filters-check btn-check" id="hotel"
-                                    autocomplete="off">
+                                    autocomplete="off" [(ngModel)]="hotels" name="hotels">
                                 <label
                                     class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                                     for="hotel">
@@ -127,7 +127,7 @@
                                     <span class="consulta__form-filters-checklabel-text ms-2">Hoteles</span>
                                 </label>
                                 <input type="checkbox" class="consulta__form-filters-check btn-check" id="albergue"
-                                    autocomplete="off">
+                                    autocomplete="off" [(ngModel)]="hostels" name="hostels">
                                 <label
                                     class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                                     for="albergue">
@@ -139,7 +139,7 @@
                                     <span class="consulta__form-filters-checklabel-text ms-2">Albergues</span>
                                 </label>
                                 <input type="checkbox" class="consulta__form-filters-check btn-check" id="bungalow"
-                                    autocomplete="off">
+                                    autocomplete="off" [(ngModel)]="bungalows" name="bungalows">
                                 <label
                                     class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
                                     for="bungalow">
@@ -221,7 +221,7 @@
                     <div
                         class="consulta__filters-categories d-lg-flex flex-column justify-content-lg-between align-items-start ms-2 mt-2">
                         <input type="checkbox" class="consulta__filters-check btn-check" id="casas"
-                            autocomplete="off">
+                            autocomplete="off" [(ngModel)]="houses" name="houses">
                         <label
                             class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
                             for="casas">
@@ -233,7 +233,7 @@
                             <span class="consulta__filters-checklabel-text ms-2">Casas / Chalets</span>
                         </label>
                         <input type="checkbox" class="consulta__filters-check btn-check" id="hoteles"
-                            autocomplete="off">
+                            autocomplete="off" [(ngModel)]="hotels" name="hotels">
                         <label
                             class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                             for="hoteles">
@@ -246,7 +246,7 @@
                             <span class="consulta__filters-checklabel-text ms-2">Hoteles</span>
                         </label>
                         <input type="checkbox" class="consulta__filters-check btn-check" id="albergues"
-                            autocomplete="off">
+                            autocomplete="off" [(ngModel)]="hostels" name="hostels">
                         <label
                             class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                             for="albergues">
@@ -258,7 +258,7 @@
                             <span class="consulta__filters-checklabel-text ms-2">Albergues</span>
                         </label>
                         <input type="checkbox" class="consulta__filters-check btn-check" id="bungalows"
-                            autocomplete="off">
+                            autocomplete="off" [(ngModel)]="bungalows" name="bungalows">
                         <label
                             class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
                             for="bungalows">

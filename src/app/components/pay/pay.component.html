@@ -72,7 +72,7 @@
                     <div class="pay__book-form-title mt-3">
                         <div class="pay__book-form-text">Datos de pago</div>
                     </div>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" novalidate [formGroup]="payForm">
                         <div class="pay__book-form-informations row gx-3">
                             <div
                                 class="pay__book-form-information col-lg-5 d-flex flex-column justify-content-end pt-lg-3">
@@ -88,15 +88,27 @@
                         <div class="row gx-3">
                             <div class="pay__book-form-controls col-lg-5 mt-2">
                                 <div class="pay__book-form-hidden">N° tarjeta</div>
-                                <input type="text" class="pay__book-form-control form-control" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cardNumber" required>
+                                <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)" class="text-message mt-1 pb-lg-4">
+                                    <div *ngIf="cardNumber.errors?.['required']">Introduzca número de tarjeta</div>
+                                    <div *ngIf="cardNumber.errors?.['pattern']">Introduzca 16 dígitos numéricos</div>
+                                </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-3 mt-2">
                                 <div class="pay__book-form-hidden">Caducidad</div>
-                                <input type="text" class="pay__book-form-control form-control" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cardExpiration" required>
+                                <div *ngIf="cardExpiration.invalid && (cardExpiration.dirty || cardExpiration.touched)" class="text-message mt-1 pb-lg-4">
+                                    <div *ngIf="cardExpiration.errors?.['required']">Introduzca caducidad</div>
+                                    <div *ngIf="cardExpiration.errors?.['pattern']">Formato inválido (dd/dd)</div>
+                                </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-2 mt-2">
                                 <div class="pay__book-form-hidden">CVC</div>
-                                <input type="text" class="pay__book-form-control form-control" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cvc" required>
+                                <div *ngIf="cvc.invalid && (cvc.dirty || cvc.touched)" class="text-message mt-1 pb-lg-4">
+                                    <div *ngIf="cvc.errors?.['required']">Introduzca CVC</div>
+                                    <div *ngIf="cvc.errors?.['pattern']">Formato inválido (ddd)</div>
+                                </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
                                 <button class="consulta__form-submit btn btn-secondary" type="submit">PAGAR</button>

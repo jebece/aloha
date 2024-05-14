@@ -16,6 +16,10 @@ export class InicioComponent implements OnInit {
   start: Date = new Date();
   end: Date = new Date();
   people: number = 2;
+  houses: boolean = false;
+  hotels: boolean = false;
+  hostels: boolean = false;
+  bungalows: boolean = false;
 
   minDate: string = '';
   minEndDate: string = '';
@@ -59,7 +63,11 @@ export class InicioComponent implements OnInit {
       location: this.location,
       start: this.start,
       end: this.end,
-      people: this.people
+      people: this.people,
+      houses: this.houses,
+      hotels: this.hotels,
+      hostels: this.hostels,
+      bungalows: this.bungalows
     };
   
     this.router.navigate(['/consulta'], { queryParams: queryParams });

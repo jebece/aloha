@@ -15,7 +15,7 @@
                     <form>
                         <div class="inicio__card-form d-flex flex-column justify-content-between flex-md-row">
                             <input type="checkbox" class="inicio__card-check btn-check" id="casas"
-                                autocomplete="off">
+                                autocomplete="off" [(ngModel)]="houses" name="houses">
                             <label
                                 class="inicio__card-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
                                 for="casas">
@@ -27,7 +27,7 @@
                                 <span class="inicio__card-checklabel-text ms-2">Casas / Chalets</span>
                             </label>
                             <input type="checkbox" class="inicio__card-check btn-check" id="hoteles"
-                                autocomplete="off">
+                                autocomplete="off" [(ngModel)]="hotels" name="hotels">
                             <label
                                 class="inicio__card-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                                 for="hoteles">
@@ -41,7 +41,7 @@
                                 <span class="inicio__card-checklabel-text ms-2">Hoteles</span>
                             </label>
                             <input type="checkbox" class="inicio__card-check btn-check" id="albergues"
-                                autocomplete="off">
+                                autocomplete="off" [(ngModel)]="hostels" name="hostels">
                             <label
                                 class="inicio__card-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                                 for="albergues">
@@ -53,7 +53,7 @@
                                 <span class="inicio__card-checklabel-text ms-2">Albergues</span>
                             </label>
                             <input type="checkbox" class="inicio__card-check btn-check" id="bungalows"
-                                autocomplete="off">
+                                autocomplete="off" [(ngModel)]="bungalows" name="bungalows">
                             <label
                                 class="inicio__card-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
                                 for="bungalows">

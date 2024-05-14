@@ -11,6 +11,10 @@ export class ConsultaComponent implements OnInit {
   start: Date = new Date();
   end: Date = new Date();
   people: number = 2;
+  houses: boolean = false;
+  hotels: boolean = false;
+  hostels: boolean = false;
+  bungalows: boolean = false;
 
   minDate: string = '';
   minEndDate: string = '';
@@ -26,9 +30,13 @@ export class ConsultaComponent implements OnInit {
     
     this.route.queryParams.subscribe(params => {
       this.location = params['location'];
-      this.start = new Date(params['start']);
-      this.end = new Date(params['end']);
+      this.start = params['start'];
+      this.end = params['end'];
       this.people = +params['people'];
+      this.houses = params['houses'] === 'true';
+      this.hotels = params['hotels'] === 'true';
+      this.hostels = params['hostels'] === 'true';
+      this.bungalows = params['bungalows'] === 'true';
     });
   }
 

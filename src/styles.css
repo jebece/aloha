@@ -12858,6 +12858,12 @@ body {
   width: 100%;
 }
 
+.text-message {
+  color: #5B5E85;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
 .registro__image {
   display: none;
 }

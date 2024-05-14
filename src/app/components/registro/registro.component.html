@@ -14,7 +14,7 @@
                 <label for="name" class="registro__card-label form-label">Nombre</label>
                 <input formControlName="name" type="text" class="registro__card-control form-control" id="name"
                   name="name" required />
-                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger mt-1">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
                   <div *ngIf="name.errors?.['required']">Introduzca su nombre</div>
                   <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
                 </div>
@@ -23,7 +23,7 @@
                 <label for="surname" class="registro__card-label form-label">Apellidos</label>
                 <input formControlName="surname" type="text" class="registro__card-control form-control" id="surname"
                   name="surname" required />
-                  <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="text-danger mt-1">
+                  <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="text-message mt-1">
                     <div *ngIf="surname.errors?.['required']">Introduzca sus apellidos</div>
                     <div *ngIf="surname.errors?.['maxlength']">Apellidos demasiado largos</div>
                   </div>
@@ -31,19 +31,18 @@
               <div class="mb-3">
                 <label for="phone" class="registro__card-label form-label">Teléfono</label>
                 <input formControlName="phone" type="text" class="registro__card-control form-control" id="phone" required />
-                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger mt-1">
+                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-message mt-1">
                   <div *ngIf="phone.errors?.['required']">Introduzca su teléfono</div>
-                  <div *ngIf="phone.errors?.['minlength']">El teléfono debe contener 9 dígitos</div>
-                  <div *ngIf="phone.errors?.['maxlength']">El teléfono debe contener 9 dígitos</div>
+                  <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                 </div>
               </div>
               <div class="mb-3">
                 <label for="email" class="registro__card-label form-label">Email</label>
                 <input formControlName="email" type="email" class="registro__card-control form-control" id="email"
                   name="email" required />
-                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger mt-1">
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-message mt-1">
                     <div *ngIf="email.errors?.['required']">Introduzca su email</div>
-                    <div *ngIf="email.errors?.['email']">Su correo electrónico debe tener formato email</div>
+                    <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
                   </div>
               </div>
               <div class="mb-4">
@@ -57,7 +56,7 @@
                 <label for="password" class="registro__card-label form-label">Contraseña</label>
                 <input formControlName="password" type="password" class="registro__card-control form-control"
                   id="password" name="password" required />
-                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger mt-1">
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-message mt-1">
                     <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
                   </div>
                   <div class="text-danger mt-4 text-center">{{registroError}}</div>
