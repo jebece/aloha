@@ -16,6 +16,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoryaccommodationunitComponent } from './components/categoryaccommodationunit/categoryaccommodationunit.component';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     PayComponent,
     RegistroComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    CategoryaccommodationunitComponent
   ],
   imports: [
     BrowserModule,
