@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-consulta',
@@ -15,11 +16,12 @@ export class ConsultaComponent implements OnInit {
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
+  maxPrice: number = 300;
 
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -37,6 +39,7 @@ export class ConsultaComponent implements OnInit {
       this.hotels = params['hotels'] === 'true';
       this.hostels = params['hostels'] === 'true';
       this.bungalows = params['bungalows'] === 'true';
+      this.maxPrice = +params['maxPrice'] || 300;
     });
   }
 
@@ -50,5 +53,21 @@ export class ConsultaComponent implements OnInit {
       const day = selectedDate.getDate().toString().padStart(2, '0');
       this.minEndDate = `${year}-${month}-${day}`;
     }
+  }
+
+  searchAccommodation(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      houses: this.houses,
+      hotels: this.hotels,
+      hostels: this.hostels,
+      bungalows: this.bungalows,
+      maxPrice: this.maxPrice
+    };
+  
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 }

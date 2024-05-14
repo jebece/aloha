@@ -50,9 +50,9 @@
                             <div class="consulta__form-filters-precio">
                                 <label for="rangoPrecio"
                                     class="consulta__form-filters-precio-label form-label ms-2">Precio
-                                    máximo: <span id="rangoPrecio">50</span></label>
+                                    máximo: <span id="rangoPrecio">{{maxPrice}}</span></label>
                                 <input type="range" class="consulta__form-filters-precio-control form-range"
-                                    id="rangoPrecio" min="0" max="30000">
+                                    id="rangoPrecio" min="1" max="3000" [(ngModel)]="maxPrice" name="maxPrice">
                             </div>
                         </div>
                         <div class="col-4">
@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="consulta__form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
-                    <button class="consulta__form-submit btn btn-secondary" type="submit" [routerLink]="['/consulta']">BUSCAR</button>
+                    <button class="consulta__form-submit btn btn-secondary" type="submit" (click)="searchAccommodation()">BUSCAR</button>
                 </div>
             </div>
         </form>
@@ -178,9 +178,9 @@
                     </div>
                     <div class="consulta__filters-precio">
                         <label for="rangoPrecio" class="consulta__filters-precio-label form-label ms-2">Precio
-                            máximo: <span id="rangoPrecio">50</span></label>
+                            máximo: <span id="rangoPrecio">{{maxPrice}}</span></label>
                         <input type="range" class="consulta__filters-precio-control form-range" id="rangoPrecio"
-                            min="0" max="30000">
+                            min="1" max="3000" [(ngModel)]="maxPrice" name="maxPrice">
                     </div>
                     <div class="consulta__filters-secondary-title mt-4">
                         <div class="ms-1">Servicios</div>

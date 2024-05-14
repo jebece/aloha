@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-details',
@@ -10,10 +11,17 @@ export class DetailsComponent {
   start: Date = new Date();
   end: Date = new Date();
   people: number = 2;
+  houses: boolean = false;
+  hotels: boolean = false;
+  hostels: boolean = false;
+  bungalows: boolean = false;
+  maxPrice: number = 300;
 
   minDate: string = '';
   minEndDate: string = '';
   
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
     const today = new Date();
     const year = today.getFullYear();
@@ -21,6 +29,17 @@ export class DetailsComponent {
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
   
+    this.route.queryParams.subscribe(params => {
+      this.location = params['location'];
+      this.start = params['start'];
+      this.end = params['end'];
+      this.people = +params['people'];
+      this.houses = params['houses'] === 'true';
+      this.hotels = params['hotels'] === 'true';
+      this.hostels = params['hostels'] === 'true';
+      this.bungalows = params['bungalows'] === 'true';
+      this.maxPrice = +params['maxPrice'] || 300;
+    });
   }
 
   updateMinEndDate(startDate: string): void {
@@ -33,5 +52,21 @@ export class DetailsComponent {
       const day = selectedDate.getDate().toString().padStart(2, '0');
       this.minEndDate = `${year}-${month}-${day}`;
     }
+  }
+
+  searchAccommodation(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      houses: this.houses,
+      hotels: this.hotels,
+      hostels: this.hostels,
+      bungalows: this.bungalows,
+      maxPrice: this.maxPrice
+    };
+  
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 }

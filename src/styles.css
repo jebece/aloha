@@ -9,14 +9,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
- .ng-valid:not(form).ng-touched{
-  border-left: 5px solid #42A948;
- }
-
- .ng-invalid:not(form).ng-touched{
-  border-left: 5px solid #a94442;
- }
-
  
 :root,
 [data-bs-theme=light] {
