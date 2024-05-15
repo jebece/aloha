@@ -1,100 +1,190 @@
 <app-header></app-header>
 <main class="client container-fluid">
     <div class="container-xl">
-    <div class="row">
-        <div class="client__big-title">Mi cuenta</div>
-        <table class="client__profile-table text-center mt-2">
-            <thead>
-                <tr>
-                    <th class="client__profile-head">Nombre</th>
-                    <th class="client__profile-head">Apellidos</th>
-                    <th class="client__profile-head">Email</th>
-                    <th class="client__profile-head">Teléfono</th>
-                    <th class="client__profile-head"></th>
-                    <th class="client__profile-head"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="client__profile-row">
-                    <td class="client__profile-cell">Pedro</td>
-                    <td class="client__profile-cell">Sánchez Castejón</td>
-                    <td class="client__profile-cell">psanchez.iesruizgijon.com</td>
-                    <td class="client__profile-cell">617080119</td>
-                    <td class="client__profile-cell">
-                        <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-edit">
-                            <svg class="client__profile-links" xmlns="http://www.w3.org/2000/svg" width="25" height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
-                            <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z"/>
-                          </svg>
-                        </a>
-                    </td>
-                    <td class="client__profile-cell">
-                        <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-delete">
-                            <svg class="client__profile-links" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                              </svg>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <section class="client__modal-edit modal fade" tabindex="-1" id="client-modal-edit">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h2>Formulario de edición de usuario</h2>
+        <div class="row">
+            <div class="client__big-title">Mi cuenta</div>
+            <table class="client__profile-table text-center mt-2">
+                <thead>
+                    <tr>
+                        <th class="client__profile-head">Nombre</th>
+                        <th class="client__profile-head">Apellidos</th>
+                        <th class="client__profile-head">Email</th>
+                        <th class="client__profile-head">Teléfono</th>
+                        <th class="client__profile-head"></th>
+                        <th class="client__profile-head"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="client__profile-row">
+                        <td class="client__profile-cell">Pedro</td>
+                        <td class="client__profile-cell">Sánchez Castejón</td>
+                        <td class="client__profile-cell">psanchez.iesruizgijon.com</td>
+                        <td class="client__profile-cell">617080119</td>
+                        <td class="client__profile-cell">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-edit">
+                                <svg class="client__profile-links" xmlns="http://www.w3.org/2000/svg" width="25"
+                                    height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3q0-.405-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708M3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026z" />
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="client__profile-cell">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-delete">
+                                <svg class="client__profile-links" xmlns="http://www.w3.org/2000/svg" width="25"
+                                    height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <section class="client__modal-edit modal fade" tabindex="-1" id="client-modal-edit">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="client__modal-edit-title mb-3 mt-3">Mi cuenta</div>
+                            <form class="client__modal-edit-form needs-validation" novalidate [formGroup]="clientForm">
+                                <div class="client__modal-edit-form-input mb-3">
+                                    <label for="name" class="client__modal-edit-form-label form-label">Nombre</label>
+                                    <input type="text" class="client__modal-edit-form-control form-control" id="name"
+                                        required formControlName="name">
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
+                                        <div *ngIf="name.errors?.['required']">Introduzca su nombre</div>
+                                        <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
+                                    </div>
+                                </div>
+                                <div class="client__modal-edit-form-input mb-3">
+                                    <label for="surname"
+                                        class="client__modal-edit-form-label form-label">Apellidos</label>
+                                    <input type="text" class="client__modal-edit-form-control form-control" id="surname"
+                                        required formControlName="surname">
+                                    <div *ngIf="surname.invalid && (surname.dirty || surname.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="surname.errors?.['required']">Introduzca sus apellidos</div>
+                                        <div *ngIf="surname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                    </div>
+                                </div>
+                                <div class="client__modal-edit-form-input mb-3">
+                                    <label for="email" class="client__modal-edit-form-label form-label">Email</label>
+                                    <input type="email" class="client__modal-edit-form-control form-control" id="email"
+                                        required formControlName="email">
+                                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="email.errors?.['required']">Introduzca su email</div>
+                                        <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
+                                    </div>
+                                </div>
+                                <div class="client__modal-edit-form-input mb-4">
+                                    <label for="phone" class="client__modal-edit-form-label form-label">Teléfono</label>
+                                    <input type="tel" class="client__modal-edit-form-control form-control" id="phone"
+                                        required formControlName="phone">
+                                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="phone.errors?.['required']">Introduzca su teléfono</div>
+                                        <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
+                                    </div>
+                                </div>
+                                <div class="container-xl">
+                                    <div class="client__modal-edit-form-buttons mb-3 row ">
+                                        <button type="submit"
+                                            class="client__modal-edit-form-submit btn btn-outline-secondary col-md-5">Guardar
+                                            cambios</button>
+                                        <button class="client__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="client__modal-delete modal fade" tabindex="-1" id="client-modal-delete">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h2>Seguro que quieres eliminar tu usuario? Perderás todos tus datos</h2>
+            </section>
+            <section class="client__modal-delete modal fade" tabindex="-1" id="client-modal-delete">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="client__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar tu
+                                cuenta?</div>
+                            <div class="client__modal-delete-warning mb-5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                                Perderás el acceso a toda tu información
+                            </div>
+                            <div class="container-xl">
+                                <div class="client__modal-delete-buttons mb-3 row ">
+                                    <button type="submit"
+                                        class="client__modal-delete-submit btn btn-outline-secondary col-md-5">Eliminar
+                                        mi cuenta</button>
+                                    <button class="client__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <div class="client__secondary-title">Mis reservas</div>
-        <table class="client__books-table text-center mt-2 mb-5">
-            <thead>
-                <tr>
-                    <th class="client__books-head">Alojamiento</th>
-                    <th class="client__books-head">Nº personas</th>
-                    <th class="client__books-head">Entrada</th>
-                    <th class="client__books-head">Salida</th>
-                    <th class="client__books-head">Precio total</th>
-                    <th class="client__books-head"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="client__books-row">
-                    <td class="client__books-cell">NH Collection Sevilla</td>
-                    <td class="client__books-cell">2</td>
-                    <td class="client__books-cell">02/05/2024</td>
-                    <td class="client__books-cell">03/05/2024</td>
-                    <td class="client__books-cell">100€</td>
-                    <td class="client__books-cell">
-                        <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-book-delete">
-                            <svg class="client__books-links" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                              </svg>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <section class="client__modal-book-delete modal fade" tabindex="-1" id="client-modal-book-delete">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h2>Seguro que quieres cancelar esta reserva? Esta acción es irreversible</h2>
+            <div class="client__secondary-title">Mis reservas</div>
+            <table class="client__books-table text-center mt-2 mb-5">
+                <thead>
+                    <tr>
+                        <th class="client__books-head">Alojamiento</th>
+                        <th class="client__books-head">Nº personas</th>
+                        <th class="client__books-head">Entrada</th>
+                        <th class="client__books-head">Salida</th>
+                        <th class="client__books-head">Precio total</th>
+                        <th class="client__books-head"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="client__books-row">
+                        <td class="client__books-cell">NH Collection Sevilla</td>
+                        <td class="client__books-cell">2</td>
+                        <td class="client__books-cell">02/05/2024</td>
+                        <td class="client__books-cell">03/05/2024</td>
+                        <td class="client__books-cell">100€</td>
+                        <td class="client__books-cell">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-book-delete">
+                                <svg class="client__books-links" xmlns="http://www.w3.org/2000/svg" width="25"
+                                    height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <section class="client__modal-book-delete modal fade" tabindex="-1" id="client-modal-book-delete">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="client__modal-book-delete-title mb-3 mt-3 text-center">¿Seguro que deseas
+                                cancelar esta reserva?</div>
+                            <div class="client__modal-book-delete-warning mb-5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                                Esta acción es irreversible
+                            </div>
+                            <div class="container-xl">
+                                <div class="client__modal-book-delete-buttons mb-3 row ">
+                                    <button type="submit"
+                                        class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5">Cancelar
+                                        reserva</button>
+                                    <button class="client__modal-book-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Volver</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
-</div>
 </main>
 <app-footer></app-footer>
