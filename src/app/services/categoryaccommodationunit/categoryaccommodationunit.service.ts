@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Categoryaccommodationunit } from '../../models/categoryaccommodationunit';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryaccommodationunitService {
-  private url = 'http://localhost:8080/api/categoryaccommodationunit';
+  private url = 'http://localhost:8080/api/category-accommodation-unit';
 
   constructor(private http: HttpClient) {}
 
