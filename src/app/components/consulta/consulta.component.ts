@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-consulta',
@@ -43,10 +44,22 @@ export class ConsultaComponent implements OnInit {
     //   this.bungalows = params['bungalows'] === 'true';
     // });
 
-    this.categoryAccommodationUnitService.getAll().subscribe((response) => {
-      console.log(response);
-    });
-    // console.log('HOLAAAAAAAAF');
+    if (
+      this.route.snapshot.queryParams['location'] == null ||
+      this.route.snapshot.queryParams['location'] == ''
+    ) {
+      this.categoryAccommodationUnitService.getAll().subscribe((response) => {
+        console.log(response);
+      });
+    } else {
+      this.categoryAccommodationUnitService
+        .getCategoryAccommodationUnitByLocation(
+          this.route.snapshot.queryParams['location']
+        )
+        .subscribe((response) => {
+          console.log(response); // Accede al parámetro recibido location, cargado en la página de inicio
+        });
+    }
   }
 
   updateMinEndDate(startDate: string): void {

@@ -7,10 +7,17 @@ import { Categoryaccommodationunit } from '../../models/categoryaccommodationuni
 })
 export class CategoryaccommodationunitService {
   private url = 'http://localhost:8080/api/category-accommodation-unit';
+  private urlAccommodation = 'http://localhost:8080/api/accommodation-unit';
 
   constructor(private http: HttpClient) {}
 
   getAll() {
     return this.http.get<Categoryaccommodationunit[]>(this.url);
+  }
+
+  getCategoryAccommodationUnitByLocation(location: string) {
+    return this.http.get<Categoryaccommodationunit[]>(
+      `${this.urlAccommodation}/location/${location}`
+    );
   }
 }
