@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environments';
 import { Observable, catchError, throwError} from 'rxjs';
 import { deleteRequest } from './deleteRequest';
+import { CreateRequest } from './createRequest';
 
 
 @Injectable({
@@ -25,6 +26,11 @@ export class ClientService {
 
   public getClients(){
     return this.http.get(environment.urlHost + '/api/client')
+    .pipe(catchError(this.handleError));
+  }
+
+  public createClient(userData: CreateRequest){
+    return this.http.post(environment.urlHost + '/api/client/create', userData)
     .pipe(catchError(this.handleError));
   }
 

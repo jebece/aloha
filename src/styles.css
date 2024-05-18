@@ -13515,4 +13515,25 @@ body {
 }
 .admin__content-links:hover {
   transform: scale(1.2);
+}
+.admin__modal-create-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .admin__modal-create-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.admin__modal-create-form-input {
+  font-size: 1rem;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .admin__modal-create-form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }/*# sourceMappingURL=styles.css.map */
