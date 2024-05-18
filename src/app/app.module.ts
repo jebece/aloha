@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginComponent } from './components/login/login.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './components/admin/admin.component';
 import { ClientComponent } from './components/client/client.component';
 import { ConsultaComponent } from './components/consulta/consulta.component';
 import { DetailsComponent } from './components/details/details.component';
@@ -16,11 +15,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin-users', component: AdminUsersComponent },
   { path: 'client', component: ClientComponent },
   { path: 'consulta', component: ConsultaComponent },
   { path: 'details', component: DetailsComponent },
@@ -33,14 +33,15 @@ const appRoutes: Routes = [
     AppComponent,
     InicioComponent,
     LoginComponent,
-    AdminComponent,
+    AdminUsersComponent,
     ClientComponent,
     ConsultaComponent,
     DetailsComponent,
     PayComponent,
     RegistroComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserModule,

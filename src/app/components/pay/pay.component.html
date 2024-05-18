@@ -14,13 +14,19 @@
                         <div class="pay__book-details-info">Titular</div>
                     </div>
                     <div class="pay__book-details-holder">
-                        <div class="pay__book-details-value">Pedro Sánchez Castejón</div>
+                        <div class="pay__book-details-value">{{ decodedToken?.name }} {{ decodedToken?.surname }}</div>
+                    </div>
+                    <div class="pay__book-details-holder mt-2">
+                        <div class="pay__book-details-info">Teléfono</div>
+                    </div>
+                    <div class="pay__book-details-holder">
+                        <div class="pay__book-details-value">{{ decodedToken?.phone }}</div>
                     </div>
                     <div class="pay__book-details-email mt-2">
                         <div class="pay__book-details-info">Email</div>
                     </div>
                     <div class="pay__book-details-email">
-                        <div class="pay__book-details-value">psanchez.iesruizgijón.com</div>
+                        <div class="pay__book-details-value">{{ decodedToken?.email }}</div>
                     </div>
                     <div class="pay__book-details-arrival mt-2">
                         <div class="pay__book-details-info">Fecha de entrada</div>

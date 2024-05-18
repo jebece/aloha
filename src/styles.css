@@ -13340,6 +13340,27 @@ body {
 .client__books-links:hover {
   transform: scale(1.2);
 }
+.client__modal-confirm-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .client__modal-confirm-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.client__modal-confirm-form-input {
+  font-size: 0.875rem;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .client__modal-confirm-form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
 .client__modal-edit-title {
   font-size: 1.25rem;
   font-weight: bold;

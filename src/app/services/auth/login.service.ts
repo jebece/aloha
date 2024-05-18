@@ -41,7 +41,7 @@ export class LoginService {
       console.error('Backend retornó el código de estado ', error);
     }
 
-    return throwError(()=> new Error('Algo falló. Por favor, inténtelo de nuevo más tarde.'));
+    return throwError(()=> new Error('Algo falló. Por favor, inténtelo de nuevo más tarde'));
   }
 
   get userData():Observable<String> {

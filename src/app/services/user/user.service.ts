@@ -43,7 +43,7 @@ export class UserService {
     }
 
     return throwError(
-      () => new Error('Algo falló. Por favor, inténtelo de nuevo más tarde.')
+      () => new Error('Algo falló. Por favor, inténtelo de nuevo más tarde')
     );
   }
 }

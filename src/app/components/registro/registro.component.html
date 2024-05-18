@@ -45,13 +45,6 @@
                     <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
                   </div>
               </div>
-              <div class="mb-4">
-                <label for="role" class="registro__card-label form-label">Perfil:</label>
-                <select class="registro__card-control form-select" id="role" required>
-                  <option selected>Encontrar alojamiento</option>
-                  <option>Ofrecer alojamientos</option>
-                </select>
-              </div>
               <div class="mb-5">
                 <label for="password" class="registro__card-label form-label">Contraseña</label>
                 <input formControlName="password" type="password" class="registro__card-control form-control"
@@ -59,7 +52,7 @@
                   <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-message mt-1">
                     <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
                   </div>
-                  <div class="text-danger mt-4 text-center">{{registroError}}</div>
+                  <div class="text-message mt-4 text-center">{{registroError}}</div>
               </div>
               <div class="row">
                 <div class="col-12">

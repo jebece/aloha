@@ -16,10 +16,10 @@
                 </thead>
                 <tbody>
                     <tr class="client__profile-row">
-                        <td class="client__profile-cell">Pedro</td>
-                        <td class="client__profile-cell">Sánchez Castejón</td>
-                        <td class="client__profile-cell">psanchez.iesruizgijon.com</td>
-                        <td class="client__profile-cell">617080119</td>
+                        <td class="client__profile-cell">{{ decodedToken?.name }}</td>
+                        <td class="client__profile-cell">{{ decodedToken?.surname }}</td>
+                        <td class="client__profile-cell">{{ decodedToken?.email }}</td>
+                        <td class="client__profile-cell">{{ decodedToken?.phone }}</td>
                         <td class="client__profile-cell">
                             <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-edit">
                                 <svg class="client__profile-links" xmlns="http://www.w3.org/2000/svg" width="25"
@@ -45,7 +45,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="client__modal-edit-title mb-3 mt-3">Mi cuenta</div>
+                            <div class="client__modal-edit-title mb-3 mt-3">Modificación de información</div>
                             <form class="client__modal-edit-form needs-validation" novalidate [formGroup]="clientForm">
                                 <div class="client__modal-edit-form-input mb-3">
                                     <label for="name" class="client__modal-edit-form-label form-label">Nombre</label>
@@ -87,15 +87,43 @@
                                         <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                                     </div>
                                 </div>
+                                <div class="text-message my-4 text-center">{{clientError}}</div>
                                 <div class="container-xl">
                                     <div class="client__modal-edit-form-buttons mb-3 row ">
-                                        <button type="submit"
-                                            class="client__modal-edit-form-submit btn btn-outline-secondary col-md-5">Guardar
+                                        <button type="button"
+                                            class="client__modal-edit-form-submit btn btn-outline-secondary col-md-5" data-bs-toggle="modal" data-bs-target="#client-modal-confirm">Guardar
                                             cambios</button>
                                         <button class="client__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="client__modal-confirm modal fade" tabindex="-1" id="client-modal-confirm">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="client__modal-confirm-title mb-3 mt-3 text-center">Introduzca su contraseña para confirmar cambios</div>
+                            <form class="client__modal-edit-form needs-validation" novalidate [formGroup]="confirmForm">
+                            <div class="client__modal-confirm-form-input mb-4">
+                                <label for="password" class="client__modal-confirm-form-label form-label">Contraseña</label>
+                                <input type="password" class="client__modal-confirm-form-control form-control" id="password"
+                                    required formControlName="password">
+                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                    class="text-message mt-1">
+                                    <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
+                                </div>
+                            </div>
+                            <div class="container-xl">
+                                <div class="client__modal-confirm-buttons mb-3 row ">
+                                    <button type="button"
+                                        class="client__modal-confirm-submit btn btn-outline-secondary col-md-5" (click)="formSubmit()" data-bs-dismiss="modal">Confirmar</button>
+                                    <button class="client__modal-confirm-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -114,10 +142,11 @@
                                 </svg>
                                 Perderás el acceso a toda tu información
                             </div>
+                            <div class="text-message my-4 text-center">{{clientError}}</div>
                             <div class="container-xl">
                                 <div class="client__modal-delete-buttons mb-3 row ">
-                                    <button type="submit"
-                                        class="client__modal-delete-submit btn btn-outline-secondary col-md-5">Eliminar
+                                    <button type="button"
+                                        class="client__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()" data-bs-dismiss="modal">Eliminar
                                         mi cuenta</button>
                                     <button class="client__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
                                 </div>
@@ -174,8 +203,8 @@
                             </div>
                             <div class="container-xl">
                                 <div class="client__modal-book-delete-buttons mb-3 row ">
-                                    <button type="submit"
-                                        class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5">Cancelar
+                                    <button type="button"
+                                        class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5" data-bs-dismiss="modal">Cancelar
                                         reserva</button>
                                     <button class="client__modal-book-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Volver</button>
                                 </div>
