@@ -18,8 +18,14 @@ export class ClientService {
     .pipe(catchError(this.handleError));
   }
 
-  deleteClient(id: deleteRequest): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/client/delete`, { body: id });
+  public deleteClient(id: deleteRequest): Observable<any> {
+    return this.http.delete(`${environment.urlHost}/api/client/delete`, { body: id })
+    .pipe(catchError(this.handleError));
+  }
+
+  public getClients(){
+    return this.http.get(environment.urlHost + '/api/client')
+    .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

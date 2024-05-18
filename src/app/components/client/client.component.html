@@ -87,13 +87,15 @@
                                         <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                                     </div>
                                 </div>
-                                <div class="text-message my-4 text-center">{{clientError}}</div>
                                 <div class="container-xl">
                                     <div class="client__modal-edit-form-buttons mb-3 row ">
                                         <button type="button"
-                                            class="client__modal-edit-form-submit btn btn-outline-secondary col-md-5" data-bs-toggle="modal" data-bs-target="#client-modal-confirm">Guardar
+                                            class="client__modal-edit-form-submit btn btn-outline-secondary col-md-5"
+                                            data-bs-toggle="modal" data-bs-target="#client-modal-confirm">Guardar
                                             cambios</button>
-                                        <button class="client__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                        <button
+                                            class="client__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                            data-bs-dismiss="modal">Cancelar</button>
                                     </div>
                                 </div>
                             </form>
@@ -105,25 +107,30 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="client__modal-confirm-title mb-3 mt-3 text-center">Introduzca su contraseña para confirmar cambios</div>
+                            <div class="client__modal-confirm-title mb-3 mt-3 text-center">Introduzca su contraseña para
+                                confirmar cambios</div>
                             <form class="client__modal-edit-form needs-validation" novalidate [formGroup]="confirmForm">
-                            <div class="client__modal-confirm-form-input mb-4">
-                                <label for="password" class="client__modal-confirm-form-label form-label">Contraseña</label>
-                                <input type="password" class="client__modal-confirm-form-control form-control" id="password"
-                                    required formControlName="password">
-                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                                    class="text-message mt-1">
-                                    <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
+                                <div class="client__modal-confirm-form-input mb-4">
+                                    <label for="password"
+                                        class="client__modal-confirm-form-label form-label">Contraseña</label>
+                                    <input type="password" class="client__modal-confirm-form-control form-control"
+                                        id="password" required formControlName="password">
+                                    <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="container-xl">
+                                <div class="text-message my-4 text-center">{{confirmError}}</div>
+                                <div class="text-message my-4 text-center">{{clientError}}</div>
                                 <div class="client__modal-confirm-buttons mb-3 row ">
                                     <button type="button"
-                                        class="client__modal-confirm-submit btn btn-outline-secondary col-md-5" (click)="formSubmit()" data-bs-dismiss="modal">Confirmar</button>
-                                    <button class="client__modal-confirm-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                        class="client__modal-confirm-submit btn btn-outline-secondary col-md-5"
+                                        (click)="formSubmit()">Confirmar</button>
+                                    <button
+                                        class="client__modal-confirm-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Cancelar</button>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -146,9 +153,12 @@
                             <div class="container-xl">
                                 <div class="client__modal-delete-buttons mb-3 row ">
                                     <button type="button"
-                                        class="client__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()" data-bs-dismiss="modal">Eliminar
+                                        class="client__modal-delete-submit btn btn-outline-secondary col-md-5"
+                                        (click)="deleteClient()" data-bs-dismiss="modal">Eliminar
                                         mi cuenta</button>
-                                    <button class="client__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                    <button
+                                        class="client__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
                         </div>
@@ -204,9 +214,12 @@
                             <div class="container-xl">
                                 <div class="client__modal-book-delete-buttons mb-3 row ">
                                     <button type="button"
-                                        class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5" data-bs-dismiss="modal">Cancelar
+                                        class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5"
+                                        data-bs-dismiss="modal">Cancelar
                                         reserva</button>
-                                    <button class="client__modal-book-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Volver</button>
+                                    <button
+                                        class="client__modal-book-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Volver</button>
                                 </div>
                             </div>
                         </div>

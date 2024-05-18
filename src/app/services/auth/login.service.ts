@@ -17,15 +17,15 @@ export class LoginService {
     this.currentUserData = new BehaviorSubject<String>(sessionStorage.getItem('token') || '');
   }
 
-  login(credentials:LoginRequest):Observable<any>{
+  login(credentials: LoginRequest): Observable<string> {
     return this.http.post<any>(environment.urlHost + "/auth/login", credentials).pipe(
-    tap( (userData) => {
-      sessionStorage.setItem('token', userData.token);
-      this.currentUserLoginOn.next(true);
-      this.currentUserData.next(userData.token);
-    }),
-    map((userData)=> userData.token),
-    catchError(this.hadleError)
+      tap((userData) => {
+        sessionStorage.setItem('token', userData.token);
+        this.currentUserLoginOn.next(true);
+        this.currentUserData.next(userData.token);
+      }),
+      map((userData) => userData.token),
+      catchError(this.hadleError)
     );
   }
 

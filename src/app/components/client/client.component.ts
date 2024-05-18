@@ -8,6 +8,8 @@ import { ClientService } from '../../services/client/client.service';
 import { Router } from '@angular/router';
 import { deleteRequest } from '../../services/client/deleteRequest';
 import { LoginService } from '../../services/auth/login.service';
+import { LoginRequest } from '../../services/auth/loginRequest';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-client',
@@ -23,6 +25,7 @@ export class ClientComponent implements OnInit {
     password: ['', Validators.required],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   });
+  confirmError: string = '';
   confirmForm = this.formBuilder.group({
     password: ['', Validators.required]
   });
@@ -71,29 +74,41 @@ export class ClientComponent implements OnInit {
 
   formSubmit() {
     if (this.clientId !== undefined) {
-      const updateData: updateRequest = {
-        name: this.clientForm.get('name')?.value ?? '',
-        surname: this.clientForm.get('surname')?.value ?? '',
-        email: this.clientForm.get('email')?.value ?? '',
-        phone: this.clientForm.get('phone')?.value ?? '',
-        password: this.confirmForm.get('password')?.value ?? ''
-      };
-      console.log(updateData);
+      if (this.confirmForm.valid) {
+        const loginData: LoginRequest = {
+          email: this.decodedToken.email ?? '',
+          password: this.confirmForm.get('password')?.value ?? ''
+        };
   
-      this.clientService.updateClient(this.clientId, updateData as updateRequest).subscribe({
-        next: (userData) => {
-          console.log(userData);
-        },
-        error: (errorData) => {
-          console.log(errorData);
-          this.clientError = errorData;
-        },
-        complete: () => {
-          console.info('Registro completo');
-          this.router.navigate(['client']);
-          this.clientForm.reset();
-        }
-      });
+        this.loginService.login(loginData as LoginRequest).pipe(
+          switchMap(() => {
+            const updateData: updateRequest = {
+              name: this.clientForm.get('name')?.value ?? '',
+              surname: this.clientForm.get('surname')?.value ?? '',
+              email: this.clientForm.get('email')?.value ?? '',
+              phone: this.clientForm.get('phone')?.value ?? '',
+              password: this.confirmForm.get('password')?.value ?? ''
+            };
+  
+            return this.clientService.updateClient(this.clientId!, updateData as updateRequest);
+          })
+        ).subscribe({
+          next: (userData) => {
+            console.log(userData);
+          },
+          error: (errorData) => {
+            console.log(errorData);
+            this.clientError = errorData;
+          },
+          complete: () => {
+            console.info('Registro completo');
+            this.router.navigate(['client']);
+            this.clientForm.reset();
+          }
+        });
+      } else {
+        console.error('El formulario de confirmación no es válido');
+      }
     } else {
       console.error('clientId es undefined');
     }
@@ -143,6 +158,31 @@ export class ClientComponent implements OnInit {
 
   get password() {
     return this.confirmForm.controls.password;
+  }
+
+  login() {
+    if(this.confirmForm.valid){
+      const loginData: LoginRequest = {
+        email: this.decodedToken.email ?? '',
+        password: this.confirmForm.get('password')?.value ?? ''
+      };
+
+      this.loginService.login(loginData as LoginRequest).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.log(errorData);
+          this.confirmError = errorData;
+        },
+        complete: () => {
+          console.info('Login completo');
+          this.confirmForm.reset();
+        }
+      });
+    }else{
+
+    }
   }
 
   logout(): void {
