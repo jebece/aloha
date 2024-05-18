@@ -38,7 +38,7 @@ export class LoginService {
     if(error.status === 0){
       console.error('Se ha producido un error ', error.error);
     }else{
-      console.error('Backend retornó el código de estado ', error);
+      console.error('El backend retornó el código de estado ', error);
     }
 
     return throwError(()=> new Error('Algo falló. Por favor, inténtelo de nuevo más tarde'));

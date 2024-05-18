@@ -33,7 +33,7 @@ export class ClientService {
       console.error('Se ha producido un error ', error.error);
     } else {
       console.error(
-        'Backend retornó el código de estado ',
+        'El backend retornó el código de estado ',
         error.status,
         error.error
       );

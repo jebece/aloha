@@ -80,7 +80,7 @@ export class ClientComponent implements OnInit {
           password: this.confirmForm.get('password')?.value ?? ''
         };
   
-        this.loginService.login(loginData as LoginRequest).pipe(
+        this.loginService.login(loginData).pipe(
           switchMap(() => {
             const updateData: updateRequest = {
               name: this.clientForm.get('name')?.value ?? '',
@@ -89,12 +89,18 @@ export class ClientComponent implements OnInit {
               phone: this.clientForm.get('phone')?.value ?? '',
               password: this.confirmForm.get('password')?.value ?? ''
             };
-  
-            return this.clientService.updateClient(this.clientId!, updateData as updateRequest);
+            return this.clientService.updateClient(this.clientId!, updateData);
+          }),
+          switchMap(() => {
+            const updateLoginData: LoginRequest = {
+              email: this.clientForm.get('email')?.value ?? '',
+              password: this.confirmForm.get('password')?.value ?? ''
+            };
+            return this.loginService.login(updateLoginData);
           })
         ).subscribe({
           next: (userData) => {
-            console.log(userData);
+            console.log('Token updated successfully:', userData);
           },
           error: (errorData) => {
             console.log(errorData);
@@ -102,8 +108,10 @@ export class ClientComponent implements OnInit {
           },
           complete: () => {
             console.info('Registro completo');
-            this.router.navigate(['client']);
             this.clientForm.reset();
+            this.router.navigate(['client']).then(() => {
+              window.location.reload();
+            });
           }
         });
       } else {
@@ -160,32 +168,9 @@ export class ClientComponent implements OnInit {
     return this.confirmForm.controls.password;
   }
 
-  login() {
-    if(this.confirmForm.valid){
-      const loginData: LoginRequest = {
-        email: this.decodedToken.email ?? '',
-        password: this.confirmForm.get('password')?.value ?? ''
-      };
-
-      this.loginService.login(loginData as LoginRequest).subscribe({
-        next: (userData) => {
-          console.log(userData);
-        },
-        error: (errorData) => {
-          console.log(errorData);
-          this.confirmError = errorData;
-        },
-        complete: () => {
-          console.info('Login completo');
-          this.confirmForm.reset();
-        }
-      });
-    }else{
-
-    }
-  }
-
   logout(): void {
     this.loginService.logout();
   }
+
+  
 }
