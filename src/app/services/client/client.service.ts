@@ -14,7 +14,7 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  public updateClient(id: number, userData: updateRequest){
+  public updateClient(id: number, userData: any){
     return this.http.put(environment.urlHost + '/api/client/' + id + '/update', userData)
     .pipe(catchError(this.handleError));
   }

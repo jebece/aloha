@@ -92,7 +92,7 @@
                         <td class="admin__content-cell">{{ client.email }}</td>
                         <td class="admin__content-cell">{{ client.phone }}</td>
                         <td class="admin__content-cell">
-                            <a href="#">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectClientId(client.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
                                     <path
@@ -101,7 +101,7 @@
                             </a>
                         </td>
                         <td class="admin__content-cell">
-                            <a href="#">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectClientId(client.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="admin__modal-create-form-input mb-4">
                                     <label for="password"
-                                        class="admin__modal-create-form-label form-label">Password</label>
+                                        class="admin__modal-create-form-label form-label">Contraseña</label>
                                     <input type="password" id="password"
                                         class="admin__modal-create-form-control form-control"
                                         formControlName="password">
@@ -195,6 +195,90 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="admin__modal-edit modal fade" tabindex="-1" id="admin-modal-edit">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="admin__modal-edit-title mb-3 mt-3">Modificación de usuario</div>
+                            <form class="admin__modal-edit-form needs-validation" novalidate novalidate
+                                [formGroup]="adminUsersEditForm">
+                                <div class="admin__modal-edit-form-input mb-3">
+                                    <label for="name" class="admin__modal-edit-form-label form-label">Nombre</label>
+                                    <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
+                                        required formControlName="name">
+                                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
+                                        <div *ngIf="name.errors?.['required']">Introduzca nombre</div>
+                                        <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-edit-form-input mb-3">
+                                    <label for="surname"
+                                        class="admin__modal-edit-form-label form-label">Apellidos</label>
+                                    <input type="text" class="admin__modal-edit-form-control form-control"
+                                        id="editSurname" required formControlName="surname">
+                                    <div *ngIf="surname.invalid && (surname.dirty || surname.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="surname.errors?.['required']">Introduzca apellidos</div>
+                                        <div *ngIf="surname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-edit-form-input mb-3">
+                                    <label for="email" class="admin__modal-edit-form-label form-label">Email</label>
+                                    <input type="email" class="admin__modal-edit-form-control form-control" id="editEmail"
+                                        required formControlName="email">
+                                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="email.errors?.['required']">Introduzca email</div>
+                                        <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-edit-form-input mb-3">
+                                    <label for="phone"
+                                        class="admin__modal-edit-form-label form-label">Teléfono</label>
+                                    <input type="tel" class="admin__modal-edit-form-control form-control" id="editPhone"
+                                        required formControlName="phone">
+                                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="phone.errors?.['required']">Introduzca teléfono</div>
+                                        <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
+                                    </div>
+                                </div>
+                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
+                                <div class="container-xl pt-3">
+                                    <div class="admin__modal-edit-form-buttons mb-3 row ">
+                                        <button type="button"
+                                            class="admin__modal-edit-form-submit btn btn-outline-secondary col-md-5"
+                                            data-bs-dismiss="modal" (click)="editClient()">Modificar usuario</button>
+                                        <button type="submit"
+                                            class="admin__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="admin__modal-delete modal fade" tabindex="-1" id="admin-modal-delete">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar este usuario?</div>
+                            <div class="admin__modal-delete-warning mb-5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                  </svg>
+                                La supresión de un usuario es irreversible</div>
+                            <div class="container-xl">
+                                <div class="admin__modal-delete-buttons mb-3 row ">
+                                    <button type="submit" class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()">Eliminar usuario</button>
+                                    <button type="submit" class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

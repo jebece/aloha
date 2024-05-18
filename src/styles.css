@@ -13536,4 +13536,56 @@ body {
     padding-left: 2rem;
     padding-right: 2rem;
   }
+}
+.admin__modal-edit-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .admin__modal-edit-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.admin__modal-edit-form-input {
+  font-size: 1rem;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .admin__modal-edit-form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.admin__modal-delete-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #272A57;
+}
+@media (min-width: 768px) {
+  .admin__modal-delete-title {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.admin__modal-delete-warning {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #5B5E85;
+}
+@media (min-width: 768px) {
+  .admin__modal-delete-warning {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+.admin__modal-delete-buttons {
+  font-size: 1rem;
+}
+@media (min-width: 768px) {
+  .admin__modal-delete-buttons {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }/*# sourceMappingURL=styles.css.map */
