@@ -12,6 +12,7 @@ import { deleteRequest } from '../../../services/client/deleteRequest';
 export class AdminUsersComponent {
   clients: any;
   selectedClientId: number | null = null;
+  page: number = 1;
 
   adminUsersError: string = '';
   adminUsersForm = this.formBuilder.group({
@@ -19,15 +20,14 @@ export class AdminUsersComponent {
     surname: ['', [Validators.required, Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-    role: ['', Validators.required],
     password: ['', Validators.required]
   });
 
   adminUsersEditForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.maxLength(50)]],
-    surname: ['', [Validators.required, Validators.maxLength(50)]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
+    editName: ['', [Validators.required, Validators.maxLength(50)]],
+    editSurname: ['', [Validators.required, Validators.maxLength(50)]],
+    editEmail: ['', [Validators.required, Validators.email]],
+    editPhone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   });
 
   constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router) {}
@@ -50,7 +50,6 @@ export class AdminUsersComponent {
       let surname = this.adminUsersForm.get('surname')?.value;
       let email = this.adminUsersForm.get('email')?.value;
       let phone = this.adminUsersForm.get('phone')?.value;
-      let role = this.adminUsersForm.get('role')?.value;
       let password = this.adminUsersForm.get('password')?.value;
   
       const userData = {
@@ -58,7 +57,7 @@ export class AdminUsersComponent {
         surname: surname!,
         email: email!,
         phone: phone!,
-        role: role!,
+        role: 'CLIENT',
         password: password!
       };
   
@@ -80,29 +79,29 @@ export class AdminUsersComponent {
 
   editClient() {
     if (this.adminUsersEditForm.valid) {
-      let name = this.adminUsersEditForm.get('name')?.value;
-      let surname = this.adminUsersEditForm.get('surname')?.value;
-      let email = this.adminUsersEditForm.get('email')?.value;
-      let phone = this.adminUsersEditForm.get('phone')?.value;
+      let editName = this.adminUsersEditForm.get('editName')?.value;
+      let editSurname = this.adminUsersEditForm.get('editSurname')?.value;
+      let editEmail = this.adminUsersEditForm.get('editEmail')?.value;
+      let editPhone = this.adminUsersEditForm.get('editPhone')?.value;
 
       const userData = {
-        name: name!,
-        surname: surname!,
-        email: email!,
-        phone: phone!
+        name: editName!,
+        surname: editSurname!,
+        email: editEmail!,
+        phone: editPhone!
       };
-
+      console.log(this.selectedClientId!);
       this.clientService.updateClient(this.selectedClientId!, userData).subscribe(
         (response) => {
-          console.log('Usuario modificado correctamente:', response);
+          console.log('Cliente modificado correctamente:', response);
           this.adminUsersEditForm.reset();
           this.router.navigate(['admin-users']).then(() => {
             window.location.reload();
           });
         },
         (error) => {
-          console.error('Error al modificar al usuario:', error);
-          this.adminUsersError = 'Error al modificar al usuario. Por favor, inténtalo de nuevo.';
+          console.error('Error al modificar al cliente:', error);
+          this.adminUsersError = 'Error al modificar al cliente. Por favor, inténtalo de nuevo.';
         }
       );
     }
@@ -136,6 +135,7 @@ export class AdminUsersComponent {
 
   selectClientId(id: number) {
     this.selectedClientId = id;
+    this.loadClientData();
   }
 
   get name() {
@@ -154,11 +154,37 @@ export class AdminUsersComponent {
     return this.adminUsersForm.controls.email;
   }
 
-  get role() {
-    return this.adminUsersForm.controls.role;
-  }
-
   get password() {
     return this.adminUsersForm.controls.password;
+  }
+
+  get editName() {
+    return this.adminUsersEditForm.controls.editName;
+  }
+
+  get editSurname() {
+    return this.adminUsersEditForm.controls.editSurname;
+  }
+
+  get editPhone() {
+    return this.adminUsersEditForm.controls.editPhone;
+  }
+
+  get editEmail() {
+    return this.adminUsersEditForm.controls.editEmail;
+  }
+
+  loadClientData() {
+    if (this.selectedClientId !== null) {
+      const selectedClient = this.clients.find((client: any) => client.id === this.selectedClientId);
+      if (selectedClient) {
+        this.adminUsersEditForm.patchValue({
+          editName: selectedClient.name,
+          editSurname: selectedClient.surname,
+          editEmail: selectedClient.email,
+          editPhone: selectedClient.phone
+        });
+      }
+    }
   }
 }

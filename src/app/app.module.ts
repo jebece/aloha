@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [
     DatePipe

@@ -9,7 +9,7 @@
                         <path
                             d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
                     </svg>
-                    <div class="admin__menu-btn-text d-inline ms-2">Usuarios</div>
+                    <div class="admin__menu-btn-text d-inline ms-2">Clientes</div>
                 </div>
             </a>
             <a href="" class="admin__menu-link">
@@ -61,7 +61,7 @@
 
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
-            <div class="admin__content-title mt-4 ms-3">Gestión de usuarios</div>
+            <div class="admin__content-title mt-4 ms-3">Gestión de clientes</div>
             <div class="admin__content-add-button d-flex justify-content-end mb-2">
                 <a href="" class="me-3" data-bs-toggle="modal" data-bs-target="#admin-modal-create">
                     <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -85,7 +85,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="admin__content-row" *ngFor="let client of clients">
+                    <tr class="admin__content-row" *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ client.id }}</td>
                         <td class="admin__content-cell">{{ client.name }}</td>
                         <td class="admin__content-cell">{{ client.surname }}</td>
@@ -112,11 +112,15 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mb-4">
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente" class="custom-pagination"></pagination-controls>
+            </div>
+            
             <section class="admin__modal-create modal fade" tabindex="-1" id="admin-modal-create">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-create-title mb-3 mt-3">Nuevo usuario</div>
+                            <div class="admin__modal-create-title mb-3 mt-3">Nuevo cliente</div>
                             <form class="admin__modal-create-form needs-validation" novalidate novalidate
                                 [formGroup]="adminUsersForm">
                                 <div class="admin__modal-create-form-input mb-3">
@@ -160,17 +164,6 @@
                                         <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-create-form-input mb-3">
-                                    <label for="role" class="admin__modal-create-form-label form-label">Rol</label>
-                                    <select id="role" class="admin__modal-create-form-control form-control" formControlName="role">
-                                        <option value="ADMIN">Administrador</option>
-                                        <option value="CLIENT">Cliente</option>
-                                    </select>
-                                    <div *ngIf="adminUsersForm.get('role')?.invalid && (adminUsersForm.get('role')?.dirty || adminUsersForm.get('role')?.touched)"
-                                         class="text-message mt-1">
-                                        <div *ngIf="adminUsersForm.get('role')?.errors?.['required']">Seleccione un rol</div>
-                                    </div>
-                                </div>
                                 <div class="admin__modal-create-form-input mb-4">
                                     <label for="password"
                                         class="admin__modal-create-form-label form-label">Contraseña</label>
@@ -188,7 +181,7 @@
                                     <div class="admin__modal-create-form-buttons mb-3 row ">
                                         <button type="submit"
                                             class="admin__modal-create-form-submit btn btn-outline-secondary col-md-5"
-                                            data-bs-dismiss="modal" (click)="createClient()">Crear usuario</button>
+                                            (click)="createClient()">Crear cliente</button>
                                         <button type="submit"
                                             class="admin__modal-create-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
@@ -203,48 +196,48 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-edit-title mb-3 mt-3">Modificación de usuario</div>
+                            <div class="admin__modal-edit-title mb-3 mt-3">Modificación de cliente</div>
                             <form class="admin__modal-edit-form needs-validation" novalidate novalidate
                                 [formGroup]="adminUsersEditForm">
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="name" class="admin__modal-edit-form-label form-label">Nombre</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
-                                        required formControlName="name">
-                                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
-                                        <div *ngIf="name.errors?.['required']">Introduzca nombre</div>
-                                        <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
+                                        required formControlName="editName">
+                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)" class="text-message mt-1">
+                                        <div *ngIf="editName.errors?.['required']">Introduzca nombre</div>
+                                        <div *ngIf="editName.errors?.['maxlength']">Nombre demasiado largo</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="surname"
                                         class="admin__modal-edit-form-label form-label">Apellidos</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control"
-                                        id="editSurname" required formControlName="surname">
-                                    <div *ngIf="surname.invalid && (surname.dirty || surname.touched)"
+                                        id="editSurname" required formControlName="editSurname">
+                                    <div *ngIf="editSurname.invalid && (editSurname.dirty || editSurname.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="surname.errors?.['required']">Introduzca apellidos</div>
-                                        <div *ngIf="surname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                        <div *ngIf="editSurname.errors?.['required']">Introduzca apellidos</div>
+                                        <div *ngIf="editSurname.errors?.['maxlength']">Apellidos demasiado largos</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="email" class="admin__modal-edit-form-label form-label">Email</label>
                                     <input type="email" class="admin__modal-edit-form-control form-control" id="editEmail"
-                                        required formControlName="email">
-                                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                        required formControlName="editEmail">
+                                    <div *ngIf="editEmail.invalid && (editEmail.dirty || editEmail.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="email.errors?.['required']">Introduzca email</div>
-                                        <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
+                                        <div *ngIf="editEmail.errors?.['required']">Introduzca email</div>
+                                        <div *ngIf="editEmail.errors?.['email']">Debe tener formato email</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="phone"
                                         class="admin__modal-edit-form-label form-label">Teléfono</label>
                                     <input type="tel" class="admin__modal-edit-form-control form-control" id="editPhone"
-                                        required formControlName="phone">
-                                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                        required formControlName="editPhone">
+                                    <div *ngIf="editPhone.invalid && (editPhone.dirty || editPhone.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="phone.errors?.['required']">Introduzca teléfono</div>
-                                        <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
+                                        <div *ngIf="editPhone.errors?.['required']">Introduzca teléfono</div>
+                                        <div *ngIf="editPhone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                                     </div>
                                 </div>
                                 <div class="text-message my-4 text-center">{{adminUsersError}}</div>
@@ -252,7 +245,7 @@
                                     <div class="admin__modal-edit-form-buttons mb-3 row ">
                                         <button type="button"
                                             class="admin__modal-edit-form-submit btn btn-outline-secondary col-md-5"
-                                            data-bs-dismiss="modal" (click)="editClient()">Modificar usuario</button>
+                                            (click)="editClient()">Modificar cliente</button>
                                         <button type="submit"
                                             class="admin__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
@@ -267,15 +260,16 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar este usuario?</div>
+                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar este cliente?</div>
                             <div class="admin__modal-delete-warning mb-5 text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                                   </svg>
-                                La supresión de un usuario es irreversible</div>
-                            <div class="container-xl">
+                                La supresión de un cliente es irreversible</div>
+                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
+                                <div class="container-xl">
                                 <div class="admin__modal-delete-buttons mb-3 row ">
-                                    <button type="submit" class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()">Eliminar usuario</button>
+                                    <button type="submit" class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()">Eliminar cliente</button>
                                     <button type="submit" class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>

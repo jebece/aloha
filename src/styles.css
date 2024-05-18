@@ -1,3 +1,42 @@
+/*
+INICIO PAGINACION
+*/
+.custom-pagination .ngx-pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.custom-pagination .ngx-pagination .current {
+  background-color: #272A57;
+  color: white;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.custom-pagination .ngx-pagination .disabled {
+  opacity: 0.6;
+}
+
+.custom-pagination .ngx-pagination a {
+  color: #272A57;
+  text-decoration: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.custom-pagination .ngx-pagination a:hover {
+  background-color: #BBD1EA;
+}
+
+/*
+FIN PAGINACION
+*/
+
+
 @charset "UTF-8";
 @font-face {
   font-family: "Lato";
@@ -9,7 +48,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
- 
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
