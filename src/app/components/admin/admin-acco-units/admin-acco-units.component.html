@@ -69,20 +69,26 @@
                         <th class="admin__content-head">Descripción</th>
                         <th class="admin__content-head">Dirección</th>
                         <th class="admin__content-head">Ubicación</th>
+                        <th class="admin__content-head">Precio por noche</th>
+                        <th class="admin__content-head">Número identificativo</th>
+                        <th class="admin__content-head">Capacidad</th>
                         <th class="admin__content-head"></th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="admin__content-row"
-                        *ngFor="let accommodation of accommodations | paginate: { itemsPerPage: 10, currentPage: page}">
-                        <td class="admin__content-cell">{{ accommodation.id }}</td>
-                        <td class="admin__content-cell">{{ accommodation.name }}</td>
-                        <td class="admin__content-cell">{{ accommodation.description }}</td>
-                        <td class="admin__content-cell">{{ accommodation.address }}</td>
-                        <td class="admin__content-cell">{{ accommodation.location }}</td>
+                        *ngFor="let accoUnit of accoUnits | paginate: { itemsPerPage: 10, currentPage: page}">
+                        <td class="admin__content-cell">{{ accoUnit.id }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.name }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.description }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.address }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.location }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.price }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.number }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.capacity }}</td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccommodationId(accommodation.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccoUnitId(accoUnit.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
                                     <path
@@ -91,7 +97,7 @@
                             </a>
                         </td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectAccommodationId(accommodation.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectAccoUnitId(accoUnit.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -113,15 +119,12 @@
                         <div class="modal-body">
                             <div class="admin__modal-create-title mb-3 mt-3">Nuevo alojamiento</div>
                             <form class="admin__modal-create-form needs-validation" novalidate
-                                [formGroup]="adminAccommodationsForm">
+                                [formGroup]="adminAccoUnitsForm">
                                 <div class="admin__modal-create-form-input mb-3">
-                                    <label for="name" class="admin__modal-create-form-label form-label">Nombre</label>
-                                    <input type="text" class="admin__modal-create-form-control form-control" id="name"
-                                        required formControlName="name">
-                                    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
-                                        <div *ngIf="name.errors?.['required']">Introduzca nombre</div>
-                                        <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
-                                    </div>
+                                    <label for="accommodationId" class="admin__modal-create-form-label form-label">Alojamiento al que pertenece:</label>
+                                    <select *ngFor="let accommodation of accommodations" class="admin__modal-create-form-control form-select" id="accommodationId" name="accommodationId" required formControlName="accomodationId">
+                                      <option value="{{ accommodation.id }}">{{ accommodation.id }}.- {{ accommodation.name }}</option>
+                                    </select>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
                                     <label for="description"
@@ -157,12 +160,12 @@
                                         <div *ngIf="location.errors?.['maxlength']">Ubicación demasiado extensa</div>
                                     </div>
                                 </div>
-                                <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
+                                <div class="text-message my-4 text-center">{{adminAccoUnitsError}}</div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-create-form-buttons mb-3 row ">
                                         <button type="button"
                                             class="admin__modal-create-form-submit btn btn-outline-secondary col-md-5"
-                                            (click)="createAccommodation()">Crear alojamiento</button>
+                                            (click)="createAccoUnit()">Crear alojamiento</button>
                                         <button type="button"
                                             class="admin__modal-create-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
@@ -179,7 +182,7 @@
                         <div class="modal-body">
                             <div class="admin__modal-edit-title mb-3 mt-3">Modificación de alojamiento</div>
                             <form class="admin__modal-edit-form needs-validation" novalidate
-                                [formGroup]="adminAccommodationsEditForm">
+                                [formGroup]="adminAccoUnitsEditForm">
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="editName" class="admin__modal-edit-form-label form-label">Nombre</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
@@ -225,12 +228,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
+                                <div class="text-message my-4 text-center">{{adminAccoUnitsError}}</div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-edit-form-buttons mb-3 row ">
                                         <button type="button"
                                             class="admin__modal-edit-form-submit btn btn-outline-secondary col-md-5"
-                                            (click)="editAccommodation()">Modificar</button>
+                                            (click)="editAccoUnit()">Modificar</button>
                                         <button type="submit"
                                             class="admin__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
@@ -258,7 +261,7 @@
                             <div class="container-xl">
                                 <div class="admin__modal-delete-buttons mb-3 row ">
                                     <button type="submit"
-                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteAccommodation()">Eliminar</button>
+                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteAccoUnit()">Eliminar</button>
                                     <button type="submit"
                                         class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                         data-bs-dismiss="modal">Cancelar</button>

@@ -20,12 +20,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminAccommodationsComponent } from './components/admin/admin-accommodations/admin-accommodations.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AdminAccoUnitsComponent } from './components/admin/admin-acco-units/admin-acco-units.component';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin-users', component: AdminUsersComponent },
   { path: 'admin-accommodations', component: AdminAccommodationsComponent },
+  { path: 'admin-acco-units', component: AdminAccoUnitsComponent },
   { path: 'client', component: ClientComponent },
   { path: 'consulta', component: ConsultaComponent },
   { path: 'details', component: DetailsComponent },
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     FooterComponent,
     AdminUsersComponent,
-    AdminAccommodationsComponent
+    AdminAccommodationsComponent,
+    AdminAccoUnitsComponent
   ],
   imports: [
     BrowserModule,

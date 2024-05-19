@@ -1,36 +1,33 @@
-import { Injectable } from '@angular/core';
-import { updateRequest } from './updateRequest';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environments';
 import { Observable, catchError, throwError} from 'rxjs';
-import { deleteRequest } from './deleteRequest';
-import { CreateRequest } from './createRequest';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientService {
+export class AccoUnitService {
 
   constructor(private http: HttpClient) {}
 
-  public updateClient(id: number, userData: any){
-    return this.http.put(environment.urlHost + '/api/client/' + id + '/update', userData)
+  public getAccoUnits(){
+    return this.http.get(environment.urlHost + '/api/accommodation-unit')
     .pipe(catchError(this.handleError));
   }
 
-  public deleteClient(id: deleteRequest): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/client/delete`, { body: id })
+  public createAccoUnit(accoUnitData: any){
+    return this.http.post(environment.urlHost + '/api/accommodation-unit/create', accoUnitData)
     .pipe(catchError(this.handleError));
   }
 
-  public getClients(){
-    return this.http.get(environment.urlHost + '/api/client')
+  public updateAccoUnit(accoUnitData: any){
+    return this.http.put(environment.urlHost + '/api/accommodation-unit/update', accoUnitData)
     .pipe(catchError(this.handleError));
   }
 
-  public createClient(userData: CreateRequest) {
-    return this.http.post(environment.urlHost + '/auth/registerClient', userData)
+  public deleteAccoUnit(id: any): Observable<any> {
+    return this.http.delete(`${environment.urlHost}/api/accommodation-unit/delete`, { body: id })
     .pipe(catchError(this.handleError));
   }
 
