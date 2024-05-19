@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../../services/auth/user';
 import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 import { UserService } from '../../services/user/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 
@@ -26,7 +27,7 @@ export class PayComponent implements OnInit{
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder:FormBuilder, private userService: UserService) {}
+  constructor(private formBuilder:FormBuilder, private userService: UserService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe({
@@ -46,6 +47,10 @@ export class PayComponent implements OnInit{
         console.info('Petición completada');
       }
     });
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1000);
   }
 
   get cardNumber() {

@@ -18,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminAccommodationsComponent } from './components/admin/admin-accommodations/admin-accommodations.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -54,7 +56,9 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule
   ],
   providers: [
     DatePipe

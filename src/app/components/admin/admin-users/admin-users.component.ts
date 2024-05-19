@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ClientService } from '../../../services/client/client.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { deleteRequest } from '../../../services/client/deleteRequest';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-users',
@@ -30,7 +31,7 @@ export class AdminUsersComponent {
     editPhone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   });
 
-  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.clientService.getClients().subscribe(
@@ -41,6 +42,10 @@ export class AdminUsersComponent {
         console.error('Error al obtener a los clientes', error);
       }
     );
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 500);
   }
 
 
@@ -187,4 +192,5 @@ export class AdminUsersComponent {
       }
     }
   }
+   
 }

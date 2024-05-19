@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../services/auth/user';
 import { UserService } from '../../services/user/user.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-inicio',
@@ -24,7 +25,7 @@ export class InicioComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private userService:UserService) {}
+  constructor(private router: Router, private userService:UserService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -71,5 +72,12 @@ export class InicioComponent implements OnInit {
     };
   
     this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  showSpinner(): void {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 500);
   }
 }

@@ -56,7 +56,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <button class="registro__card-submit btn btn-secondary" type="submit" (click)="formSubmit()">
+                  <button class="registro__card-submit btn btn-secondary" type="submit" (click)="formSubmit()" (click)="showSpinner()">
                     Crear cuenta
                   </button>
                 </div>
@@ -68,3 +68,4 @@
     </section>
   </div>
 </main>
+<ngx-spinner bdColor = "rgba(0,0,0,0.4)" size = "medium" color = "#272a57" type = "ball-square-spin" [fullScreen] = "true"></ngx-spinner>

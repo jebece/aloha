@@ -47,17 +47,6 @@
                     <div class="admin__menu-btn-text d-inline ms-2">Reservas</div>
                 </div>
             </a>
-            <a href="" class="admin__menu-link">
-                <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
-                    <svg class="admin__menu-btn-icon d-inline" width="30" height="30" viewBox="0 0 31 31" fill="#FFFFFF"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M27.1757 19.0626C27.1757 13.2813 22.792 8.51132 17.1757 7.88632V5.31257H14.6757V7.88632C9.0595 8.51132 4.67575 13.2813 4.67575 19.0626V21.5626H27.1757V19.0626ZM3.42575 22.8126H28.4257V25.3126H3.42575V22.8126Z"
-                            fill="white" />
-                    </svg>
-                    <div class="admin__menu-btn-text d-inline ms-2">Servicios</div>
-                </div>
-            </a>
 
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
@@ -85,14 +74,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="admin__content-row" *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: page}">
+                    <tr class="admin__content-row"
+                        *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ client.id }}</td>
                         <td class="admin__content-cell">{{ client.name }}</td>
                         <td class="admin__content-cell">{{ client.surname }}</td>
                         <td class="admin__content-cell">{{ client.email }}</td>
                         <td class="admin__content-cell">{{ client.phone }}</td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectClientId(client.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit"
+                                (click)="selectClientId(client.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
                                     <path
@@ -101,7 +92,8 @@
                             </a>
                         </td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectClientId(client.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete"
+                                (click)="selectClientId(client.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -113,9 +105,10 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center mb-4">
-                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente" class="custom-pagination"></pagination-controls>
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
+                    class="custom-pagination"></pagination-controls>
             </div>
-            
+
             <section class="admin__modal-create modal fade" tabindex="-1" id="admin-modal-create">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -197,12 +190,14 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="admin__modal-edit-title mb-3 mt-3">Modificación de cliente</div>
-                            <form class="admin__modal-edit-form needs-validation" novalidate [formGroup]="adminUsersEditForm">
+                            <form class="admin__modal-edit-form needs-validation" novalidate
+                                [formGroup]="adminUsersEditForm">
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="name" class="admin__modal-edit-form-label form-label">Nombre</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
                                         required formControlName="editName">
-                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)" class="text-message mt-1">
+                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)"
+                                        class="text-message mt-1">
                                         <div *ngIf="editName.errors?.['required']">Introduzca nombre</div>
                                         <div *ngIf="editName.errors?.['maxlength']">Nombre demasiado largo</div>
                                     </div>
@@ -220,8 +215,8 @@
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
                                     <label for="email" class="admin__modal-edit-form-label form-label">Email</label>
-                                    <input type="email" class="admin__modal-edit-form-control form-control" id="editEmail"
-                                        required formControlName="editEmail">
+                                    <input type="email" class="admin__modal-edit-form-control form-control"
+                                        id="editEmail" required formControlName="editEmail">
                                     <div *ngIf="editEmail.invalid && (editEmail.dirty || editEmail.touched)"
                                         class="text-message mt-1">
                                         <div *ngIf="editEmail.errors?.['required']">Introduzca email</div>
@@ -229,8 +224,7 @@
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="phone"
-                                        class="admin__modal-edit-form-label form-label">Teléfono</label>
+                                    <label for="phone" class="admin__modal-edit-form-label form-label">Teléfono</label>
                                     <input type="tel" class="admin__modal-edit-form-control form-control" id="editPhone"
                                         required formControlName="editPhone">
                                     <div *ngIf="editPhone.invalid && (editPhone.dirty || editPhone.touched)"
@@ -259,17 +253,25 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar este cliente?</div>
+                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar
+                                este cliente?</div>
                             <div class="admin__modal-delete-warning mb-5 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                  </svg>
-                                La supresión de un cliente es irreversible</div>
-                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
-                                <div class="container-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                                La supresión de un cliente es irreversible
+                            </div>
+                            <div class="text-message my-4 text-center">{{adminUsersError}}</div>
+                            <div class="container-xl">
                                 <div class="admin__modal-delete-buttons mb-3 row ">
-                                    <button type="submit" class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()">Eliminar cliente</button>
-                                    <button type="submit" class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit"
+                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5"
+                                        (click)="deleteClient()">Eliminar cliente</button>
+                                    <button type="submit"
+                                        class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
                         </div>
@@ -278,4 +280,5 @@
             </section>
         </section>
     </div>
+    <ngx-spinner bdColor = "rgba(0,0,0,0.4)" size = "medium" color = "#272a57" type = "ball-square-spin" [fullScreen] = "true"></ngx-spinner>
 </main>

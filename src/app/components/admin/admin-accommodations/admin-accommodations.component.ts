@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AccommodationService } from '../../../services/accommodation/accommodation.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class AdminAccommodationsComponent {
     editLocation: ['', [Validators.required, Validators.maxLength(50)]]
   });
 
-  constructor(private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router) {}
+  constructor(private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService) {}
   
   ngOnInit(): void {
     this.accommodationService.getAccommodations().subscribe(
@@ -40,6 +41,10 @@ export class AdminAccommodationsComponent {
         console.error('Error al obtener los alojamientos', error);
       }
     );
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 500);
   }
 
   createAccommodation() {

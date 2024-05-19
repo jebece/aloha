@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-details',
@@ -20,7 +21,7 @@ export class DetailsComponent {
   minDate: string = '';
   minEndDate: string = '';
   
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -40,6 +41,11 @@ export class DetailsComponent {
       this.bungalows = params['bungalows'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
     });
+
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 3000);
   }
 
   updateMinEndDate(startDate: string): void {

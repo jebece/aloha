@@ -10,6 +10,7 @@ import { deleteRequest } from '../../services/client/deleteRequest';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { switchMap } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-client',
@@ -38,7 +39,7 @@ export class ClientComponent implements OnInit {
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe({
@@ -70,6 +71,11 @@ export class ClientComponent implements OnInit {
         console.info('Petición completada');
       }
     });
+    
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 500);
   }
 
   formSubmit() {

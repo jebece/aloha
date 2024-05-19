@@ -3,6 +3,7 @@ import { FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,11 @@ export class LoginComponent implements OnInit{
     password:['', Validators.required]
   })
 
-  constructor(private formBuilder:FormBuilder, private router:Router, private loginService:LoginService) {
+  constructor(private formBuilder:FormBuilder, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService) {
     
   }
 
-  ngOnInit():void {
-    
-  }
+  ngOnInit():void {}
 
   login() {
     if(this.loginForm.valid){
@@ -52,6 +51,13 @@ export class LoginComponent implements OnInit{
 
   get password() {
     return this.loginForm.controls.password;
+  }
+
+  showSpinner() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1000);
   }
   
 }

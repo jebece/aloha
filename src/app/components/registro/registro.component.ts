@@ -3,6 +3,7 @@ import { UserService } from '../../services/user/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistroRequest } from '../../services/auth/registroRequest';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registro',
@@ -19,7 +20,7 @@ export class RegistroComponent implements OnInit {
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   })
 
-  constructor(private userService: UserService, private formBuilder:FormBuilder, private router:Router) {}
+  constructor(private userService: UserService, private formBuilder:FormBuilder, private router:Router, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {}
 
@@ -62,5 +63,12 @@ export class RegistroComponent implements OnInit {
 
   get password() {
     return this.registroForm.controls.password;
+  }
+
+  showSpinner() {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1000);
   }
 }

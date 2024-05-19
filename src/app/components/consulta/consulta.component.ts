@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-consulta',
@@ -21,7 +22,7 @@ export class ConsultaComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -41,6 +42,10 @@ export class ConsultaComponent implements OnInit {
       this.bungalows = params['bungalows'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
     });
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 3000);
   }
 
   updateMinEndDate(startDate: string): void {
