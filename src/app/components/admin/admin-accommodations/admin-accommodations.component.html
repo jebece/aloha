@@ -61,7 +61,7 @@
 
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
-            <div class="admin__content-title mt-4 ms-3">Gestión de clientes</div>
+            <div class="admin__content-title mt-4 ms-3">Gestión de alojamientos</div>
             <div class="admin__content-add-button d-flex justify-content-end mb-2">
                 <a href="" class="me-3" data-bs-toggle="modal" data-bs-target="#admin-modal-create">
                     <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -77,22 +77,23 @@
                     <tr>
                         <th class="admin__content-head">ID</th>
                         <th class="admin__content-head">Nombre</th>
-                        <th class="admin__content-head">Apellidos</th>
-                        <th class="admin__content-head">Email</th>
-                        <th class="admin__content-head">Teléfono</th>
+                        <th class="admin__content-head">Descripción</th>
+                        <th class="admin__content-head">Dirección</th>
+                        <th class="admin__content-head">Ubicación</th>
                         <th class="admin__content-head"></th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="admin__content-row" *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: page}">
-                        <td class="admin__content-cell">{{ client.id }}</td>
-                        <td class="admin__content-cell">{{ client.name }}</td>
-                        <td class="admin__content-cell">{{ client.surname }}</td>
-                        <td class="admin__content-cell">{{ client.email }}</td>
-                        <td class="admin__content-cell">{{ client.phone }}</td>
+                    <tr class="admin__content-row"
+                        *ngFor="let accommodation of accommodations | paginate: { itemsPerPage: 10, currentPage: page}">
+                        <td class="admin__content-cell">{{ accommodation.id }}</td>
+                        <td class="admin__content-cell">{{ accommodation.name }}</td>
+                        <td class="admin__content-cell">{{ accommodation.description }}</td>
+                        <td class="admin__content-cell">{{ accommodation.address }}</td>
+                        <td class="admin__content-cell">{{ accommodation.location }}</td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectClientId(client.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccommodationId(accommodation.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
                                     <path
@@ -101,7 +102,7 @@
                             </a>
                         </td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectClientId(client.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectAccommodationId(accommodation.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -113,76 +114,67 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center mb-4">
-                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente" class="custom-pagination"></pagination-controls>
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
+                    class="custom-pagination"></pagination-controls>
             </div>
-            
+
             <section class="admin__modal-create modal fade" tabindex="-1" id="admin-modal-create">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-create-title mb-3 mt-3">Nuevo cliente</div>
+                            <div class="admin__modal-create-title mb-3 mt-3">Nuevo alojamiento</div>
                             <form class="admin__modal-create-form needs-validation" novalidate
-                                [formGroup]="adminUsersForm">
+                                [formGroup]="adminAccommodationsForm">
                                 <div class="admin__modal-create-form-input mb-3">
                                     <label for="name" class="admin__modal-create-form-label form-label">Nombre</label>
                                     <input type="text" class="admin__modal-create-form-control form-control" id="name"
                                         required formControlName="name">
                                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-message mt-1">
-                                        <div *ngIf="name.errors?.['required']">Introduzca su nombre</div>
+                                        <div *ngIf="name.errors?.['required']">Introduzca nombre</div>
                                         <div *ngIf="name.errors?.['maxlength']">Nombre demasiado largo</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
-                                    <label for="surname"
-                                        class="admin__modal-create-form-label form-label">Apellidos</label>
+                                    <label for="description"
+                                        class="admin__modal-create-form-label form-label">Descripción</label>
+                                    <textarea class="admin__modal-create-form-control form-control" id="description"
+                                        required formControlName="description"></textarea>
+                                    <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="description.errors?.['required']">Introduzca descripción</div>
+                                        <div *ngIf="description.errors?.['maxlength']">Descripción demasiado extensa
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="address"
+                                        class="admin__modal-create-form-label form-label">Dirección</label>
                                     <input type="text" class="admin__modal-create-form-control form-control"
-                                        id="surname" required formControlName="surname">
-                                    <div *ngIf="surname.invalid && (surname.dirty || surname.touched)"
+                                        id="address" required formControlName="address">
+                                    <div *ngIf="address.invalid && (address.dirty || address.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="surname.errors?.['required']">Introduzca sus apellidos</div>
-                                        <div *ngIf="surname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                        <div *ngIf="address.errors?.['required']">Introduzca dirección</div>
+                                        <div *ngIf="address.errors?.['maxlength']">Dirección demasiado larga</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
-                                    <label for="email" class="admin__modal-create-form-label form-label">Email</label>
-                                    <input type="email" class="admin__modal-create-form-control form-control" id="email"
-                                        required formControlName="email">
-                                    <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                    <label for="location"
+                                        class="admin__modal-create-form-label form-label">Ubicación</label>
+                                    <input type="text" class="admin__modal-create-form-control form-control"
+                                        id="location" required formControlName="location">
+                                    <div *ngIf="location.invalid && (location.dirty || location.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="email.errors?.['required']">Introduzca su email</div>
-                                        <div *ngIf="email.errors?.['email']">Debe tener formato email</div>
+                                        <div *ngIf="location.errors?.['required']">Introduzca ubicación</div>
+                                        <div *ngIf="location.errors?.['maxlength']">Ubicación demasiado extensa</div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-create-form-input mb-3">
-                                    <label for="phone"
-                                        class="admin__modal-create-form-label form-label">Teléfono</label>
-                                    <input type="tel" class="admin__modal-create-form-control form-control" id="phone"
-                                        required formControlName="phone">
-                                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
-                                        class="text-message mt-1">
-                                        <div *ngIf="phone.errors?.['required']">Introduzca su teléfono</div>
-                                        <div *ngIf="phone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
-                                    </div>
-                                </div>
-                                <div class="admin__modal-create-form-input mb-4">
-                                    <label for="password"
-                                        class="admin__modal-create-form-label form-label">Contraseña</label>
-                                    <input type="password" id="password"
-                                        class="admin__modal-create-form-control form-control"
-                                        formControlName="password">
-                                    <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                                        class="text-message mt-1">
-                                        <div *ngIf="password.errors?.['required']" class="text-message mt-1">Introduzca
-                                            contraseña</div>
-                                    </div>
-                                </div>
-                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
+                                <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-create-form-buttons mb-3 row ">
-                                        <button type="submit"
+                                        <button type="button"
                                             class="admin__modal-create-form-submit btn btn-outline-secondary col-md-5"
-                                            (click)="createClient()">Crear cliente</button>
-                                        <button type="submit"
+                                            (click)="createAccommodation()">Crear alojamiento</button>
+                                        <button type="button"
                                             class="admin__modal-create-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </div>
@@ -196,55 +188,60 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-edit-title mb-3 mt-3">Modificación de cliente</div>
-                            <form class="admin__modal-edit-form needs-validation" novalidate [formGroup]="adminUsersEditForm">
+                            <div class="admin__modal-edit-title mb-3 mt-3">Modificación de alojamiento</div>
+                            <form class="admin__modal-edit-form needs-validation" novalidate
+                                [formGroup]="adminAccommodationsEditForm">
                                 <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="name" class="admin__modal-edit-form-label form-label">Nombre</label>
+                                    <label for="editName" class="admin__modal-edit-form-label form-label">Nombre</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
                                         required formControlName="editName">
-                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)" class="text-message mt-1">
+                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)"
+                                        class="text-message mt-1">
                                         <div *ngIf="editName.errors?.['required']">Introduzca nombre</div>
                                         <div *ngIf="editName.errors?.['maxlength']">Nombre demasiado largo</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="surname"
-                                        class="admin__modal-edit-form-label form-label">Apellidos</label>
+                                    <label for="editDescription"
+                                        class="admin__modal-edit-form-label form-label">Descripción</label>
+                                    <textarea class="admin__modal-create-form-control form-control" id="editDescription"
+                                        required formControlName="editDescription"></textarea>
+                                    <div *ngIf="editDescription.invalid && (editDescription.dirty || editDescription.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="editDescription.errors?.['required']">Introduzca descripción</div>
+                                        <div *ngIf="editDescription.errors?.['maxlength']">Descripción demasiado extensa
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-edit-form-input mb-3">
+                                    <label for="editAddress"
+                                        class="admin__modal-edit-form-label form-label">Dirección</label>
                                     <input type="text" class="admin__modal-edit-form-control form-control"
-                                        id="editSurname" required formControlName="editSurname">
-                                    <div *ngIf="editSurname.invalid && (editSurname.dirty || editSurname.touched)"
+                                        id="editAddress" required formControlName="editAddress">
+                                    <div *ngIf="editAddress.invalid && (editAddress.dirty || editAddress.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editSurname.errors?.['required']">Introduzca apellidos</div>
-                                        <div *ngIf="editSurname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                        <div *ngIf="editAddress.errors?.['required']">Introduzca dirección</div>
+                                        <div *ngIf="editAddress.errors?.['maxlength']">Dirección demasiado larga</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="email" class="admin__modal-edit-form-label form-label">Email</label>
-                                    <input type="email" class="admin__modal-edit-form-control form-control" id="editEmail"
-                                        required formControlName="editEmail">
-                                    <div *ngIf="editEmail.invalid && (editEmail.dirty || editEmail.touched)"
+                                    <label for="editLocation"
+                                        class="admin__modal-edit-form-label form-label">Ubicación</label>
+                                    <input type="text" class="admin__modal-edit-form-control form-control"
+                                        id="editLocation" required formControlName="editLocation">
+                                    <div *ngIf="editLocation.invalid && (editLocation.dirty || editLocation.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editEmail.errors?.['required']">Introduzca email</div>
-                                        <div *ngIf="editEmail.errors?.['email']">Debe tener formato email</div>
+                                        <div *ngIf="editLocation.errors?.['required']">Introduzca ubicación</div>
+                                        <div *ngIf="editLocation.errors?.['maxlength']">Ubicación demasiado extensa
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="phone"
-                                        class="admin__modal-edit-form-label form-label">Teléfono</label>
-                                    <input type="tel" class="admin__modal-edit-form-control form-control" id="editPhone"
-                                        required formControlName="editPhone">
-                                    <div *ngIf="editPhone.invalid && (editPhone.dirty || editPhone.touched)"
-                                        class="text-message mt-1">
-                                        <div *ngIf="editPhone.errors?.['required']">Introduzca teléfono</div>
-                                        <div *ngIf="editPhone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
-                                    </div>
-                                </div>
-                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
+                                <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-edit-form-buttons mb-3 row ">
                                         <button type="button"
                                             class="admin__modal-edit-form-submit btn btn-outline-secondary col-md-5"
-                                            (click)="editClient()">Modificar cliente</button>
+                                            (click)="editAccommodation()">Modificar</button>
                                         <button type="submit"
                                             class="admin__modal-edit-form-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                             data-bs-dismiss="modal">Cancelar</button>
@@ -259,17 +256,23 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar este cliente?</div>
+                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar
+                                este alojamiento?</div>
                             <div class="admin__modal-delete-warning mb-5 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
-                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                                  </svg>
-                                La supresión de un cliente es irreversible</div>
-                                <div class="text-message my-4 text-center">{{adminUsersError}}</div>
-                                <div class="container-xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                                La supresión de un alojamiento es irreversible
+                            </div>
+                            <div class="container-xl">
                                 <div class="admin__modal-delete-buttons mb-3 row ">
-                                    <button type="submit" class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteClient()">Eliminar cliente</button>
-                                    <button type="submit" class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit"
+                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteAccommodation()">Eliminar</button>
+                                    <button type="submit"
+                                        class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
                         </div>

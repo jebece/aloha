@@ -17,11 +17,13 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminUsersComponent } from './components/admin/admin-users/admin-users.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AdminAccommodationsComponent } from './components/admin/admin-accommodations/admin-accommodations.component';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin-users', component: AdminUsersComponent },
+  { path: 'admin-accommodations', component: AdminAccommodationsComponent },
   { path: 'client', component: ClientComponent },
   { path: 'consulta', component: ConsultaComponent },
   { path: 'details', component: DetailsComponent },
@@ -42,7 +44,8 @@ const appRoutes: Routes = [
     RegistroComponent,
     HeaderComponent,
     FooterComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    AdminAccommodationsComponent
   ],
   imports: [
     BrowserModule,
