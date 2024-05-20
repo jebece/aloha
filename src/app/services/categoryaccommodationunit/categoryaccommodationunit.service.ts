@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Categoryaccommodationunit } from '../../models/categoryaccommodationunit';
+import { Accommodationunit } from '../../models/accommodationunit';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,11 @@ export class CategoryaccommodationunitService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<Categoryaccommodationunit[]>(this.url);
+    return this.http.get<Accommodationunit[]>(this.urlAccommodation);
   }
 
   getCategoryAccommodationUnitByLocation(location: string) {
-    return this.http.get<Categoryaccommodationunit[]>(
+    return this.http.get<Accommodationunit>(
       `${this.urlAccommodation}/location/${location}`
     );
   }
