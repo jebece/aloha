@@ -167,7 +167,7 @@
             </section>
 
             <div class="client__secondary-title">Mis reservas</div>
-            <table class="client__books-table text-center mt-2 mb-5">
+            <table class="client__books-table text-center mt-2 mb-4">
                 <thead>
                     <tr>
                         <th class="client__books-head">Alojamiento</th>
@@ -179,14 +179,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="client__books-row">
-                        <td class="client__books-cell">NH Collection Sevilla</td>
-                        <td class="client__books-cell">2</td>
-                        <td class="client__books-cell">02/05/2024</td>
-                        <td class="client__books-cell">03/05/2024</td>
-                        <td class="client__books-cell">100€</td>
+                    <tr class="client__books-row" *ngFor="let book of books | paginate: { itemsPerPage: 10, currentPage: page}">
+                        <td class="client__books-cell">{{ book.accommodationUnit.accommodation.name }}</td>
+                        <td class="client__books-cell">{{ book.accommodationUnit.capacity }}</td>
+                        <td class="client__books-cell">{{ book.checkIn | date:'dd-MM-yyyy'}}</td>
+                        <td class="client__books-cell">{{ book.checkOut | date:'dd-MM-yyyy'}}</td>
+                        <td class="client__books-cell">{{ diferenciaEnDias(book) *  book.accommodationUnit.price}}</td>
                         <td class="client__books-cell">
-                            <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-book-delete">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#client-modal-book-delete" (click)="selectBookId(book.id)">
                                 <svg class="client__books-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -197,6 +197,10 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mb-4">
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
+                    class="custom-pagination"></pagination-controls>
+            </div>
             <section class="client__modal-book-delete modal fade" tabindex="-1" id="client-modal-book-delete">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -211,11 +215,12 @@
                                 </svg>
                                 Esta acción es irreversible
                             </div>
+                            <div class="text-message my-4 text-center">{{clientError}}</div>
                             <div class="container-xl">
                                 <div class="client__modal-book-delete-buttons mb-3 row ">
                                     <button type="button"
                                         class="client__modal-book-delete-submit btn btn-outline-secondary col-md-5"
-                                        data-bs-dismiss="modal">Cancelar
+                                        (click)="deleteBook()">Cancelar
                                         reserva</button>
                                     <button
                                         class="client__modal-book-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"

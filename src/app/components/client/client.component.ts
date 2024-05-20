@@ -11,6 +11,7 @@ import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { switchMap } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-client',
@@ -36,10 +37,13 @@ export class ClientComponent implements OnInit {
   decodedToken: any;
   clientId?: number;
   clientPassword?: string;
+  books: any;
+  selectedBookId: number | null = null;
+  page: number = 1;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService, private bookingService: BookingService) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe({
@@ -63,6 +67,10 @@ export class ClientComponent implements OnInit {
         if (this.decodedToken.id) {
           this.clientId = this.decodedToken.id;
         }
+        if (this.decodedToken.id) {
+          this.clientId = this.decodedToken.id;
+          this.getBookings();
+        }
       },
       error: (errorData) => {
         this.errorMessage = errorData;
@@ -71,7 +79,8 @@ export class ClientComponent implements OnInit {
         console.info('Petición completada');
       }
     });
-    
+    this.books = this.bookingService.getBookingByClientId(this.clientId!);
+    console.log(this.books);
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -151,6 +160,65 @@ export class ClientComponent implements OnInit {
       });
     } else {
       console.error('clientId es undefined');
+    }
+  }
+
+  getBookings() {
+    if (this.clientId !== undefined) {
+      this.bookingService.getBookingByClientId(this.clientId).subscribe({
+        next: (bookingData) => {
+          this.books = bookingData;
+          console.log(this.books);
+        },
+        error: (errorData) => {
+          console.error(errorData);
+        }
+      });
+    } else {
+      console.error('clientId es undefined');
+    }
+  }
+
+  diferenciaEnDias(books: any): number {
+    const fechaInicio = new Date(books.checkIn);
+    const fechaFin = new Date(books.checkOut);
+
+    fechaInicio.setHours(0, 0, 0, 0);
+    fechaFin.setHours(0, 0, 0, 0);
+
+    const unDia = 1000 * 60 * 60 * 24;
+    const diferenciaEnMs = Math.abs(fechaFin.getTime() - fechaInicio.getTime());
+
+    return Math.round(diferenciaEnMs / unDia);
+  }
+
+  selectBookId(id: number) {
+    this.selectedBookId = id;
+  }
+
+  deleteBook() {
+    if (this.selectedBookId !== null) {
+      const deleteData: any = {
+        id: this.selectedBookId
+      };
+
+      this.bookingService.deleteBooking(deleteData).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.log(errorData);
+          this.clientError = errorData;
+        },
+        complete: () => {
+          console.info('Borrado completo');
+          this.router.navigate(['client']).then(() => {
+            window.location.reload();
+          });
+        }
+      });
+    } else {
+      console.error('Reserva no seleccionada');
     }
   }
 
