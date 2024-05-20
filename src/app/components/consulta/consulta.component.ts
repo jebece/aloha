@@ -46,13 +46,32 @@ export class ConsultaComponent implements OnInit {
 
     if (
       this.route.snapshot.queryParams['location'] == null ||
-      this.route.snapshot.queryParams['location'] == ''
+      (this.route.snapshot.queryParams['location'] == '' &&
+        this.route.snapshot.queryParams['categories'].every(
+          (element: string) => element == 'false'
+        ))
     ) {
       this.categoryAccommodationUnitService.getAll().subscribe((response) => {
         console.log(response);
-        console.log(this.route.snapshot.queryParams['bungalows']);
       });
+    } else if (
+      this.route.snapshot.queryParams['location'] == null ||
+      (this.route.snapshot.queryParams['location'] == '' &&
+        this.route.snapshot.queryParams['categories'].some(
+          (element: string) => element == 'true'
+        ))
+    ) {
+      console.log('SOLO SELECCIONADO CAT');
+      const array = this.route.snapshot.queryParams['categories'].join(',');
+      console.log(typeof array);
+
+      this.categoryAccommodationUnitService
+        .getAccommodationUnitByCategory(array)
+        .subscribe((response) => {
+          console.log(response);
+        });
     } else {
+      console.log('ADIOS');
       this.categoryAccommodationUnitService
         .getCategoryAccommodationUnitByLocation(
           this.route.snapshot.queryParams['location']

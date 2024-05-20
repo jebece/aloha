@@ -21,4 +21,16 @@ export class CategoryaccommodationunitService {
       `${this.urlAccommodation}/location/${location}`
     );
   }
+
+  getAccommodationUnitHotel() {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/category/hotels`
+    );
+  }
+
+  getAccommodationUnitByCategory(categories: boolean[]) {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/category/${categories}`
+    );
+  }
 }
