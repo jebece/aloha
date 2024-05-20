@@ -14,6 +14,7 @@ export class AdminAccommodationsComponent {
   accommodations: any;
   selectedAccommodationId: number | null = null;
   page: number = 1;
+  showRows: boolean = false;
 
   adminAccommodationsError: string = '';
   adminAccommodationsForm = this.formBuilder.group({
@@ -36,11 +37,15 @@ export class AdminAccommodationsComponent {
     this.accommodationService.getAccommodations().subscribe(
       (data) => {
         this.accommodations = data;
+        if (Array.isArray(this.accommodations) && this.accommodations.length > 0) {
+          this.showRows = true;
+        }
       },
       (error) => {
         console.error('Error al obtener los alojamientos', error);
       }
     );
+
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();

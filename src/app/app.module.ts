@@ -21,6 +21,7 @@ import { AdminAccommodationsComponent } from './components/admin/admin-accommoda
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdminAccoUnitsComponent } from './components/admin/admin-acco-units/admin-acco-units.component';
+import { AdminBooksComponent } from './components/admin/admin-books/admin-books.component';
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
   { path: 'admin-users', component: AdminUsersComponent },
   { path: 'admin-accommodations', component: AdminAccommodationsComponent },
   { path: 'admin-acco-units', component: AdminAccoUnitsComponent },
+  { path: 'admin-books', component: AdminBooksComponent },
   { path: 'client', component: ClientComponent },
   { path: 'consulta', component: ConsultaComponent },
   { path: 'details', component: DetailsComponent },
@@ -50,7 +52,8 @@ const appRoutes: Routes = [
     FooterComponent,
     AdminUsersComponent,
     AdminAccommodationsComponent,
-    AdminAccoUnitsComponent
+    AdminAccoUnitsComponent,
+    AdminBooksComponent
   ],
   imports: [
     BrowserModule,

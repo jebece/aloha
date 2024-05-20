@@ -1,0 +1,138 @@
+<app-header></app-header>
+<main class="admin">
+    <div class="row">
+        <section class="admin__menu col-xxl-2 col-lg-3">
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-users']">
+                <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
+                    <svg class="admin__menu-btn-icon d-inline" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                        fill="#FFFFFF" class="bi bi-people-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                    </svg>
+                    <div class="admin__menu-btn-text d-inline ms-2">Clientes</div>
+                </div>
+            </a>
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-accommodations']">
+                <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
+                    <svg class="admin__menu-btn-icon d-inline" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                        fill="#FFFFFF" class="bi bi-building" viewBox="0 0 16 16">
+                        <path
+                            d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                        <path
+                            d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
+                    </svg>
+                    <div class="admin__menu-btn-text d-inline ms-2">Alojamientos</div>
+                </div>
+            </a>
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-acco-units']">
+                <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
+                    <svg class="admin__menu-btn-icon d-inline" width="30" height="30" viewBox="0 0 31 31" fill="#FFFFFF"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M25.9257 12.2588V4.06258H23.4257V6.56258H8.42575V4.06258H5.92575V12.2588C4.43825 13.1251 3.42575 14.7188 3.42575 16.5626V21.5626C3.42575 21.8941 3.55744 22.212 3.79187 22.4465C4.02629 22.6809 4.34423 22.8126 4.67575 22.8126H5.92575V27.8126H8.42575V22.8126H23.4257V27.8126H25.9257V22.8126H27.1757C27.5073 22.8126 27.8252 22.6809 28.0596 22.4465C28.2941 22.212 28.4257 21.8941 28.4257 21.5626V16.5626C28.4257 14.7188 27.412 13.1251 25.9257 12.2588ZM23.4257 9.06258V11.5626H17.1757V9.06258H23.4257ZM8.42575 9.06258H14.6757V11.5626H8.42575V9.06258ZM25.9257 20.3126H5.92575V16.5626C5.92575 15.1838 7.047 14.0626 8.42575 14.0626H23.4257C24.8045 14.0626 25.9257 15.1838 25.9257 16.5626V20.3126Z"
+                            fill="white" />
+                    </svg>
+                    <div class="admin__menu-btn-text d-inline ms-2">Unidades de alojamiento</div>
+                </div>
+            </a>
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-books']">
+                <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
+                    <svg class="admin__menu-btn-icon d-inline" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                        fill="#FFFFFF" class="bi bi-bookmarks" viewBox="0 0 16 16">
+                        <path
+                            d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1z" />
+                        <path
+                            d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1" />
+                    </svg>
+                    <div class="admin__menu-btn-text d-inline ms-2">Reservas</div>
+                </div>
+            </a>
+
+        </section>
+        <section class="admin__content col-xxl-10 col-lg-9">
+            <div class="admin__content-title mt-4 mb-5 ms-3">Gestión de reservas</div>
+            <table class="admin__content-table text-center mt-5 mb-4">
+                <thead>
+                    <tr>
+                        <th class="admin__content-head">ID</th>
+                        <th class="admin__content-head">Fecha de entrada</th>
+                        <th class="admin__content-head">Fecha de salida</th>
+                        <th class="admin__content-head">Alojamiento</th>
+                        <th class="admin__content-head">Categoría</th>
+                        <th class="admin__content-head">Precio por noche</th>
+                        <th class="admin__content-head">Número identificativo</th>
+                        <th class="admin__content-head">Capacidad</th>
+                        <th class="admin__content-head">Cliente</th>
+                        <th class="admin__content-head">Email cliente</th>
+                        <th class="admin__content-head"></th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="showRows">
+                    <tr class="admin__content-row"
+                        *ngFor="let book of books | paginate: { itemsPerPage: 10, currentPage: page}">
+                        <td class="admin__content-cell">{{ book.id }}</td>
+                        <td class="admin__content-cell">{{ book.checkIn | date: 'dd/MM/yyyy'}}</td>
+                        <td class="admin__content-cell">{{ book.checkOut | date: 'dd/MM/yyyy'}}</td>
+                        <td class="admin__content-cell">{{ book.accommodationUnit.accommodation.id }}.- {{ book.accommodationUnit.accommodation.name }}</td>
+                        <td class="admin__content-cell">{{ book.accommodationUnit.category.id }}. {{ book.accommodationUnit.category.name }}</td>
+                        <td class="admin__content-cell">{{ book.accommodationUnit.price }}</td>
+                        <td class="admin__content-cell">{{ book.accommodationUnit.number }}</td>
+                        <td class="admin__content-cell">{{ book.accommodationUnit.capacity }}</td>
+                        <td class="admin__content-cell">{{ book.client.id }}.- {{ book.client.name }} {{ book.client.surname }}</td>
+                        <td class="admin__content-cell">{{ book.client.email }}</td>
+                        <td class="admin__content-cell">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete"
+                                (click)="selectBookId(book.id)">
+                                <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
+                                    height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!showRows">
+                    <tr class="admin__content-row">
+                        <td class="admin__content-cell text-center" colspan="11">Todavía no existen reservas</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center mb-4" *ngIf="showRows">
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
+                    class="custom-pagination"></pagination-controls>
+            </div>
+
+            <section class="admin__modal-delete modal fade" tabindex="-1" id="admin-modal-delete">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar
+                                esta reserva?</div>
+                            <div class="admin__modal-delete-warning mb-5 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                    class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                                La supresión de una reserva es irreversible
+                            </div>
+                            <div class="text-message my-4 text-center">{{adminBooksError}}</div>
+                            <div class="container-xl">
+                                <div class="admin__modal-delete-buttons mb-3 row ">
+                                    <button type="submit"
+                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5"
+                                        (click)="deleteBook()">Eliminar reserva</button>
+                                    <button type="submit"
+                                        class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <ngx-spinner bdColor = "rgba(0,0,0,0.4)" size = "medium" color = "#272a57" type = "ball-square-spin" [fullScreen] = "true"></ngx-spinner>
+</main>

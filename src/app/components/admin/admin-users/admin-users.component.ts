@@ -14,6 +14,7 @@ export class AdminUsersComponent {
   clients: any;
   selectedClientId: number | null = null;
   page: number = 1;
+  showRows: boolean = false;
 
   adminUsersError: string = '';
   adminUsersForm = this.formBuilder.group({
@@ -37,11 +38,15 @@ export class AdminUsersComponent {
     this.clientService.getClients().subscribe(
       (data) => {
         this.clients = data;
+        if (Array.isArray(this.clients) && this.clients.length > 0) {
+          this.showRows = true;
+        }
       },
       (error) => {
         console.error('Error al obtener a los clientes', error);
       }
     );
+
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();

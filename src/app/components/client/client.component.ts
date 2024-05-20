@@ -40,6 +40,7 @@ export class ClientComponent implements OnInit {
   books: any;
   selectedBookId: number | null = null;
   page: number = 1;
+  showRows: boolean = false;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
@@ -80,12 +81,15 @@ export class ClientComponent implements OnInit {
       }
     });
     this.books = this.bookingService.getBookingByClientId(this.clientId!);
-    console.log(this.books);
+    if (Array.isArray(this.books) && this.books.length > 0) {
+      this.showRows = true;
+    }
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
   }
+  
 
   formSubmit() {
     if (this.clientId !== undefined) {

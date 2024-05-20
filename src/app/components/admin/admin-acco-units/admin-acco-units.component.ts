@@ -4,6 +4,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccommodationService } from '../../../services/accommodation/accommodation.service';
+import { CategoryService } from '../../../services/category/category.service';
+import { ServiceService } from '../../../services/service/service.service';
 
 @Component({
   selector: 'app-admin-acco-units',
@@ -13,25 +15,32 @@ import { AccommodationService } from '../../../services/accommodation/accommodat
 export class AdminAccoUnitsComponent {
   accommodations: any;
   accoUnits: any;
+  categories: any;
+  services: any;
   selectedAccoUnitId: number | null = null;
   page: number = 1;
+  showRows: boolean = false;
 
   adminAccoUnitsError: string = '';
   adminAccoUnitsForm = this.formBuilder.group({
     accommodationId: ['', Validators.required],
-    description: ['', [Validators.required, Validators.maxLength(250)]],
-    address: ['', [Validators.required, Validators.maxLength(100)]],
-    location: ['', [Validators.required, Validators.maxLength(50)]]
+    categoryId: ['', Validators.required],
+    price: ['', Validators.required],
+    number: ['', Validators.required],
+    capacity: ['', Validators.required],
+    selectedServices: [[], Validators.required]
   });
 
   adminAccoUnitsEditForm = this.formBuilder.group({
-    editName: ['', [Validators.required, Validators.maxLength(50)]],
-    editDescription: ['', [Validators.required, Validators.maxLength(250)]],
-    editAddress: ['', [Validators.required, Validators.maxLength(100)]],
-    editLocation: ['', [Validators.required, Validators.maxLength(50)]]
+    editAccommodationId: ['', Validators.required],
+    editCategoryId: ['', Validators.required],
+    editPrice: ['', Validators.required],
+    editNumber: ['', Validators.required],
+    editCapacity: ['', Validators.required],
+    editSelectedServices: [[], Validators.required]
   });
 
-  constructor(private accoUnitService: AccoUnitService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService) {}
+  constructor(private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService) {}
   
   ngOnInit(): void {
     this.accommodationService.getAccommodations().subscribe(
@@ -42,9 +51,28 @@ export class AdminAccoUnitsComponent {
         console.error('Error al obtener los alojamientos', error);
       }
     );
+    this.categoryService.getCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error al obtener las categorías', error);
+      }
+    );
+    this.serviceService.getServices().subscribe(
+      (data) => {
+        this.services = data;
+      },
+      (error) => {
+        console.error('Error al obtener los servicios', error);
+      }
+    );
     this.accoUnitService.getAccoUnits().subscribe(
       (data) => {
         this.accoUnits = data;
+        if (Array.isArray(this.accoUnits) && this.accoUnits.length > 0) {
+          this.showRows = true;
+        }
       },
       (error) => {
         console.error('Error al obtener las unidades de alojamiento', error);
@@ -58,28 +86,35 @@ export class AdminAccoUnitsComponent {
 
   createAccoUnit() {
     if (this.adminAccoUnitsForm.valid) {
-      let name = this.adminAccoUnitsForm.get('name')?.value;
-      let description = this.adminAccoUnitsForm.get('description')?.value;
-      let address = this.adminAccoUnitsForm.get('address')?.value;
-      let location = this.adminAccoUnitsForm.get('location')?.value;
+      let accommodationId= this.adminAccoUnitsForm.get('accommodationId')?.value;
+      let categoryId= this.adminAccoUnitsForm.get('categoryId')?.value;
+      let price= this.adminAccoUnitsForm.get('price')?.value;
+      let number= this.adminAccoUnitsForm.get('number')?.value;
+      let capacity= this.adminAccoUnitsForm.get('capacity')?.value;
+      let selectedServices= this.adminAccoUnitsForm.get('selectedServices')?.value;
   
       const accoUnitData = {
-        name: name!,
-        description: description!,
-        address: address!,
-        location: location!
+        price: price!,
+        number: number!,
+        capacity: capacity!,
+        accommodation: {
+         id: accommodationId! 
+        },
+        category: {
+          id: categoryId!
+        },
       };
   
       this.accoUnitService.createAccoUnit(accoUnitData).subscribe(
         (response) => {
-          console.log('Alojamiento creado correctamente:', response);
+          console.log('Unidad de alojamiento creada correctamente:', response);
           this.adminAccoUnitsForm.reset();
           this.router.navigate(['admin-acco-units']).then(() => {
             window.location.reload();
           });
         },
         (error) => {
-          console.error('Error al crear alojamiento:', error);
+          console.error('Error al crear la unidad de alojamiento:', error);
           this.adminAccoUnitsError = 'Error al crear la unidad de alojamiento. Por favor, inténtalo de nuevo.';
         }
       );
@@ -88,19 +123,25 @@ export class AdminAccoUnitsComponent {
 
   editAccoUnit() {
     if (this.adminAccoUnitsEditForm.valid) {
-      let editName = this.adminAccoUnitsEditForm.get('editName')?.value;
-      let editDescription = this.adminAccoUnitsEditForm.get('editDescription')?.value;
-      let editAddress = this.adminAccoUnitsEditForm.get('editAddress')?.value;
-      let editLocation = this.adminAccoUnitsEditForm.get('editLocation')?.value;
+      let editAccommodationId = this.adminAccoUnitsEditForm.get('editAccommodationId')?.value;
+      let editCategoryId = this.adminAccoUnitsEditForm.get('editCategoryId')?.value;
+      let editPrice = this.adminAccoUnitsEditForm.get('editPrice')?.value;
+      let editNumber = this.adminAccoUnitsEditForm.get('editNumber')?.value;
+      let editCapacity = this.adminAccoUnitsEditForm.get('editCapacity')?.value;
+      let editSelectedServices = this.adminAccoUnitsEditForm.get('editSelectedServices')?.value;
 
       const accommodationData = {
         id: this.selectedAccoUnitId!,
-        name: editName!,
-        description: editDescription!,
-        address: editAddress!,
-        location: editLocation!
+        price: editPrice!,
+        number: editNumber!,
+        capacity: editCapacity!,
+        accommodation: {
+          id: editAccommodationId!
+        },
+        category: {
+          id: editCategoryId!
+        }
       };
-      console.log(this.selectedAccoUnitId!);
       this.accoUnitService.updateAccoUnit(accommodationData).subscribe(
         (response) => {
           console.log('Unidad de alojamiento modificada correctamente:', response);
@@ -148,30 +189,43 @@ export class AdminAccoUnitsComponent {
     this.loadAccoUnitData();
   }
 
-  get accommodationIn() {
+  get accommodationId() {
     return this.adminAccoUnitsForm.controls.accommodationId;
   }
-  get description() {
-    return this.adminAccoUnitsForm.controls.description;
+  get categoryId() {
+    return this.adminAccoUnitsForm.controls.categoryId;
   }
-  get address() {
-    return this.adminAccoUnitsForm.controls.address;
+  get price() {
+    return this.adminAccoUnitsForm.controls.price;
   }
-  get location() {
-    return this.adminAccoUnitsForm.controls.location;
+  get number() {
+    return this.adminAccoUnitsForm.controls.number;
   }
 
-  get editName() {
-    return this.adminAccoUnitsEditForm.controls.editName;
+  get capacity() {
+    return this.adminAccoUnitsForm.controls.capacity;
   }
-  get editDescription() {
-    return this.adminAccoUnitsEditForm.controls.editDescription;
+  get selectedServices() {
+    return this.adminAccoUnitsForm.controls.selectedServices;
   }
-  get editAddress() {
-    return this.adminAccoUnitsEditForm.controls.editAddress;
+
+  get editAccommodationId() {
+    return this.adminAccoUnitsEditForm.controls.editAccommodationId;
   }
-  get editLocation() {
-    return this.adminAccoUnitsEditForm.controls.editLocation;
+  get editCategoryId() {
+    return this.adminAccoUnitsEditForm.controls.editCategoryId;
+  }
+  get editPrice() {
+    return this.adminAccoUnitsEditForm.controls.editPrice;
+  }
+  get editNumber() {
+    return this.adminAccoUnitsEditForm.controls.editNumber;
+  }
+  get editCapacity() {
+    return this.adminAccoUnitsEditForm.controls.editCapacity;
+  }
+  get editSelectedServices() {
+    return this.adminAccoUnitsEditForm.controls.editSelectedServices;
   }
 
   loadAccoUnitData() {
@@ -179,10 +233,11 @@ export class AdminAccoUnitsComponent {
       const selectedAccoUnit = this.accoUnits.find((accoUnit: any) => accoUnit.id === this.selectedAccoUnitId);
       if (selectedAccoUnit) {
         this.adminAccoUnitsEditForm.patchValue({
-          editName: selectedAccoUnit.name,
-          editDescription: selectedAccoUnit.description,
-          editAddress: selectedAccoUnit.address,
-          editLocation: selectedAccoUnit.location
+          editAccommodationId: selectedAccoUnit.accommodation.id,
+          editCategoryId: selectedAccoUnit.category.id,
+          editPrice: selectedAccoUnit.price,
+          editNumber: selectedAccoUnit.number,
+          editCapacity: selectedAccoUnit.capacity
         });
       }
     }

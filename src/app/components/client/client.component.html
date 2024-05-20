@@ -178,7 +178,7 @@
                         <th class="client__books-head"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="showRows">
                     <tr class="client__books-row" *ngFor="let book of books | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="client__books-cell">{{ book.accommodationUnit.accommodation.name }}</td>
                         <td class="client__books-cell">{{ book.accommodationUnit.capacity }}</td>
@@ -196,8 +196,13 @@
                         </td>
                     </tr>
                 </tbody>
+                <tbody *ngIf="!showRows">
+                    <tr class="client__books-row">
+                        <td class="client__books-cell text-center" colspan="6">Todavía no dispones de reservas</td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="d-flex justify-content-center mb-4">
+            <div class="d-flex justify-content-center mb-4" *ngIf="showRows">
                 <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
                     class="custom-pagination"></pagination-controls>
             </div>

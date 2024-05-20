@@ -35,7 +35,7 @@
                     <div class="admin__menu-btn-text d-inline ms-2">Unidades de alojamiento</div>
                 </div>
             </a>
-            <a href="" class="admin__menu-link">
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-books']">
                 <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
                     <svg class="admin__menu-btn-icon d-inline" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                         fill="#FFFFFF" class="bi bi-bookmarks" viewBox="0 0 16 16">
@@ -50,7 +50,7 @@
 
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
-            <div class="admin__content-title mt-4 ms-3">Gestión de alojamientos</div>
+            <div class="admin__content-title mt-4 ms-3">Gestión de unidades de alojamientos</div>
             <div class="admin__content-add-button d-flex justify-content-end mb-2">
                 <a href="" class="me-3" data-bs-toggle="modal" data-bs-target="#admin-modal-create">
                     <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
@@ -65,27 +65,25 @@
                 <thead>
                     <tr>
                         <th class="admin__content-head">ID</th>
-                        <th class="admin__content-head">Nombre</th>
-                        <th class="admin__content-head">Descripción</th>
-                        <th class="admin__content-head">Dirección</th>
-                        <th class="admin__content-head">Ubicación</th>
+                        <th class="admin__content-head">Alojamiento</th>
+                        <th class="admin__content-head">Categoría</th>
                         <th class="admin__content-head">Precio por noche</th>
                         <th class="admin__content-head">Número identificativo</th>
                         <th class="admin__content-head">Capacidad</th>
+                        <th class="admin__content-head">Servicios disponibles</th>
                         <th class="admin__content-head"></th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="showRows">
                     <tr class="admin__content-row"
                         *ngFor="let accoUnit of accoUnits | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ accoUnit.id }}</td>
-                        <td class="admin__content-cell">{{ accoUnit.name }}</td>
-                        <td class="admin__content-cell">{{ accoUnit.description }}</td>
-                        <td class="admin__content-cell">{{ accoUnit.address }}</td>
-                        <td class="admin__content-cell">{{ accoUnit.location }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.accommodation.id }}.- {{ accoUnit.accommodation.name }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.category.id }}.- {{ accoUnit.category.name }}</td>
                         <td class="admin__content-cell">{{ accoUnit.price }}</td>
                         <td class="admin__content-cell">{{ accoUnit.number }}</td>
+                        <td class="admin__content-cell">{{ accoUnit.capacity }}</td>
                         <td class="admin__content-cell">{{ accoUnit.capacity }}</td>
                         <td class="admin__content-cell">
                             <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccoUnitId(accoUnit.id)">
@@ -107,8 +105,13 @@
                         </td>
                     </tr>
                 </tbody>
+                <tbody *ngIf="!showRows">
+                    <tr class="admin__content-row">
+                        <td class="admin__content-cell text-center" colspan="9">Todavía no dispones de unidades de alojamiento</td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="d-flex justify-content-center mb-4">
+            <div class="d-flex justify-content-center mb-4" *ngIf="showRows">
                 <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
                     class="custom-pagination"></pagination-controls>
             </div>
@@ -122,42 +125,62 @@
                                 [formGroup]="adminAccoUnitsForm">
                                 <div class="admin__modal-create-form-input mb-3">
                                     <label for="accommodationId" class="admin__modal-create-form-label form-label">Alojamiento al que pertenece:</label>
-                                    <select *ngFor="let accommodation of accommodations" class="admin__modal-create-form-control form-select" id="accommodationId" name="accommodationId" required formControlName="accomodationId">
-                                      <option value="{{ accommodation.id }}">{{ accommodation.id }}.- {{ accommodation.name }}</option>
+                                    <select class="admin__modal-create-form-control form-select" id="accommodationId" name="accommodationId" required formControlName="accommodationId">
+                                        <option *ngFor="let accommodation of accommodations" value="{{ accommodation.id }}">{{ accommodation.id }}.- {{ accommodation.name }}</option>
                                     </select>
-                                </div>
-                                <div class="admin__modal-create-form-input mb-3">
-                                    <label for="description"
-                                        class="admin__modal-create-form-label form-label">Descripción</label>
-                                    <textarea class="admin__modal-create-form-control form-control" id="description"
-                                        required formControlName="description"></textarea>
-                                    <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                                    <div *ngIf="accommodationId.invalid && (accommodationId.dirty || accommodationId.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="description.errors?.['required']">Introduzca descripción</div>
-                                        <div *ngIf="description.errors?.['maxlength']">Descripción demasiado extensa
-                                        </div>
+                                        <div *ngIf="accommodationId.errors?.['required']">Seleccione alojamiento</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
-                                    <label for="address"
-                                        class="admin__modal-create-form-label form-label">Dirección</label>
-                                    <input type="text" class="admin__modal-create-form-control form-control"
-                                        id="address" required formControlName="address">
-                                    <div *ngIf="address.invalid && (address.dirty || address.touched)"
+                                    <label for="categoryId" class="admin__modal-create-form-label form-label">Categoría:</label>
+                                    <select class="admin__modal-create-form-control form-select" id="categoryId" name="categoryId" required formControlName="categoryId">
+                                        <option *ngFor="let category of categories" value="{{ category.id }}">{{ category.id }}.- {{ category.name }}</option>
+                                    </select>
+                                    <div *ngIf="categoryId.invalid && (categoryId.dirty || categoryId.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="address.errors?.['required']">Introduzca dirección</div>
-                                        <div *ngIf="address.errors?.['maxlength']">Dirección demasiado larga</div>
+                                        <div *ngIf="categoryId.errors?.['required']">Seleccione categoría</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
-                                    <label for="location"
-                                        class="admin__modal-create-form-label form-label">Ubicación</label>
-                                    <input type="text" class="admin__modal-create-form-control form-control"
-                                        id="location" required formControlName="location">
-                                    <div *ngIf="location.invalid && (location.dirty || location.touched)"
+                                    <label for="price"
+                                        class="admin__modal-create-form-label form-label">Precio por noche</label>
+                                    <input type="number" min="0.1" step="0.01" class="admin__modal-create-form-control form-control"
+                                        id="price" required formControlName="price">
+                                    <div *ngIf="price.invalid && (price.dirty || price.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="location.errors?.['required']">Introduzca ubicación</div>
-                                        <div *ngIf="location.errors?.['maxlength']">Ubicación demasiado extensa</div>
+                                        <div *ngIf="price.errors?.['required']">Introduzca precio</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="number"
+                                        class="admin__modal-create-form-label form-label">Número identificativo</label>
+                                    <input type="number" class="admin__modal-create-form-control form-control"
+                                        id="number" required formControlName="number">
+                                    <div *ngIf="number.invalid && (number.dirty || number.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="number.errors?.['required']">Introduzca número identificativo</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="capacity"
+                                        class="admin__modal-create-form-label form-label">Capacidad</label>
+                                    <input type="number" min="1" class="admin__modal-create-form-control form-control"
+                                        id="capacity" required formControlName="capacity">
+                                    <div *ngIf="capacity.invalid && (capacity.dirty || capacity.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="capacity.errors?.['required']">Introduzca capacidad</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="selectedServices" class="admin__modal-create-form-label form-label">Servicios (selección múltiple):</label>
+                                    <select class="admin__modal-create-form-control form-select" id="selectedServices" name="selectedServices" required formControlName="selectedServices" multiple>
+                                        <option *ngFor="let service of services" [ngValue]="service.id">{{ service.id }}.- {{ service.name }}</option>
+                                    </select>
+                                    <div *ngIf="selectedServices.invalid && (selectedServices.dirty || selectedServices.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="selectedServices.errors?.['required']">Seleccione servicio/s</div>
                                     </div>
                                 </div>
                                 <div class="text-message my-4 text-center">{{adminAccoUnitsError}}</div>
@@ -183,49 +206,64 @@
                             <div class="admin__modal-edit-title mb-3 mt-3">Modificación de alojamiento</div>
                             <form class="admin__modal-edit-form needs-validation" novalidate
                                 [formGroup]="adminAccoUnitsEditForm">
-                                <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="editName" class="admin__modal-edit-form-label form-label">Nombre</label>
-                                    <input type="text" class="admin__modal-edit-form-control form-control" id="editName"
-                                        required formControlName="editName">
-                                    <div *ngIf="editName.invalid && (editName.dirty || editName.touched)"
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editAccommodationId" class="admin__modal-create-form-label form-label">Alojamiento al que pertenece:</label>
+                                    <select class="admin__modal-create-form-control form-select" id="editAccommodationId" name="editAccommodationId" required formControlName="editAccommodationId">
+                                        <option *ngFor="let accommodation of accommodations" value="{{ accommodation.id }}">{{ accommodation.id }}.- {{ accommodation.name }}</option>
+                                    </select>
+                                    <div *ngIf="editAccommodationId.invalid && (editAccommodationId.dirty || editAccommodationId.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editName.errors?.['required']">Introduzca nombre</div>
-                                        <div *ngIf="editName.errors?.['maxlength']">Nombre demasiado largo</div>
+                                        <div *ngIf="editAccommodationId.errors?.['required']">Seleccione alojamiento</div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="editDescription"
-                                        class="admin__modal-edit-form-label form-label">Descripción</label>
-                                    <textarea class="admin__modal-create-form-control form-control" id="editDescription"
-                                        required formControlName="editDescription"></textarea>
-                                    <div *ngIf="editDescription.invalid && (editDescription.dirty || editDescription.touched)"
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editCategoryId" class="admin__modal-create-form-label form-label">Categoría:</label>
+                                    <select class="admin__modal-create-form-control form-select" id="editCategoryId" name="editCategoryId" required formControlName="editCategoryId">
+                                        <option *ngFor="let category of categories" value="{{ category.id }}">{{ category.id }}.- {{ category.name }}</option>
+                                    </select>
+                                    <div *ngIf="editCategoryId.invalid && (editCategoryId.dirty || editCategoryId.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editDescription.errors?.['required']">Introduzca descripción</div>
-                                        <div *ngIf="editDescription.errors?.['maxlength']">Descripción demasiado extensa
-                                        </div>
+                                        <div *ngIf="editCategoryId.errors?.['required']">Seleccione categoría</div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="editAddress"
-                                        class="admin__modal-edit-form-label form-label">Dirección</label>
-                                    <input type="text" class="admin__modal-edit-form-control form-control"
-                                        id="editAddress" required formControlName="editAddress">
-                                    <div *ngIf="editAddress.invalid && (editAddress.dirty || editAddress.touched)"
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editPrice"
+                                        class="admin__modal-create-form-label form-label">Precio por noche</label>
+                                    <input type="number" min="0.1" step="0.01" class="admin__modal-create-form-control form-control"
+                                        id="editPrice" required formControlName="editPrice">
+                                    <div *ngIf="editPrice.invalid && (editPrice.dirty || editPrice.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editAddress.errors?.['required']">Introduzca dirección</div>
-                                        <div *ngIf="editAddress.errors?.['maxlength']">Dirección demasiado larga</div>
+                                        <div *ngIf="editPrice.errors?.['required']">Introduzca precio</div>
                                     </div>
                                 </div>
-                                <div class="admin__modal-edit-form-input mb-3">
-                                    <label for="editLocation"
-                                        class="admin__modal-edit-form-label form-label">Ubicación</label>
-                                    <input type="text" class="admin__modal-edit-form-control form-control"
-                                        id="editLocation" required formControlName="editLocation">
-                                    <div *ngIf="editLocation.invalid && (editLocation.dirty || editLocation.touched)"
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editNumber"
+                                        class="admin__modal-create-form-label form-label">Número identificativo</label>
+                                    <input type="number" class="admin__modal-create-form-control form-control"
+                                        id="editNumber" required formControlName="editNumber">
+                                    <div *ngIf="editNumber.invalid && (editNumber.dirty || editNumber.touched)"
                                         class="text-message mt-1">
-                                        <div *ngIf="editLocation.errors?.['required']">Introduzca ubicación</div>
-                                        <div *ngIf="editLocation.errors?.['maxlength']">Ubicación demasiado extensa
-                                        </div>
+                                        <div *ngIf="editNumber.errors?.['required']">Introduzca número identificativo</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editCapacity"
+                                        class="admin__modal-create-form-label form-label">Capacidad</label>
+                                    <input type="number" min="1" class="admin__modal-create-form-control form-control"
+                                        id="editCapacity" required formControlName="editCapacity">
+                                    <div *ngIf="editCapacity.invalid && (editCapacity.dirty || editCapacity.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="editCapacity.errors?.['required']">Introduzca capacidad</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="editSelectedServices" class="admin__modal-create-form-label form-label">Servicios (selección múltiple):</label>
+                                    <select class="admin__modal-create-form-control form-select" id="editSelectedServices" name="editSelectedServices" required formControlName="editSelectedServices" multiple>
+                                        <option *ngFor="let service of services" [ngValue]="service.id">{{ service.id }}.- {{ service.name }}</option>
+                                    </select>
+                                    <div *ngIf="editSelectedServices.invalid && (editSelectedServices.dirty || editSelectedServices.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="editSelectedServices.errors?.['required']">Seleccione servicio/s</div>
                                     </div>
                                 </div>
                                 <div class="text-message my-4 text-center">{{adminAccoUnitsError}}</div>

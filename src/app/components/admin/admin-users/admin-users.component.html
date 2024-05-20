@@ -35,7 +35,7 @@
                     <div class="admin__menu-btn-text d-inline ms-2">Unidades de alojamiento</div>
                 </div>
             </a>
-            <a href="" class="admin__menu-link">
+            <a href="" class="admin__menu-link" [routerLink]="['/admin-books']">
                 <div class="admin__menu-btn d-lg-flex justify-content-center align-items-center py-4">
                     <svg class="admin__menu-btn-icon d-inline" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
                         fill="#FFFFFF" class="bi bi-bookmarks" viewBox="0 0 16 16">
@@ -73,7 +73,7 @@
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="showRows">
                     <tr class="admin__content-row"
                         *ngFor="let client of clients | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ client.id }}</td>
@@ -103,8 +103,13 @@
                         </td>
                     </tr>
                 </tbody>
+                <tbody *ngIf="!showRows">
+                    <tr class="admin__content-row">
+                        <td class="admin__content-cell text-center" colspan="7">Todavía no dispones de clientes</td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="d-flex justify-content-center mb-4">
+            <div class="d-flex justify-content-center mb-4" *ngIf="showRows">
                 <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
                     class="custom-pagination"></pagination-controls>
             </div>

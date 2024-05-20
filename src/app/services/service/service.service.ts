@@ -1,27 +1,17 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environments';
-import { Observable, catchError, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookingService {
+export class ServiceService {
 
   constructor(private http: HttpClient) {}
-  
-  public getBookings(){
-    return this.http.get(environment.urlHost + '/api/booking')
-    .pipe(catchError(this.handleError));
-  }
 
-  public getBookingByClientId(id: number){
-    return this.http.get(environment.urlHost + '/api/booking/client/' + id )
-    .pipe(catchError(this.handleError));
-  }
-
-  public deleteBooking(id: any): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/booking/delete`, { body: id })
+  public getServices(){
+    return this.http.get(environment.urlHost + '/api/service')
     .pipe(catchError(this.handleError));
   }
 
