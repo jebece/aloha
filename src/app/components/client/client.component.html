@@ -167,19 +167,65 @@
             </section>
 
             <div class="client__secondary-title">Mis reservas</div>
-            <table class="client__books-table text-center mt-2 mb-4">
+            <div class="d-flex justify-content-end px-0">
+                <div>
+                    <input type="text" class="admin__modal-create-form-control client__books-input form-control"
+                        [(ngModel)]="booksFilter.accommodationUnit.accommodation.name" placeholder="Búsqueda por nombre">
+                </div>
+            </div>
+            <table class="client__books-table text-center mb-4">
                 <thead>
                     <tr>
-                        <th class="client__books-head">Alojamiento</th>
-                        <th class="client__books-head">Nº personas</th>
-                        <th class="client__books-head">Entrada</th>
-                        <th class="client__books-head">Salida</th>
+                        <th class="client__books-head" (click)="setOrder('accommodationUnit.accommodation.name')" [class.order-active]="order==='accommodationUnit.accommodation.name'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#272A57" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#272A57" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Alojamiento</th>
+                        <th class="client__books-head" (click)="setOrder('accommodationUnit.capacity')" [class.order-active]="order==='accommodationUnit.capacity'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#272A57" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#272A57" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Nº personas</th>
+                        <th class="client__books-head" (click)="setOrder('checkIn')" [class.order-active]="order==='checkIn'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#272A57" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#272A57" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Entrada</th>
+                        <th class="client__books-head" (click)="setOrder('checkOut')" [class.order-active]="order==='checkOut'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#272A57" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#272A57" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Salida</th>
                         <th class="client__books-head">Precio total</th>
                         <th class="client__books-head"></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="showRows">
-                    <tr class="client__books-row" *ngFor="let book of books | paginate: { itemsPerPage: 10, currentPage: page}">
+                    <tr class="client__books-row" *ngFor="let book of books | filterBy: booksFilter | orderBy: order : reverse | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="client__books-cell">{{ book.accommodationUnit.accommodation.name }}</td>
                         <td class="client__books-cell">{{ book.accommodationUnit.capacity }}</td>
                         <td class="client__books-cell">{{ book.checkIn | date:'dd-MM-yyyy'}}</td>

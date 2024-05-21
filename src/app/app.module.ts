@@ -24,6 +24,7 @@ import { AdminAccoUnitsComponent } from './components/admin/admin-acco-units/adm
 import { AdminBooksComponent } from './components/admin/admin-books/admin-books.component';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { OrderModule } from 'ngx-order-pipe';
+import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
 
 
 const appRoutes: Routes = [
@@ -56,7 +57,8 @@ const appRoutes: Routes = [
     AdminUsersComponent,
     AdminAccommodationsComponent,
     AdminAccoUnitsComponent,
-    AdminBooksComponent
+    AdminBooksComponent,
+    AdminHeaderComponent
   ],
   imports: [
     BrowserModule,

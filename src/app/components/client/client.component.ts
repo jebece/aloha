@@ -37,10 +37,13 @@ export class ClientComponent implements OnInit {
   decodedToken: any;
   clientId?: number;
   clientPassword?: string;
-  books: any;
+  books: any ;
   selectedBookId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
+  booksFilter: any = { accommodationUnit: { accommodation: { name: '' } }};
+  order: string = 'accommodationUnit.accommodation.name';
+  reverse: boolean = false;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
@@ -80,16 +83,21 @@ export class ClientComponent implements OnInit {
         console.info('Petición completada');
       }
     });
-    this.books = this.bookingService.getBookingByClientId(this.clientId!);
-    if (Array.isArray(this.books) && this.books.length > 0) {
-      this.showRows = true;
-    }
+  
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
   }
   
+  setOrder(columnName: string) {
+    if(this.order === columnName) {
+      this.reverse = !this.reverse;
+    }else {
+      this.reverse = false;
+    }
+    this.order = columnName;
+  }
 
   formSubmit() {
     if (this.clientId !== undefined) {
@@ -173,6 +181,11 @@ export class ClientComponent implements OnInit {
         next: (bookingData) => {
           this.books = bookingData;
           console.log(this.books);
+          if (Array.isArray(this.books) && this.books.length > 0) {
+            this.showRows = true;
+          } else {
+            this.showRows = false;
+          }
         },
         error: (errorData) => {
           console.error(errorData);

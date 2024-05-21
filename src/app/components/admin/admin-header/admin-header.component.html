@@ -1,0 +1,32 @@
+<header class="header container-fluid">
+    <div class="row d-lg-flex align-items-lg-center">
+        <div class="header__logo col-lg-2">
+            <a href="./index.html">
+                <img src="./assets/img/logo.svg" alt="logo" class="logo img-fluid ms-lg-2">
+            </a>
+        </div>
+        <nav class="navigation navbar navbar-expand-lg col-lg-6">
+            <a class="navigation__logo navbar-brand" href="./index.html">
+                <img src="./assets/img/logo.svg" alt="logo" class="logo img-fluid ms-4">
+            </a>
+            <button class="navigation__hamburguer navbar-toggler me-4" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navigation__content collapse navbar-collapse d-lg-flex justify-content-lg-around"
+                id="navbarNavAltMarkup">
+                <div class="navigation__links navbar-nav">
+                    <a class="navigation__link nav-link hidden ms-lg-3 text-center" href="" [routerLink]="['/admin-users']">Gestión de clientes</a>
+                    <a class="navigation__link nav-link hidden ms-lg-3 text-center" href="" [routerLink]="['/admin-accommodations']">Gestión de alojamientos</a>
+                    <a class="navigation__link nav-link hidden ms-lg-3 text-center" href="" [routerLink]="['/admin-acco-units']">Gestión de unidades de alojamiento</a>
+                    <a class="navigation__link nav-link hidden ms-lg-3 text-center" href="" [routerLink]="['/admin-books']">Gestión de reservas</a>
+                    <a class="navigation__link nav-link text-center hidden" href="" (click)="logout()">Cerrar sesión</a>
+                </div>
+            </div>
+        </nav>
+        <div class="header__buttons col-lg-4">
+            <button type="button" class="header__btn btn btn-primary me-4" (click)="logout()">Cerrar sesión</button>
+        </div>
+    </div>
+</header>

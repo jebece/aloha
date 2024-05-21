@@ -13366,6 +13366,11 @@ body {
 .client__profile-links:hover {
   transform: scale(1.2);
 }
+.client__books-input {
+  max-width: 11rem;
+  max-height: 2rem;
+  font-size: 0.875rem;
+}
 .client__books-table {
   width: 100%;
 }
