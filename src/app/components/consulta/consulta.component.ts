@@ -50,7 +50,7 @@ export class ConsultaComponent implements OnInit {
     ) {
       this.categoryAccommodationUnitService.getAll().subscribe((response) => {
         console.log(response);
-        console.log(this.route.snapshot.queryParams['bungalows']);
+        console.log(this.route.snapshot.queryParams);
       });
     } else {
       this.categoryAccommodationUnitService
