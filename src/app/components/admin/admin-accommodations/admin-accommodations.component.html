@@ -51,38 +51,99 @@
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
             <div class="admin__content-title mt-4 ms-3">Gestión de alojamientos</div>
-            <div class="admin__content-add-button d-flex justify-content-end mb-2">
-                <a href="" class="me-3" data-bs-toggle="modal" data-bs-target="#admin-modal-create">
-                    <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-                        fill="#272A57" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                    </svg>
-                </a>
+            <div class="d-flex justify-content-between mt-4 mb-2">
+                <div>
+                    <input type="text" class="admin__modal-create-form-control form-control"
+                        [(ngModel)]="accommodationFilter.name" placeholder="Búsqueda por nombre">
+                </div>
+                <div class="admin__content-add-button d-flex justify-content-end mb-2">
+                    <a href="" class="me-3" data-bs-toggle="modal" data-bs-target="#admin-modal-create">
+                        <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="35" height="35"
+                            fill="#272A57" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                    </a>
+                </div>
             </div>
             <table class="admin__content-table text-center mb-4">
                 <thead>
                     <tr>
-                        <th class="admin__content-head">ID</th>
-                        <th class="admin__content-head">Nombre</th>
-                        <th class="admin__content-head">Descripción</th>
-                        <th class="admin__content-head">Dirección</th>
-                        <th class="admin__content-head">Ubicación</th>
+                        <th class="admin__content-head" (click)="setOrder('id')" [class.order-active]="order==='id'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            ID</th>
+                        <th class="admin__content-head" (click)="setOrder('name')"
+                        [class.order-active]="order==='name'">
+                        <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                        </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                        </svg></span>
+                        Nombre</th>
+                        <th class="admin__content-head" (click)="setOrder('description')"
+                        [class.order-active]="order==='description'">
+                        <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                        </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                        </svg></span>
+                        Descripción</th>
+                        <th class="admin__content-head" (click)="setOrder('address')"
+                        [class.order-active]="order==='address'">
+                        <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                        </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                        </svg></span>
+                        Dirección</th>
+                        <th class="admin__content-head" (click)="setOrder('location')"
+                        [class.order-active]="order==='location'">
+                        <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                        </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                        </svg></span>
+                        Ubicación</th>
                         <th class="admin__content-head"></th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="showRows">
                     <tr class="admin__content-row"
-                        *ngFor="let accommodation of accommodations | paginate: { itemsPerPage: 10, currentPage: page}">
+                        *ngFor="let accommodation of accommodations | filterBy: accommodationFilter | orderBy: order : reverse | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ accommodation.id }}</td>
                         <td class="admin__content-cell">{{ accommodation.name }}</td>
                         <td class="admin__content-cell">{{ accommodation.description }}</td>
                         <td class="admin__content-cell">{{ accommodation.address }}</td>
                         <td class="admin__content-cell">{{ accommodation.location }}</td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccommodationId(accommodation.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-edit"
+                                (click)="selectAccommodationId(accommodation.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="55" fill="#272A57" class="bi bi-tools" viewBox="0 0 16 16">
                                     <path
@@ -91,7 +152,8 @@
                             </a>
                         </td>
                         <td class="admin__content-cell">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete" (click)="selectAccommodationId(accommodation.id)">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#admin-modal-delete"
+                                (click)="selectAccommodationId(accommodation.id)">
                                 <svg class="admin__content-links" xmlns="http://www.w3.org/2000/svg" width="25"
                                     height="25" fill="#272A57" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                     <path
@@ -263,7 +325,8 @@
                             <div class="container-xl">
                                 <div class="admin__modal-delete-buttons mb-3 row ">
                                     <button type="submit"
-                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5" (click)="deleteAccommodation()">Eliminar</button>
+                                        class="admin__modal-delete-submit btn btn-outline-secondary col-md-5"
+                                        (click)="deleteAccommodation()">Eliminar</button>
                                     <button type="submit"
                                         class="admin__modal-delete-cancel btn btn-secondary col-md-5 offset-md-2 mt-2 mt-md-0"
                                         data-bs-dismiss="modal">Cancelar</button>
@@ -276,4 +339,5 @@
         </section>
     </div>
 </main>
-<ngx-spinner bdColor = "rgba(0,0,0,0.4)" size = "medium" color = "#272a57" type = "ball-square-spin" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor="rgba(0,0,0,0.4)" size="medium" color="#272a57" type="ball-square-spin"
+    [fullScreen]="true"></ngx-spinner>

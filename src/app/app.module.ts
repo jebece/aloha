@@ -22,6 +22,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AdminAccoUnitsComponent } from './components/admin/admin-acco-units/admin-acco-units.component';
 import { AdminBooksComponent } from './components/admin/admin-books/admin-books.component';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+import { OrderModule } from 'ngx-order-pipe';
+
 
 const appRoutes: Routes = [
   { path: '', component: InicioComponent },
@@ -64,7 +67,9 @@ const appRoutes: Routes = [
     HttpClientModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FilterPipeModule,
+    OrderModule
   ],
   providers: [
     DatePipe

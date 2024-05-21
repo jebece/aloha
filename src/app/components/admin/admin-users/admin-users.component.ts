@@ -11,10 +11,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './admin-users.component.css'
 })
 export class AdminUsersComponent {
-  clients: any;
+  clients: any = [];
   selectedClientId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
+  clientsFilter: any = { name: '' };
+  order: string = 'name';
+  reverse: boolean = false;
 
   adminUsersError: string = '';
   adminUsersForm = this.formBuilder.group({
@@ -53,6 +56,15 @@ export class AdminUsersComponent {
     }, 500);
   }
 
+
+  setOrder(columnName: string) {
+    if(this.order === columnName) {
+      this.reverse = !this.reverse;
+    }else {
+      this.reverse = false;
+    }
+    this.order = columnName;
+  }
 
   createClient() {
     if (this.adminUsersForm.valid) {

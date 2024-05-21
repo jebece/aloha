@@ -20,6 +20,9 @@ export class AdminAccoUnitsComponent {
   selectedAccoUnitId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
+  accoUnitFilter: any = { accommodation: { name: '' } };
+  order: string = 'accommodation.name';
+  reverse: boolean = false;
 
   adminAccoUnitsError: string = '';
   adminAccoUnitsForm = this.formBuilder.group({
@@ -82,6 +85,15 @@ export class AdminAccoUnitsComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
+
+  setOrder(columnName: string) {
+    if(this.order === columnName) {
+      this.reverse = !this.reverse;
+    }else {
+      this.reverse = false;
+    }
+    this.order = columnName;
   }
 
   createAccoUnit() {

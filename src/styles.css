@@ -12,6 +12,16 @@
 */
 
 /*
+ORDENACION
+*/
+th span{
+  visibility: hidden;
+}
+th.order-active span{
+  visibility: visible;
+}
+
+/*
 INICIO PAGINACION
 */
 .custom-pagination .ngx-pagination {

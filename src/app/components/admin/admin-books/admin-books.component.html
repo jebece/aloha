@@ -50,26 +50,132 @@
 
         </section>
         <section class="admin__content col-xxl-10 col-lg-9">
-            <div class="admin__content-title mt-4 mb-5 ms-3">Gestión de reservas</div>
-            <table class="admin__content-table text-center mt-5 mb-4">
+            <div class="admin__content-title mt-4 mb-4 ms-3">Gestión de reservas</div>
+            <div class="d-flex justify-content-between mb-2">
+                <div>
+                    <input type="text" class="admin__modal-create-form-control form-control"
+                        [(ngModel)]="booksFilter.client.email" placeholder="Búsqueda por email">
+                </div>
+            </div>
+            <table class="admin__content-table text-center mb-4">
                 <thead>
                     <tr>
-                        <th class="admin__content-head">ID</th>
-                        <th class="admin__content-head">Fecha de entrada</th>
-                        <th class="admin__content-head">Fecha de salida</th>
-                        <th class="admin__content-head">Alojamiento</th>
-                        <th class="admin__content-head">Categoría</th>
-                        <th class="admin__content-head">Precio por noche</th>
-                        <th class="admin__content-head">Número identificativo</th>
-                        <th class="admin__content-head">Capacidad</th>
-                        <th class="admin__content-head">Cliente</th>
-                        <th class="admin__content-head">Email cliente</th>
+                        <th class="admin__content-head" (click)="setOrder('id')" [class.order-active]="order==='id'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            ID</th>
+                        <th class="admin__content-head" (click)="setOrder('checkIn')" [class.order-active]="order==='checkIn'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Fecha de entrada</th>
+                        <th class="admin__content-head" (click)="setOrder('checkOut')" [class.order-active]="order==='checkOut'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Fecha de salida</th>
+                        <th class="admin__content-head" (click)="setOrder('accommodationUnit.accommodation.name')" [class.order-active]="order==='accommodationUnit.accommodation.name'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Alojamiento</th>
+                        <th class="admin__content-head" (click)="setOrder('accommodationUnit.category.name')" [class.order-active]="order==='accommodationUnit.category.name'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Categoría</th>
+                        <th class="admin__content-head" (click)="setOrder('accommodationUnit.price')" [class.order-active]="order==='accommodationUnit.price'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Precio por noche</th>
+                        <th class="admin__content-head" (click)="setOrder('accommodationUnit.number')" [class.order-active]="order==='accommodationUnit.number'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Número identificativo</th>
+                        <th class="admin__content-head" (click)="setOrder('accommodationUnit.capacity')" [class.order-active]="order==='accommodationUnit.capacity'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Capacidad</th>
+                        <th class="admin__content-head" (click)="setOrder('client.name')" [class.order-active]="order==='client.name'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Cliente</th>
+                        <th class="admin__content-head" (click)="setOrder('client.email')" [class.order-active]="order==='client.email'">
+                            <span [hidden]="!reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="#FFFFFF" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg></span><span [hidden]="reverse"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="#FFFFFF" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                            </svg></span>
+                            Email cliente</th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="showRows">
                     <tr class="admin__content-row"
-                        *ngFor="let book of books | paginate: { itemsPerPage: 10, currentPage: page}">
+                        *ngFor="let book of books | filterBy: booksFilter | orderBy: order : reverse | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ book.id }}</td>
                         <td class="admin__content-cell">{{ book.checkIn | date: 'dd/MM/yyyy'}}</td>
                         <td class="admin__content-cell">{{ book.checkOut | date: 'dd/MM/yyyy'}}</td>

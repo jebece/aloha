@@ -15,6 +15,9 @@ export class AdminAccommodationsComponent {
   selectedAccommodationId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
+  accommodationFilter: any = { name: '' };
+  order: string = 'name';
+  reverse: boolean = false;
 
   adminAccommodationsError: string = '';
   adminAccommodationsForm = this.formBuilder.group({
@@ -50,6 +53,15 @@ export class AdminAccommodationsComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
+
+  setOrder(columnName: string) {
+    if(this.order === columnName) {
+      this.reverse = !this.reverse;
+    }else {
+      this.reverse = false;
+    }
+    this.order = columnName;
   }
 
   createAccommodation() {

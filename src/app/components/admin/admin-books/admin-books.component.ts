@@ -13,6 +13,9 @@ export class AdminBooksComponent {
   selectedBookId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
+  booksFilter: any = { client: { email: '' }};
+  order: string = 'client.email';
+  reverse: boolean = false;
 
   adminBooksError: string = '';
 
@@ -35,6 +38,15 @@ export class AdminBooksComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
+
+  setOrder(columnName: string) {
+    if(this.order === columnName) {
+      this.reverse = !this.reverse;
+    }else {
+      this.reverse = false;
+    }
+    this.order = columnName;
   }
   
   deleteBook() {

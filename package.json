@@ -19,6 +19,8 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "bootstrap": "^5.3.3",
+    "ngx-filter-pipe": "^3.0.0",
+    "ngx-order-pipe": "^3.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-spinner": "^17.0.0",
     "rxjs": "~7.8.0",
