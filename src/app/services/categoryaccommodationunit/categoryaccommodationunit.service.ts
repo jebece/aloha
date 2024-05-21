@@ -28,6 +28,24 @@ export class CategoryaccommodationunitService {
     );
   }
 
+  getAccommodationUnitHouse() {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/category/houses`
+    );
+  }
+
+  getAccommodationUnitHostel() {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/category/hostels`
+    );
+  }
+
+  getAccommodationUnitBungalow() {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/category/bungalows`
+    );
+  }
+
   getAccommodationUnitByCategory(categories: boolean[]) {
     return this.http.get<Accommodationunit>(
       `${this.urlAccommodation}/category/${categories}`

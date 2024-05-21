@@ -203,30 +203,35 @@
     <div class="inicio__cities-grid">
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Madrid')"
         class="inicio__cities-grid-column inicio__cities-grid-madrid text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Madrid</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Valencia')"
         class="inicio__cities-grid-column inicio__cities-grid-valencia text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Valencia</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Sevilla')"
         class="inicio__cities-grid-column inicio__cities-grid-sevilla text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Sevilla</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Ibiza')"
         class="inicio__cities-grid-column inicio__cities-grid-ibiza text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Ibiza</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Santiago de Compostela')"
         class="inicio__cities-grid-column inicio__cities-grid-santiago text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">
@@ -235,12 +240,14 @@
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Tenerife')"
         class="inicio__cities-grid-column inicio__cities-grid-tenerife text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Tenerife</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByLocation('Barcelona')"
         class="inicio__cities-grid-column inicio__cities-grid-barcelona text-decoration-none border border-1"
       >
         <p class="inicio__cities-grid-text text-center">Barcelona</p>
@@ -262,24 +269,28 @@
     <div class="inicio__category-grid">
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByCategoryHouses()"
         class="inicio__category-grid-column inicio__category-grid-houses text-decoration-none border border-1"
       >
         <p class="inicio__category-grid-text text-center">Casas y chalets</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByCategoryHotels()"
         class="inicio__category-grid-column inicio__category-grid-hotels text-decoration-none border border-1"
       >
         <p class="inicio__category-grid-text text-center">Hoteles</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByCategoryHostels()"
         class="inicio__category-grid-column inicio__category-grid-hostels text-decoration-none border border-1"
       >
         <p class="inicio__category-grid-text text-center">Albergues</p>
       </a>
       <a
         [routerLink]="['/consulta']"
+        (click)="searchAccommodationByCategoryBungalows()"
         class="inicio__category-grid-column inicio__category-grid-bungalows text-decoration-none border border-1"
       >
         <p class="inicio__category-grid-text text-center">Bungalows</p>

@@ -18,10 +18,6 @@ export class InicioComponent implements OnInit {
   end: Date = new Date();
   people: number = 2;
   categories: boolean[] = [false, false, false, false];
-  // houses: boolean = false;
-  // hotels: boolean = false;
-  // hostels: boolean = false;
-  // bungalows: boolean = false;
 
   minDate: string = '';
   minEndDate: string = '';
@@ -71,12 +67,62 @@ export class InicioComponent implements OnInit {
       end: this.end,
       people: this.people,
       categories: this.categories,
-      // houses: this.houses,
-      // hotels: this.hotels,
-      // hostels: this.hostels,
-      // bungalows: this.bungalows,
     };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
 
+  searchAccommodationByLocation(location: string): void {
+    const queryParams = {
+      location: location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: this.categories,
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHotels(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, true, false, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHouses(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [true, false, false, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHostels(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, false, true, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryBungalows(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, false, false, true],
+    };
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 }

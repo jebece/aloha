@@ -17,7 +17,6 @@ export class ConsultaComponent implements OnInit {
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
-
   minDate: string = '';
   minEndDate: string = '';
 
@@ -44,6 +43,8 @@ export class ConsultaComponent implements OnInit {
     //   this.bungalows = params['bungalows'] === 'true';
     // });
 
+    console.log(this.route.snapshot.queryParams);
+
     if (
       this.route.snapshot.queryParams['location'] == null ||
       (this.route.snapshot.queryParams['location'] == '' &&
@@ -61,17 +62,14 @@ export class ConsultaComponent implements OnInit {
           (element: string) => element == 'true'
         ))
     ) {
-      console.log('SOLO SELECCIONADO CAT');
       const array = this.route.snapshot.queryParams['categories'].join(',');
-      console.log(typeof array);
-
+      console.log(array);
       this.categoryAccommodationUnitService
         .getAccommodationUnitByCategory(array)
         .subscribe((response) => {
           console.log(response);
         });
     } else {
-      console.log('ADIOS');
       this.categoryAccommodationUnitService
         .getCategoryAccommodationUnitByLocation(
           this.route.snapshot.queryParams['location']
