@@ -1,394 +1,683 @@
 <app-header></app-header>
 <main class="consulta">
-    <section class="consulta__search">
-        <form class="consulta__form container-xl">
-            <div class="consulta__form-informations row gx-3">
-                <div class="consulta__form-information col-lg-4 d-flex flex-column justify-content-end pt-lg-3">
-                    <div class="consulta__form-info">¿Dónde quieres alojarte?</div>
-                </div>
-                <div class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end">
-                    <div class="consulta__form-info">Fecha de entrada</div>
-                </div>
-                <div class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end">
-                    <div class="consulta__form-info">Fecha de salida</div>
-                </div>
-                <div class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end">
-                    <div class="consulta__form-info">N° de personas</div>
-                </div>
-            </div>
-            <div class="row gx-3">
-                <div class="consulta__form-controls col-lg-4 mt-2">
-                    <div class="consulta__form-hidden">¿Dónde quieres alojarte?</div>
-                    <input type="text" class="consulta__form-control form-control"
-                        placeholder="Introduce ubicación" [(ngModel)]="location" name="location">
-                </div>
-                <div class="consulta__form-controls col-lg-2 mt-2">
-                    <div class="consulta__form-hidden">Fecha de entrada</div>
-                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="start" name="start" [min]="minDate" (ngModelChange)="updateMinEndDate($event)">
-                </div>
-                <div class="consulta__form-controls col-lg-2 mt-2">
-                    <div class="consulta__form-hidden">Fecha de salida</div>
-                    <input type="date" class="consulta__form-control form-control" [(ngModel)]="end" name="end" [min]="minEndDate">
-                </div>
-                <div class="consulta__form-controls col-lg-2 mt-2">
-                    <div class="consulta__form-hidden">N° de personas</div>
-                    <input type="number" class="consulta__form-control form-control" [(ngModel)]="people" name="people" min="1">
-                </div>
-                <div class="consulta__form-hidden mt-3">
-                    <a class="consulta__form-hidden-link text-end" data-bs-toggle="collapse" href="#desplegable"
-                        role="button" aria-expanded="false" aria-controls="desplegable">
-                        Filtrar por
-                    </a>
-                </div>
-                <div class="consulta__form-filters-hidden collapse mt-2" id="desplegable">
-                    <div class="card-body">
-                        <div class="row my-4">
-                            <div class="col-4">
-                            <div class="consulta__form-filters-title">
-                                <div class="ms-1">Precio</div>
-                            </div>
-                            <div class="consulta__form-filters-precio">
-                                <label for="rangoPrecio"
-                                    class="consulta__form-filters-precio-label form-label ms-2">Precio
-                                    máximo: <span id="rangoPrecio">50</span></label>
-                                <input type="range" class="consulta__form-filters-precio-control form-range"
-                                    id="rangoPrecio" min="0" max="30000">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="consulta__form-filters-title">
-                                <div class="ms-1">Servicios</div>
-                            </div>
-                            <div class="consulta__form-filters-services ms-2">
-                                <div class="consulta__form-filters-service form-check">
-                                    <input class="consulta__form-filters-services-control form-check-input"
-                                        type="checkbox" value="" id="piscina">
-                                    <label class="consulta__form-filters-services-label form-check-label"
-                                        for="piscina">
-                                        Piscina
-                                    </label>
-                                </div>
-                                <div class="consulta__form-filters-service form-check">
-                                    <input class="consulta__form-filters-services-control form-check-input"
-                                        type="checkbox" value="" id="mascotas">
-                                    <label class="consulta__form-filters-services-label form-check-label"
-                                        for="mascotas">
-                                        Admite mascotas
-                                    </label>
-                                </div>
-                                <div class="consulta__form-filters-service form-check">
-                                    <input class="consulta__form-filters-services-control form-check-input"
-                                        type="checkbox" value="" id="wifi">
-                                    <label class="consulta__form-filters-services-label form-check-label"
-                                        for="wifi">
-                                        Wifi
-                                    </label>
-                                </div>
-                                <div class="consulta__form-filters-service form-check">
-                                    <input class="consulta__form-filters-services-control form-check-input"
-                                        type="checkbox" value="" id="parking">
-                                    <label class="consulta__form-filters-services-label form-check-label"
-                                        for="parking">
-                                        Parking
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="consulta__form-filters-title">
-                                <div class="ms-1">Categoría</div>
-                            </div>
-                            <div
-                                class="consulta__form-filters-categories d-flex flex-column justify-content-between align-items-start ms-2 my-2">
-                                <input type="checkbox" class="consulta__form-filters-check btn-check" id="casa"
-                                    autocomplete="off" [(ngModel)]="houses" name="houses">
-                                <label
-                                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
-                                    for="casa">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="consulta__form-filters-checklabel-graphics">
-                                        <path
-                                            d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z" />
-                                    </svg>
-                                    <span class="consulta__form-filters-checklabel-text ms-2">Casas / Chalets</span>
-                                </label>
-                                <input type="checkbox" class="consulta__form-filters-check btn-check" id="hotel"
-                                    autocomplete="off" [(ngModel)]="hotels" name="hotels">
-                                <label
-                                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
-                                    for="hotel">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="consulta__form-filters-checklabel-graphics">
-                                        <path
-                                            d="M19 2H9c-1.103 0-2 .897-2 2v6H5c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zM5 12h6v8H5v-8zm14 8h-6v-8c0-1.103-.897-2-2-2H9V4h10v16z" />
-                                        <path
-                                            d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 .001h2v2H7z" />
-                                    </svg>
-                                    <span class="consulta__form-filters-checklabel-text ms-2">Hoteles</span>
-                                </label>
-                                <input type="checkbox" class="consulta__form-filters-check btn-check" id="albergue"
-                                    autocomplete="off" [(ngModel)]="hostels" name="hostels">
-                                <label
-                                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
-                                    for="albergue">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                        class="consulta__form-filters-checklabel-graphics">
-                                        <path
-                                            d="M20 9.557V3h-2v2H6V3H4v6.557C2.81 10.25 2 11.525 2 13v4a1 1 0 0 0 1 1h1v4h2v-4h12v4h2v-4h1a1 1 0 0 0 1-1v-4c0-1.475-.811-2.75-2-3.443zM18 7v2h-5V7h5zM6 7h5v2H6V7zm14 9H4v-3c0-1.103.897-2 2-2h12c1.103 0 2 .897 2 2v3z" />
-                                    </svg>
-                                    <span class="consulta__form-filters-checklabel-text ms-2">Albergues</span>
-                                </label>
-                                <input type="checkbox" class="consulta__form-filters-check btn-check" id="bungalow"
-                                    autocomplete="off" [(ngModel)]="bungalows" name="bungalows">
-                                <label
-                                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
-                                    for="bungalow">
-                                    <svg id="Capa_1" enable-background="new 0 0 512.002 512.002"
-                                        viewBox="0 0 512.002 512.002" xmlns="http://www.w3.org/2000/svg"
-                                        class="consulta__form-filters-checklabel-graphics">
-                                        <g>
-                                            <path
-                                                d="m505.848 478.114c6.69-4.886 8.152-14.27 3.267-20.96-.237-.326-168.434-230.636-238.113-326.047 0-9.562 0-76.585 0-85.106 0-8.284-6.716-15-15-15s-15 6.716-15 15v23.787l-4.394-4.394c-5.857-5.857-15.355-5.857-21.213 0-5.858 5.858-5.858 15.355 0 21.213l25.606 25.606v18.893l-238.113 326.048c-4.886 6.69-3.424 16.074 3.267 20.96 6.692 4.887 16.076 3.422 20.96-3.267l19.127-26.19c21.509 20.5 50.461 32.343 80.528 32.343h267.172c27.886 0 54.275-9.732 75.295-27.583l15.65 21.43c4.896 6.702 14.282 8.144 20.961 3.267zm-264.847-27.114h-84.27l84.27-115.858zm30 0v-115.85l84.244 115.85zm122.941 0h-1.604l-124.205-170.804c-2.697-3.716-7.23-6.178-12.132-6.178-4.775 0-9.354 2.36-12.131 6.177l-124.026 170.516c-21.145-1.722-41.089-11.256-55.712-26.553l191.869-262.725 195.473 267.659c-15.863 14.157-36.099 21.908-57.532 21.908z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                    <span class="consulta__form-filters-checklabel-text ms-2">Bungalows</span>
-                                </label>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="consulta__form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
-                    <button class="consulta__form-submit btn btn-secondary" type="submit" [routerLink]="['/consulta']">BUSCAR</button>
-                </div>
-            </div>
-        </form>
-    </section>
-    <section class="container-xl">
-        <div class="consulta__main row pt-4 gx-5">
-            <section class="consulta__filters col-lg-3 pb-4">
-                <div class="consulta__filters-card p-3">
-                    <div class="consulta__filters-main-title">
-                        <div>Filtrar por:</div>
-                    </div>
-                    <div class="consulta__filters-secondary-title mt-4">
-                        <div class="ms-1">Precio</div>
-                    </div>
-                    <div class="consulta__filters-precio">
-                        <label for="rangoPrecio" class="consulta__filters-precio-label form-label ms-2">Precio
-                            máximo: <span id="rangoPrecio">50</span></label>
-                        <input type="range" class="consulta__filters-precio-control form-range" id="rangoPrecio"
-                            min="0" max="30000">
-                    </div>
-                    <div class="consulta__filters-secondary-title mt-4">
-                        <div class="ms-1">Servicios</div>
-                    </div>
-                    <div class="consulta__filters-services ms-2">
-                        <div class="consulta__filters-service form-check">
-                            <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                                value="" id="piscina">
-                            <label class="consulta__filters-services-label form-check-label" for="piscina">
-                                Piscina
-                            </label>
-                        </div>
-                        <div class="consulta__filters-service form-check">
-                            <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                                value="" id="mascotas">
-                            <label class="consulta__filters-services-label form-check-label" for="mascotas">
-                                Admite mascotas
-                            </label>
-                        </div>
-                        <div class="consulta__filters-service form-check">
-                            <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                                value="" id="wifi">
-                            <label class="consulta__filters-services-label form-check-label" for="wifi">
-                                Wifi
-                            </label>
-                        </div>
-                        <div class="consulta__filters-service form-check">
-                            <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                                value="" id="parking">
-                            <label class="consulta__filters-services-label form-check-label" for="parking">
-                                Parking
-                            </label>
-                        </div>
-                    </div>
-                    <div class="consulta__filters-secondary-title mt-4">
-                        <div class="ms-1">Categoría</div>
-                    </div>
-                    <div
-                        class="consulta__filters-categories d-lg-flex flex-column justify-content-lg-between align-items-start ms-2 mt-2">
-                        <input type="checkbox" class="consulta__filters-check btn-check" id="casas"
-                            autocomplete="off" [(ngModel)]="houses" name="houses">
-                        <label
-                            class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
-                            for="casas">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="consulta__filters-checklabel-graphics">
-                                <path
-                                    d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z" />
-                            </svg>
-                            <span class="consulta__filters-checklabel-text ms-2">Casas / Chalets</span>
-                        </label>
-                        <input type="checkbox" class="consulta__filters-check btn-check" id="hoteles"
-                            autocomplete="off" [(ngModel)]="hotels" name="hotels">
-                        <label
-                            class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
-                            for="hoteles">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="consulta__filters-checklabel-graphics">
-                                <path
-                                    d="M19 2H9c-1.103 0-2 .897-2 2v6H5c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zM5 12h6v8H5v-8zm14 8h-6v-8c0-1.103-.897-2-2-2H9V4h10v16z" />
-                                <path d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 .001h2v2H7z" />
-                            </svg>
-                            <span class="consulta__filters-checklabel-text ms-2">Hoteles</span>
-                        </label>
-                        <input type="checkbox" class="consulta__filters-check btn-check" id="albergues"
-                            autocomplete="off" [(ngModel)]="hostels" name="hostels">
-                        <label
-                            class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center  align-items-center"
-                            for="albergues">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                class="consulta__filters-checklabel-graphics">
-                                <path
-                                    d="M20 9.557V3h-2v2H6V3H4v6.557C2.81 10.25 2 11.525 2 13v4a1 1 0 0 0 1 1h1v4h2v-4h12v4h2v-4h1a1 1 0 0 0 1-1v-4c0-1.475-.811-2.75-2-3.443zM18 7v2h-5V7h5zM6 7h5v2H6V7zm14 9H4v-3c0-1.103.897-2 2-2h12c1.103 0 2 .897 2 2v3z" />
-                            </svg>
-                            <span class="consulta__filters-checklabel-text ms-2">Albergues</span>
-                        </label>
-                        <input type="checkbox" class="consulta__filters-check btn-check" id="bungalows"
-                            autocomplete="off" [(ngModel)]="bungalows" name="bungalows">
-                        <label
-                            class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
-                            for="bungalows">
-                            <svg id="Capa_1" enable-background="new 0 0 512.002 512.002"
-                                viewBox="0 0 512.002 512.002" xmlns="http://www.w3.org/2000/svg"
-                                class="consulta__filters-checklabel-graphics">
-                                <g>
-                                    <path
-                                        d="m505.848 478.114c6.69-4.886 8.152-14.27 3.267-20.96-.237-.326-168.434-230.636-238.113-326.047 0-9.562 0-76.585 0-85.106 0-8.284-6.716-15-15-15s-15 6.716-15 15v23.787l-4.394-4.394c-5.857-5.857-15.355-5.857-21.213 0-5.858 5.858-5.858 15.355 0 21.213l25.606 25.606v18.893l-238.113 326.048c-4.886 6.69-3.424 16.074 3.267 20.96 6.692 4.887 16.076 3.422 20.96-3.267l19.127-26.19c21.509 20.5 50.461 32.343 80.528 32.343h267.172c27.886 0 54.275-9.732 75.295-27.583l15.65 21.43c4.896 6.702 14.282 8.144 20.961 3.267zm-264.847-27.114h-84.27l84.27-115.858zm30 0v-115.85l84.244 115.85zm122.941 0h-1.604l-124.205-170.804c-2.697-3.716-7.23-6.178-12.132-6.178-4.775 0-9.354 2.36-12.131 6.177l-124.026 170.516c-21.145-1.722-41.089-11.256-55.712-26.553l191.869-262.725 195.473 267.659c-15.863 14.157-36.099 21.908-57.532 21.908z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="consulta__filters-checklabel-text ms-2">Bungalows</span>
-                        </label>
-                    </div>
-                </div>
-            </section>
-            <section class="consulta__results col-lg-9">
-                <div class="consulta__results-main-title">
-                    <div>1 alojamiento encontrado</div>
-                </div>
-                <div class="consulta__results-filters d-flex justify-content-end mt-4">
-                    <select class="consulta__results-select form-select">
-                        <option selected>Precio ascendente</option>
-                        <option>Precio descendente</option>
-                    </select>
-                </div>
-                <div class="consulta__results-alohamientos container-xl mb-4">
-                    <div class="consulta__results-alohamiento row p-3 mt-3">
-                        <div class="consulta__results-alohamiento-carrousel col-lg-4">
-                            <div id="example1" class="carousel slide">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <img src="../../../assets/img/santiagoCompostela.jpg" class="d-block w-100"
-                                            alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="../../../assets/img/madrid.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="../../../assets/img/valencia.jpg" class="d-block w-100" alt="...">
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#example1"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#example1"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="consulta__results-alohamiento-information col-lg-6">
-
-                            <div class="row">
-                                <a [routerLink]="['/details']" class="consulta__results-alohamiento-name">NH Collection Sevilla</a>
-                            </div>
-                            <div class="consulta__results-alohamiento-direction row">
-                                <div>Av. de Diego Martínez Barrio, 8, 41013 Sevilla</div>
-                            </div>
-                            <div class="consulta__results-alohamiento-description row mt-4">
-                                <div>El hotel NH Collection Sevilla, antes conocido como NH Central
-                                    Convenciones, goza de una ubicación privilegiada dentro del
-                                    distrito financiero y empresarial de Sevilla. La parte histórica...</div>
-                            </div>
-                        </div>
-                        <div
-                            class="consulta__results-alohamiento-reserve col-lg-2 d-flex flex-column justify-content-between align-items-end">
-                            <div class="consulta__results-alohamiento-people row text-end mt-2 mt-lg-0">
-                                <div>2 personas</div>
-                            </div>
-                            <div class="consulta__results-alohamiento-price row text-end">
-                                <div>200€</div>
-                            </div>
-                            <div class="consulta__results-aholamiento-book row">
-                                <button class="btn btn-success" [routerLink]="['/pay']">
-                                    <div><svg width="83" height="25" viewBox="0 0 83 25" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_18_2)">
-                                                <path
-                                                    d="M55.8216 17.5234C54.7685 17.5234 53.6 17.5877 52.3159 17.7163C52.2645 17.6391 52.2389 17.4847 52.2389 17.2532C52.2389 17.0216 52.2645 16.8544 52.3159 16.7514C52.8552 16.7514 53.2532 16.7 53.5101 16.5971C53.7669 16.4684 53.921 16.3656 53.9724 16.2883C54.1008 15.9796 54.165 15.182 54.165 13.8956V10.5767C54.165 10.3709 54.1394 10.0622 54.088 9.65052C54.0366 9.23888 53.9852 8.98153 53.9339 8.87859C53.7541 8.54422 53.2148 8.37697 52.3159 8.37697C52.2645 8.35117 52.2389 8.22256 52.2389 7.99101C52.2645 7.73378 52.3031 7.60504 52.3544 7.60504C53.3304 7.5279 54.2806 7.34781 55.2051 7.06479C56.1297 6.75609 56.8359 6.4859 57.324 6.25435C57.401 6.28002 57.4909 6.34446 57.5936 6.44727C57.6963 6.55021 57.7349 6.62735 57.7091 6.67882C57.6065 7.11626 57.5422 7.48926 57.5166 7.79809C57.4909 8.10678 57.4909 8.26119 57.5166 8.26119C57.5422 8.26119 57.5679 8.24823 57.5936 8.22256C57.6193 8.19689 57.6578 8.17109 57.7091 8.14542C58.0688 7.73378 58.5053 7.37349 59.019 7.06479C59.9179 6.52454 60.714 6.25435 61.4074 6.25435C62.1266 6.25435 62.7172 6.40876 63.1795 6.71746C63.6674 7.02616 64.0655 7.5922 64.3738 8.41548C64.4252 8.41548 64.515 8.35117 64.6434 8.22256C64.7719 8.06815 64.9901 7.87523 65.2984 7.64368C65.6321 7.41212 65.9918 7.1934 66.3769 6.98765C67.3015 6.49874 68.0721 6.25435 68.6884 6.25435C69.3304 6.25435 69.8698 6.38296 70.3064 6.64032C70.7686 6.87187 71.1154 7.23204 71.3465 7.72082C71.7832 8.59556 72.0015 10.1007 72.0015 12.2361V13.8956C72.0015 14.4617 72.0015 14.9376 72.0015 15.3236C72.0271 15.7094 72.0785 15.9925 72.1555 16.1725C72.2326 16.3269 72.3353 16.4427 72.4638 16.5199C72.6178 16.5713 72.7847 16.6228 72.9645 16.6743C73.2214 16.7258 73.5167 16.7514 73.8506 16.7514C73.902 16.8544 73.9276 17.0216 73.9276 17.2532C73.9276 17.4847 73.902 17.6391 73.8506 17.7163C72.5664 17.5877 71.4493 17.5234 70.4991 17.5234C69.5745 17.5234 68.4702 17.5877 67.1859 17.7163C67.1346 17.6391 67.1089 17.4847 67.1089 17.2532C67.1089 17.0216 67.1346 16.8544 67.1859 16.7514C67.3401 16.7514 67.584 16.7258 67.9179 16.6743C68.2518 16.5971 68.4444 16.4684 68.4958 16.2883C68.6242 16.0311 68.6884 15.7094 68.6884 15.3236C68.7141 14.9376 68.7269 14.4617 68.7269 13.8956V11.8888C68.7269 10.2679 68.4188 9.17445 67.8024 8.60852C67.5968 8.40264 67.3401 8.2997 67.0319 8.2997C66.7494 8.2997 66.4669 8.35117 66.1844 8.45411C65.9019 8.55706 65.6451 8.67283 65.4139 8.80144C64.8745 9.13594 64.6049 9.4318 64.6049 9.68903V9.84344C64.6819 10.5896 64.7205 11.3872 64.7205 12.2361V13.8956C64.7205 15.182 64.759 15.9281 64.8361 16.134C64.9131 16.3141 65.0159 16.4427 65.1442 16.5199C65.2984 16.5713 65.4653 16.6228 65.6451 16.6743C65.9019 16.7258 66.1844 16.7514 66.4925 16.7514C66.5439 16.8544 66.5697 17.0216 66.5697 17.2532C66.5697 17.4847 66.5439 17.6391 66.4925 17.7163C65.2084 17.5877 64.0655 17.5234 63.064 17.5234C62.1908 17.5234 61.1121 17.5877 59.828 17.7163C59.7766 17.6391 59.751 17.4847 59.751 17.2532C59.751 17.0216 59.7766 16.8544 59.828 16.7514C60.0077 16.7514 60.2646 16.7258 60.5984 16.6743C60.9581 16.5971 61.1763 16.4427 61.2534 16.2112C61.356 15.9281 61.4074 15.1563 61.4074 13.8956V11.8888C61.4074 9.49611 60.8425 8.2997 59.7124 8.2997C59.2245 8.2997 58.8007 8.41548 58.4411 8.64703C57.7991 9.11014 57.478 9.47043 57.478 9.72766V13.8956C57.478 15.182 57.5166 15.9281 57.5936 16.134C57.6707 16.3141 57.7733 16.4427 57.9018 16.5199C58.0302 16.5713 58.1714 16.6228 58.3255 16.6743C58.5823 16.7258 58.852 16.7514 59.1345 16.7514C59.1859 16.8544 59.2116 17.0216 59.2116 17.2532C59.2116 17.4847 59.1859 17.6391 59.1345 17.7163C57.8505 17.5877 56.7461 17.5234 55.8216 17.5234ZM75.8744 10.4223C75.9257 10.4223 76.0927 10.4223 76.3752 10.4223C76.6834 10.3967 77.0173 10.3709 77.3768 10.3452C78.1987 10.3194 78.7894 10.2809 79.1489 10.2294C79.3801 10.2036 79.4956 10.0622 79.4956 9.8048C79.4956 9.52178 79.47 9.22592 79.4186 8.91722C79.3672 8.60853 79.2773 8.33834 79.1489 8.10678C78.8664 7.54073 78.4941 7.25771 78.0318 7.25771C77.5951 7.25771 77.2484 7.38645 76.9916 7.64368C76.7347 7.87523 76.5165 8.15825 76.3366 8.49275C76.0285 9.16161 75.8744 9.8048 75.8744 10.4223ZM81.9612 11.117C80.4202 11.2456 78.3913 11.3485 75.8744 11.4257C75.8744 12.9951 76.311 14.1529 77.1842 14.899C77.852 15.4394 78.5711 15.7094 79.3415 15.7094C80.1377 15.7094 80.7541 15.568 81.1906 15.285C81.6273 15.0019 81.9868 14.7189 82.2693 14.4359C82.4748 14.4874 82.5775 14.6289 82.5775 14.8605C82.5775 15.092 82.5262 15.285 82.4235 15.4394C82.3463 15.568 82.1795 15.7737 81.9226 16.0568C81.6658 16.3141 81.3448 16.5713 80.9595 16.8287C79.9837 17.4976 79.0462 17.832 78.1473 17.832C77.2484 17.832 76.478 17.7163 75.8359 17.4847C75.1939 17.2275 74.6288 16.8672 74.1408 16.4041C73.0879 15.4007 72.5614 14.1015 72.5614 12.5063C72.5614 10.8598 73.1264 9.41896 74.2564 8.18393C75.4635 6.87187 76.7733 6.21572 78.1858 6.21572C79.7011 6.21572 80.8569 6.66599 81.6529 7.56653C82.3207 8.28687 82.6546 9.1231 82.6546 10.075C82.6546 10.358 82.5904 10.6024 82.4619 10.8083C82.3335 11.014 82.1666 11.117 81.9612 11.117Z"
-                                                    fill="#FFD300" />
-                                                <mask id="mask0_18_2" style="mask-type:luminance"
-                                                    maskUnits="userSpaceOnUse" x="-8" y="-16" width="78"
-                                                    height="60">
-                                                    <path d="M69.2093 -16H-7.16797V43.5245H69.2093V-16Z"
-                                                        fill="white" />
-                                                </mask>
-                                                <g mask="url(#mask0_18_2)">
-                                                    <mask id="mask1_18_2" style="mask-type:luminance"
-                                                        maskUnits="userSpaceOnUse" x="-8" y="-16" width="78"
-                                                        height="60">
-                                                        <path d="M69.2093 -16H-7.16797V43.5245H69.2093V-16Z"
-                                                            fill="white" />
-                                                    </mask>
-                                                    <g mask="url(#mask1_18_2)">
-                                                        <path
-                                                            d="M43.3231 0.600912C40.3658 1.60251 40.2475 4.73981 40.2475 7.34794C40.2475 8.38352 40.5474 10.0312 39.6533 10.7853C38.6264 11.6514 35.9165 11.4539 35.3414 10.1552C34.9144 9.19131 35.3308 8.10817 35.04 7.12935C34.8294 6.42085 34.026 6.19986 33.482 6.7342C32.8574 7.34744 33.0711 8.6118 33.0711 9.40059C33.0708 11.624 33.056 13.8479 33.0713 16.0714C33.077 16.895 33.0855 18.4077 34.3195 18.2609C35.6428 18.1036 35.0159 15.419 35.1594 14.5422C35.4252 12.9192 37.3851 12.8207 38.7084 13.0305C40.6747 13.3425 40.1342 15.3936 40.2626 16.8398C40.3323 17.6264 40.7891 18.5383 41.7484 18.2107C42.9276 17.8081 42.5541 15.7362 42.5541 14.7885V8.11773C42.5541 6.97985 42.3625 5.63167 42.6654 4.52563C43.022 3.22288 44.2736 2.25778 45.6297 2.61405C46.3666 2.8076 47.3405 3.55121 48.0331 2.83025C48.6638 2.17397 48.0144 1.33144 47.4088 0.969511C46.3375 0.329214 44.4964 0.203495 43.3231 0.600912ZM25.6383 21.9725C25.3554 20.3035 24.0445 20.7779 22.8192 20.1385C20.6757 19.0199 19.0371 17.4063 16.6679 16.6738C15.7407 16.3872 13.9254 16.6066 13.3431 15.7332C12.9414 15.1305 13.0801 14.1907 13.0797 13.5056V8.8874C13.0779 8.04298 13.2117 6.56909 12.0444 6.44123C10.7921 6.30406 10.7791 7.77758 10.7733 8.6308C10.758 10.854 10.7693 13.0783 10.773 15.3017C10.7745 16.1825 10.6573 17.3258 11.3967 17.9692C12.2594 18.7195 14.0517 18.3713 15.1301 18.5879C17.1975 19.0027 19.4416 20.3408 20.7687 21.9725C19.5003 21.9725 18.1772 22.0791 16.9242 21.8532C13.2326 21.1882 10.8417 18.6062 9.31458 15.3017C8.31074 13.1297 7.68415 10.8702 6.87251 8.6308C6.56826 7.79129 6.19906 6.55286 5.14076 6.44123C4.09215 6.33074 3.69617 7.59623 3.43149 8.3742C2.64806 10.6773 1.68168 12.9736 0.998623 15.3017C0.787455 16.0214 0.0611542 17.8063 1.11411 18.2107C2.15041 18.6086 2.76632 17.2206 3.39392 16.6957C4.18183 16.0365 5.4569 15.8859 6.41199 16.2618C7.92371 16.857 8.62253 18.9838 9.61054 20.1755C11.3039 22.2181 13.9895 23.8053 16.6679 24.002C17.9924 24.0992 19.4513 24.1244 20.7687 23.951C21.6965 23.8288 22.6484 23.3734 23.588 23.442C24.5555 23.5122 25.4518 24.0387 26.4073 24.198C27.971 24.4589 29.9743 24.4433 31.5333 24.1624C32.4844 23.9913 36.457 22.9742 35.3658 21.3463C34.8757 20.615 34.002 20.8348 33.3274 21.1053C31.9254 21.6674 30.524 22.413 28.9703 22.3977C27.8528 22.3864 26.7699 21.9961 25.6383 21.9725ZM23.8444 6.45822C20.1056 7.34996 18.3443 12.0135 20.1428 15.3017C21.5373 17.8512 24.4044 18.8863 27.1762 18.2448C30.8566 17.393 32.7784 12.6859 30.9492 9.40059C29.5606 6.9061 26.5752 5.80698 23.8444 6.45822ZM63.5707 24.0251V21.9725C61.5381 21.9725 59.5064 21.8447 57.6758 20.8392C55.1595 19.4573 53.5633 16.5999 52.5399 14.0149C51.7677 12.0652 51.1769 10.0643 50.3905 8.11786C50.1004 7.39979 49.6932 6.33376 48.7284 6.44123C47.7499 6.55021 47.5113 7.87964 47.2519 8.6308C46.4814 10.8633 45.621 13.0633 44.86 15.3017C44.6338 15.9674 43.8782 17.2598 44.3665 17.9334C44.757 18.4721 45.576 18.3194 46.0258 17.9685C47.3816 16.9096 48.2137 15.4643 50.2394 16.2618C51.9896 16.9509 52.7776 19.6357 54.0979 20.9232C56.8831 23.6389 59.8672 24.0251 63.5707 24.0251Z"
-                                                            fill="#272A57" />
-                                                    </g>
-                                                    <path
-                                                        d="M25.7298 3.73167L27.9642 0.365707H30.4295V0.595122L29.5435 1.62793L28.4649 2.81364L27.1552 3.96109H25.7298V3.73167Z"
-                                                        fill="#FFD300" />
-                                                </g>
-                                                <path
-                                                    d="M80.5002 22.0051H63.5564V24.0186H80.5152V23.7669V23.5152V22.0051H80.5002Z"
-                                                    fill="#272A57" stroke="#272A57" stroke-width="0.5" />
-                                                <path
-                                                    d="M24.1245 8.21941C19.1782 9.89264 21.8051 17.5177 26.6866 15.7021C31.2899 13.99 28.7754 6.64623 24.1245 8.21941ZM48.4731 10.6048C48.2775 11.1931 47.9705 11.7894 47.8572 12.4001C47.6867 13.3196 48.6934 14.5932 49.4803 13.4931C50.0659 12.6741 49.0006 11.1898 48.4731 10.6048ZM4.64579 10.8614C4.34208 11.5485 3.77976 12.5763 4.09106 13.3453C4.40599 14.1232 5.5131 13.8734 5.68922 13.1326C5.85655 12.4288 5.37203 11.5191 5.1584 10.8614H4.64579Z"
-                                                    fill="white" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_18_2">
-                                                    <rect width="90.0699" height="59.5245" fill="white"
-                                                        transform="translate(-7.16797 -16)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+  <section class="consulta__search">
+    <form class="consulta__form container-xl">
+      <div class="consulta__form-informations row gx-3">
+        <div
+          class="consulta__form-information col-lg-4 d-flex flex-column justify-content-end pt-lg-3"
+        >
+          <div class="consulta__form-info">¿Dónde quieres alojarte?</div>
         </div>
-    </section>
+        <div
+          class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end"
+        >
+          <div class="consulta__form-info">Fecha de entrada</div>
+        </div>
+        <div
+          class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end"
+        >
+          <div class="consulta__form-info">Fecha de salida</div>
+        </div>
+        <div
+          class="consulta__form-information col-lg-2 d-flex flex-column justify-content-end"
+        >
+          <div class="consulta__form-info">N° de personas</div>
+        </div>
+      </div>
+      <div class="row gx-3">
+        <div class="consulta__form-controls col-lg-4 mt-2">
+          <div class="consulta__form-hidden">¿Dónde quieres alojarte?</div>
+          <input
+            type="text"
+            class="consulta__form-control form-control"
+            placeholder="Introduce ubicación"
+            [(ngModel)]="location"
+            name="location"
+          />
+        </div>
+        <div class="consulta__form-controls col-lg-2 mt-2">
+          <div class="consulta__form-hidden">Fecha de entrada</div>
+          <input
+            type="date"
+            class="consulta__form-control form-control"
+            [(ngModel)]="start"
+            name="start"
+            [min]="minDate"
+            (ngModelChange)="updateMinEndDate($event)"
+          />
+        </div>
+        <div class="consulta__form-controls col-lg-2 mt-2">
+          <div class="consulta__form-hidden">Fecha de salida</div>
+          <input
+            type="date"
+            class="consulta__form-control form-control"
+            [(ngModel)]="end"
+            name="end"
+            [min]="minEndDate"
+          />
+        </div>
+        <div class="consulta__form-controls col-lg-2 mt-2">
+          <div class="consulta__form-hidden">N° de personas</div>
+          <input
+            type="number"
+            class="consulta__form-control form-control"
+            [(ngModel)]="people"
+            name="people"
+            min="1"
+          />
+        </div>
+        <div class="consulta__form-hidden mt-3">
+          <a
+            class="consulta__form-hidden-link text-end"
+            data-bs-toggle="collapse"
+            href="#desplegable"
+            role="button"
+            aria-expanded="false"
+            aria-controls="desplegable"
+          >
+            Filtrar por
+          </a>
+        </div>
+        <div
+          class="consulta__form-filters-hidden collapse mt-2"
+          id="desplegable"
+        >
+          <div class="card-body">
+            <div class="row my-4">
+              <div class="col-4">
+                <div class="consulta__form-filters-title">
+                  <div class="ms-1">Precio</div>
+                </div>
+                <div class="consulta__form-filters-precio">
+                  <label
+                    for="rangoPrecio"
+                    class="consulta__form-filters-precio-label form-label ms-2"
+                    >Precio máximo: <span id="rangoPrecio">50</span></label
+                  >
+                  <input
+                    type="range"
+                    class="consulta__form-filters-precio-control form-range"
+                    id="rangoPrecio"
+                    min="0"
+                    max="30000"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="consulta__form-filters-title">
+                  <div class="ms-1">Servicios</div>
+                </div>
+                <div class="consulta__form-filters-services ms-2">
+                  <div class="consulta__form-filters-service form-check">
+                    <input
+                      class="consulta__form-filters-services-control form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="piscina"
+                    />
+                    <label
+                      class="consulta__form-filters-services-label form-check-label"
+                      for="piscina"
+                    >
+                      Piscina
+                    </label>
+                  </div>
+                  <div class="consulta__form-filters-service form-check">
+                    <input
+                      class="consulta__form-filters-services-control form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="mascotas"
+                    />
+                    <label
+                      class="consulta__form-filters-services-label form-check-label"
+                      for="mascotas"
+                    >
+                      Admite mascotas
+                    </label>
+                  </div>
+                  <div class="consulta__form-filters-service form-check">
+                    <input
+                      class="consulta__form-filters-services-control form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="wifi"
+                    />
+                    <label
+                      class="consulta__form-filters-services-label form-check-label"
+                      for="wifi"
+                    >
+                      Wifi
+                    </label>
+                  </div>
+                  <div class="consulta__form-filters-service form-check">
+                    <input
+                      class="consulta__form-filters-services-control form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="parking"
+                    />
+                    <label
+                      class="consulta__form-filters-services-label form-check-label"
+                      for="parking"
+                    >
+                      Parking
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="consulta__form-filters-title">
+                  <div class="ms-1">Categoría</div>
+                </div>
+                <div
+                  class="consulta__form-filters-categories d-flex flex-column justify-content-between align-items-start ms-2 my-2"
+                >
+                  <input
+                    type="checkbox"
+                    class="consulta__form-filters-check btn-check"
+                    id="casa"
+                    autocomplete="off"
+                    [(ngModel)]="houses"
+                    name="houses"
+                  />
+                  <label
+                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+                    for="casa"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      class="consulta__form-filters-checklabel-graphics"
+                    >
+                      <path
+                        d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z"
+                      />
+                    </svg>
+                    <span class="consulta__form-filters-checklabel-text ms-2"
+                      >Casas / Chalets</span
+                    >
+                  </label>
+                  <input
+                    type="checkbox"
+                    class="consulta__form-filters-check btn-check"
+                    id="hotel"
+                    autocomplete="off"
+                    [(ngModel)]="hotels"
+                    name="hotels"
+                  />
+                  <label
+                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+                    for="hotel"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      class="consulta__form-filters-checklabel-graphics"
+                    >
+                      <path
+                        d="M19 2H9c-1.103 0-2 .897-2 2v6H5c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zM5 12h6v8H5v-8zm14 8h-6v-8c0-1.103-.897-2-2-2H9V4h10v16z"
+                      />
+                      <path
+                        d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 .001h2v2H7z"
+                      />
+                    </svg>
+                    <span class="consulta__form-filters-checklabel-text ms-2"
+                      >Hoteles</span
+                    >
+                  </label>
+                  <input
+                    type="checkbox"
+                    class="consulta__form-filters-check btn-check"
+                    id="albergue"
+                    autocomplete="off"
+                    [(ngModel)]="hostels"
+                    name="hostels"
+                  />
+                  <label
+                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+                    for="albergue"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      class="consulta__form-filters-checklabel-graphics"
+                    >
+                      <path
+                        d="M20 9.557V3h-2v2H6V3H4v6.557C2.81 10.25 2 11.525 2 13v4a1 1 0 0 0 1 1h1v4h2v-4h12v4h2v-4h1a1 1 0 0 0 1-1v-4c0-1.475-.811-2.75-2-3.443zM18 7v2h-5V7h5zM6 7h5v2H6V7zm14 9H4v-3c0-1.103.897-2 2-2h12c1.103 0 2 .897 2 2v3z"
+                      />
+                    </svg>
+                    <span class="consulta__form-filters-checklabel-text ms-2"
+                      >Albergues</span
+                    >
+                  </label>
+                  <input
+                    type="checkbox"
+                    class="consulta__form-filters-check btn-check"
+                    id="bungalow"
+                    autocomplete="off"
+                    [(ngModel)]="bungalows"
+                    name="bungalows"
+                  />
+                  <label
+                    class="consulta__form-filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+                    for="bungalow"
+                  >
+                    <svg
+                      id="Capa_1"
+                      enable-background="new 0 0 512.002 512.002"
+                      viewBox="0 0 512.002 512.002"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="consulta__form-filters-checklabel-graphics"
+                    >
+                      <g>
+                        <path
+                          d="m505.848 478.114c6.69-4.886 8.152-14.27 3.267-20.96-.237-.326-168.434-230.636-238.113-326.047 0-9.562 0-76.585 0-85.106 0-8.284-6.716-15-15-15s-15 6.716-15 15v23.787l-4.394-4.394c-5.857-5.857-15.355-5.857-21.213 0-5.858 5.858-5.858 15.355 0 21.213l25.606 25.606v18.893l-238.113 326.048c-4.886 6.69-3.424 16.074 3.267 20.96 6.692 4.887 16.076 3.422 20.96-3.267l19.127-26.19c21.509 20.5 50.461 32.343 80.528 32.343h267.172c27.886 0 54.275-9.732 75.295-27.583l15.65 21.43c4.896 6.702 14.282 8.144 20.961 3.267zm-264.847-27.114h-84.27l84.27-115.858zm30 0v-115.85l84.244 115.85zm122.941 0h-1.604l-124.205-170.804c-2.697-3.716-7.23-6.178-12.132-6.178-4.775 0-9.354 2.36-12.131 6.177l-124.026 170.516c-21.145-1.722-41.089-11.256-55.712-26.553l191.869-262.725 195.473 267.659c-15.863 14.157-36.099 21.908-57.532 21.908z"
+                        ></path>
+                      </g>
+                    </svg>
+                    <span class="consulta__form-filters-checklabel-text ms-2"
+                      >Bungalows</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="consulta__form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
+          <button
+            class="consulta__form-submit btn btn-secondary"
+            type="submit"
+            [routerLink]="['/consulta']"
+          >
+            BUSCAR
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section class="container-xl">
+    <div class="consulta__main row pt-4 gx-5">
+      <section class="consulta__filters col-lg-3 pb-4">
+        <div class="consulta__filters-card p-3">
+          <div class="consulta__filters-main-title">
+            <div>Filtrar por:</div>
+          </div>
+          <div class="consulta__filters-secondary-title mt-4">
+            <div class="ms-1">Precio</div>
+          </div>
+          <div class="consulta__filters-precio">
+            <label
+              for="rangoPrecio"
+              class="consulta__filters-precio-label form-label ms-2"
+              >Precio máximo: <span id="rangoPrecio">50</span></label
+            >
+            <input
+              type="range"
+              class="consulta__filters-precio-control form-range"
+              id="rangoPrecio"
+              min="0"
+              max="30000"
+            />
+          </div>
+          <div class="consulta__filters-secondary-title mt-4">
+            <div class="ms-1">Servicios</div>
+          </div>
+          <div class="consulta__filters-services ms-2">
+            <div class="consulta__filters-service form-check">
+              <input
+                class="consulta__filters-services-control form-check-input"
+                type="checkbox"
+                value=""
+                id="piscina"
+              />
+              <label
+                class="consulta__filters-services-label form-check-label"
+                for="piscina"
+              >
+                Piscina
+              </label>
+            </div>
+            <div class="consulta__filters-service form-check">
+              <input
+                class="consulta__filters-services-control form-check-input"
+                type="checkbox"
+                value=""
+                id="mascotas"
+              />
+              <label
+                class="consulta__filters-services-label form-check-label"
+                for="mascotas"
+              >
+                Admite mascotas
+              </label>
+            </div>
+            <div class="consulta__filters-service form-check">
+              <input
+                class="consulta__filters-services-control form-check-input"
+                type="checkbox"
+                value=""
+                id="wifi"
+              />
+              <label
+                class="consulta__filters-services-label form-check-label"
+                for="wifi"
+              >
+                Wifi
+              </label>
+            </div>
+            <div class="consulta__filters-service form-check">
+              <input
+                class="consulta__filters-services-control form-check-input"
+                type="checkbox"
+                value=""
+                id="parking"
+              />
+              <label
+                class="consulta__filters-services-label form-check-label"
+                for="parking"
+              >
+                Parking
+              </label>
+            </div>
+          </div>
+          <div class="consulta__filters-secondary-title mt-4">
+            <div class="ms-1">Categoría</div>
+          </div>
+          <div
+            class="consulta__filters-categories d-lg-flex flex-column justify-content-lg-between align-items-start ms-2 mt-2"
+          >
+            <input
+              type="checkbox"
+              class="consulta__filters-check btn-check"
+              id="casas"
+              autocomplete="off"
+              [(ngModel)]="houses"
+              name="houses"
+            />
+            <label
+              class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+              for="casas"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="consulta__filters-checklabel-graphics"
+              >
+                <path
+                  d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586 6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z"
+                />
+              </svg>
+              <span class="consulta__filters-checklabel-text ms-2"
+                >Casas / Chalets</span
+              >
+            </label>
+            <input
+              type="checkbox"
+              class="consulta__filters-check btn-check"
+              id="hoteles"
+              autocomplete="off"
+              [(ngModel)]="hotels"
+              name="hotels"
+            />
+            <label
+              class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+              for="hoteles"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="consulta__filters-checklabel-graphics"
+              >
+                <path
+                  d="M19 2H9c-1.103 0-2 .897-2 2v6H5c-1.103 0-2 .897-2 2v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4c0-1.103-.897-2-2-2zM5 12h6v8H5v-8zm14 8h-6v-8c0-1.103-.897-2-2-2H9V4h10v16z"
+                />
+                <path
+                  d="M11 6h2v2h-2zm4 0h2v2h-2zm0 4.031h2V12h-2zM15 14h2v2h-2zm-8 .001h2v2H7z"
+                />
+              </svg>
+              <span class="consulta__filters-checklabel-text ms-2"
+                >Hoteles</span
+              >
+            </label>
+            <input
+              type="checkbox"
+              class="consulta__filters-check btn-check"
+              id="albergues"
+              autocomplete="off"
+              [(ngModel)]="hostels"
+              name="hostels"
+            />
+            <label
+              class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+              for="albergues"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="consulta__filters-checklabel-graphics"
+              >
+                <path
+                  d="M20 9.557V3h-2v2H6V3H4v6.557C2.81 10.25 2 11.525 2 13v4a1 1 0 0 0 1 1h1v4h2v-4h12v4h2v-4h1a1 1 0 0 0 1-1v-4c0-1.475-.811-2.75-2-3.443zM18 7v2h-5V7h5zM6 7h5v2H6V7zm14 9H4v-3c0-1.103.897-2 2-2h12c1.103 0 2 .897 2 2v3z"
+                />
+              </svg>
+              <span class="consulta__filters-checklabel-text ms-2"
+                >Albergues</span
+              >
+            </label>
+            <input
+              type="checkbox"
+              class="consulta__filters-check btn-check"
+              id="bungalows"
+              autocomplete="off"
+              [(ngModel)]="bungalows"
+              name="bungalows"
+            />
+            <label
+              class="consulta__filters-checklabel btn btn-outline-secondary d-flex justify-content-center align-items-center"
+              for="bungalows"
+            >
+              <svg
+                id="Capa_1"
+                enable-background="new 0 0 512.002 512.002"
+                viewBox="0 0 512.002 512.002"
+                xmlns="http://www.w3.org/2000/svg"
+                class="consulta__filters-checklabel-graphics"
+              >
+                <g>
+                  <path
+                    d="m505.848 478.114c6.69-4.886 8.152-14.27 3.267-20.96-.237-.326-168.434-230.636-238.113-326.047 0-9.562 0-76.585 0-85.106 0-8.284-6.716-15-15-15s-15 6.716-15 15v23.787l-4.394-4.394c-5.857-5.857-15.355-5.857-21.213 0-5.858 5.858-5.858 15.355 0 21.213l25.606 25.606v18.893l-238.113 326.048c-4.886 6.69-3.424 16.074 3.267 20.96 6.692 4.887 16.076 3.422 20.96-3.267l19.127-26.19c21.509 20.5 50.461 32.343 80.528 32.343h267.172c27.886 0 54.275-9.732 75.295-27.583l15.65 21.43c4.896 6.702 14.282 8.144 20.961 3.267zm-264.847-27.114h-84.27l84.27-115.858zm30 0v-115.85l84.244 115.85zm122.941 0h-1.604l-124.205-170.804c-2.697-3.716-7.23-6.178-12.132-6.178-4.775 0-9.354 2.36-12.131 6.177l-124.026 170.516c-21.145-1.722-41.089-11.256-55.712-26.553l191.869-262.725 195.473 267.659c-15.863 14.157-36.099 21.908-57.532 21.908z"
+                  ></path>
+                </g>
+              </svg>
+              <span class="consulta__filters-checklabel-text ms-2"
+                >Bungalows</span
+              >
+            </label>
+          </div>
+        </div>
+      </section>
+      <section class="consulta__results col-lg-9">
+        <div class="consulta__results-main-title">
+          <div>1 alojamiento encontrado</div>
+        </div>
+        <div class="consulta__results-filters d-flex justify-content-end mt-4">
+          <select class="consulta__results-select form-select">
+            <option selected>Precio ascendente</option>
+            <option>Precio descendente</option>
+          </select>
+        </div>
+        <div
+          *ngFor="let item of data"
+          class="consulta__results-alohamientos container-xl mb-4"
+        >
+          <div class="consulta__results-alohamiento row p-3 mt-3">
+            <div class="consulta__results-alohamiento-carrousel col-lg-4">
+              <div id="example1" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img
+                      src="../../../assets/img/santiagoCompostela.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      src="../../../assets/img/madrid.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      src="../../../assets/img/valencia.jpg"
+                      class="d-block w-100"
+                      alt="..."
+                    />
+                  </div>
+                </div>
+                <button
+                  class="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#example1"
+                  data-bs-slide="prev"
+                >
+                  <span
+                    class="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                  class="carousel-control-next"
+                  type="button"
+                  data-bs-target="#example1"
+                  data-bs-slide="next"
+                >
+                  <span
+                    class="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+            <div class="consulta__results-alohamiento-information col-lg-6">
+              <div class="row">
+                <a
+                  [routerLink]="['/details']"
+                  class="consulta__results-alohamiento-name"
+                  >{{ item.accommodation.name }}</a
+                >
+              </div>
+              <div class="consulta__results-alohamiento-direction row">
+                <div>{{ item.accommodation.address }}</div>
+              </div>
+              <div class="consulta__results-alohamiento-description row mt-4">
+                <div>
+                  {{ item.accommodation.description }}
+                </div>
+              </div>
+            </div>
+            <div
+              class="consulta__results-alohamiento-reserve col-lg-2 d-flex flex-column justify-content-between align-items-end"
+            >
+              <div
+                class="consulta__results-alohamiento-people row text-end mt-2 mt-lg-0"
+              >
+                <div>{{ item.capacity }} personas</div>
+              </div>
+              <div class="consulta__results-alohamiento-price row text-end">
+                <div>{{ item.price }}€</div>
+              </div>
+              <div class="consulta__results-aholamiento-book row">
+                <button class="btn btn-success" [routerLink]="['/pay']">
+                  <div>
+                    <svg
+                      width="83"
+                      height="25"
+                      viewBox="0 0 83 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <g clip-path="url(#clip0_18_2)">
+                        <path
+                          d="M55.8216 17.5234C54.7685 17.5234 53.6 17.5877 52.3159 17.7163C52.2645 17.6391 52.2389 17.4847 52.2389 17.2532C52.2389 17.0216 52.2645 16.8544 52.3159 16.7514C52.8552 16.7514 53.2532 16.7 53.5101 16.5971C53.7669 16.4684 53.921 16.3656 53.9724 16.2883C54.1008 15.9796 54.165 15.182 54.165 13.8956V10.5767C54.165 10.3709 54.1394 10.0622 54.088 9.65052C54.0366 9.23888 53.9852 8.98153 53.9339 8.87859C53.7541 8.54422 53.2148 8.37697 52.3159 8.37697C52.2645 8.35117 52.2389 8.22256 52.2389 7.99101C52.2645 7.73378 52.3031 7.60504 52.3544 7.60504C53.3304 7.5279 54.2806 7.34781 55.2051 7.06479C56.1297 6.75609 56.8359 6.4859 57.324 6.25435C57.401 6.28002 57.4909 6.34446 57.5936 6.44727C57.6963 6.55021 57.7349 6.62735 57.7091 6.67882C57.6065 7.11626 57.5422 7.48926 57.5166 7.79809C57.4909 8.10678 57.4909 8.26119 57.5166 8.26119C57.5422 8.26119 57.5679 8.24823 57.5936 8.22256C57.6193 8.19689 57.6578 8.17109 57.7091 8.14542C58.0688 7.73378 58.5053 7.37349 59.019 7.06479C59.9179 6.52454 60.714 6.25435 61.4074 6.25435C62.1266 6.25435 62.7172 6.40876 63.1795 6.71746C63.6674 7.02616 64.0655 7.5922 64.3738 8.41548C64.4252 8.41548 64.515 8.35117 64.6434 8.22256C64.7719 8.06815 64.9901 7.87523 65.2984 7.64368C65.6321 7.41212 65.9918 7.1934 66.3769 6.98765C67.3015 6.49874 68.0721 6.25435 68.6884 6.25435C69.3304 6.25435 69.8698 6.38296 70.3064 6.64032C70.7686 6.87187 71.1154 7.23204 71.3465 7.72082C71.7832 8.59556 72.0015 10.1007 72.0015 12.2361V13.8956C72.0015 14.4617 72.0015 14.9376 72.0015 15.3236C72.0271 15.7094 72.0785 15.9925 72.1555 16.1725C72.2326 16.3269 72.3353 16.4427 72.4638 16.5199C72.6178 16.5713 72.7847 16.6228 72.9645 16.6743C73.2214 16.7258 73.5167 16.7514 73.8506 16.7514C73.902 16.8544 73.9276 17.0216 73.9276 17.2532C73.9276 17.4847 73.902 17.6391 73.8506 17.7163C72.5664 17.5877 71.4493 17.5234 70.4991 17.5234C69.5745 17.5234 68.4702 17.5877 67.1859 17.7163C67.1346 17.6391 67.1089 17.4847 67.1089 17.2532C67.1089 17.0216 67.1346 16.8544 67.1859 16.7514C67.3401 16.7514 67.584 16.7258 67.9179 16.6743C68.2518 16.5971 68.4444 16.4684 68.4958 16.2883C68.6242 16.0311 68.6884 15.7094 68.6884 15.3236C68.7141 14.9376 68.7269 14.4617 68.7269 13.8956V11.8888C68.7269 10.2679 68.4188 9.17445 67.8024 8.60852C67.5968 8.40264 67.3401 8.2997 67.0319 8.2997C66.7494 8.2997 66.4669 8.35117 66.1844 8.45411C65.9019 8.55706 65.6451 8.67283 65.4139 8.80144C64.8745 9.13594 64.6049 9.4318 64.6049 9.68903V9.84344C64.6819 10.5896 64.7205 11.3872 64.7205 12.2361V13.8956C64.7205 15.182 64.759 15.9281 64.8361 16.134C64.9131 16.3141 65.0159 16.4427 65.1442 16.5199C65.2984 16.5713 65.4653 16.6228 65.6451 16.6743C65.9019 16.7258 66.1844 16.7514 66.4925 16.7514C66.5439 16.8544 66.5697 17.0216 66.5697 17.2532C66.5697 17.4847 66.5439 17.6391 66.4925 17.7163C65.2084 17.5877 64.0655 17.5234 63.064 17.5234C62.1908 17.5234 61.1121 17.5877 59.828 17.7163C59.7766 17.6391 59.751 17.4847 59.751 17.2532C59.751 17.0216 59.7766 16.8544 59.828 16.7514C60.0077 16.7514 60.2646 16.7258 60.5984 16.6743C60.9581 16.5971 61.1763 16.4427 61.2534 16.2112C61.356 15.9281 61.4074 15.1563 61.4074 13.8956V11.8888C61.4074 9.49611 60.8425 8.2997 59.7124 8.2997C59.2245 8.2997 58.8007 8.41548 58.4411 8.64703C57.7991 9.11014 57.478 9.47043 57.478 9.72766V13.8956C57.478 15.182 57.5166 15.9281 57.5936 16.134C57.6707 16.3141 57.7733 16.4427 57.9018 16.5199C58.0302 16.5713 58.1714 16.6228 58.3255 16.6743C58.5823 16.7258 58.852 16.7514 59.1345 16.7514C59.1859 16.8544 59.2116 17.0216 59.2116 17.2532C59.2116 17.4847 59.1859 17.6391 59.1345 17.7163C57.8505 17.5877 56.7461 17.5234 55.8216 17.5234ZM75.8744 10.4223C75.9257 10.4223 76.0927 10.4223 76.3752 10.4223C76.6834 10.3967 77.0173 10.3709 77.3768 10.3452C78.1987 10.3194 78.7894 10.2809 79.1489 10.2294C79.3801 10.2036 79.4956 10.0622 79.4956 9.8048C79.4956 9.52178 79.47 9.22592 79.4186 8.91722C79.3672 8.60853 79.2773 8.33834 79.1489 8.10678C78.8664 7.54073 78.4941 7.25771 78.0318 7.25771C77.5951 7.25771 77.2484 7.38645 76.9916 7.64368C76.7347 7.87523 76.5165 8.15825 76.3366 8.49275C76.0285 9.16161 75.8744 9.8048 75.8744 10.4223ZM81.9612 11.117C80.4202 11.2456 78.3913 11.3485 75.8744 11.4257C75.8744 12.9951 76.311 14.1529 77.1842 14.899C77.852 15.4394 78.5711 15.7094 79.3415 15.7094C80.1377 15.7094 80.7541 15.568 81.1906 15.285C81.6273 15.0019 81.9868 14.7189 82.2693 14.4359C82.4748 14.4874 82.5775 14.6289 82.5775 14.8605C82.5775 15.092 82.5262 15.285 82.4235 15.4394C82.3463 15.568 82.1795 15.7737 81.9226 16.0568C81.6658 16.3141 81.3448 16.5713 80.9595 16.8287C79.9837 17.4976 79.0462 17.832 78.1473 17.832C77.2484 17.832 76.478 17.7163 75.8359 17.4847C75.1939 17.2275 74.6288 16.8672 74.1408 16.4041C73.0879 15.4007 72.5614 14.1015 72.5614 12.5063C72.5614 10.8598 73.1264 9.41896 74.2564 8.18393C75.4635 6.87187 76.7733 6.21572 78.1858 6.21572C79.7011 6.21572 80.8569 6.66599 81.6529 7.56653C82.3207 8.28687 82.6546 9.1231 82.6546 10.075C82.6546 10.358 82.5904 10.6024 82.4619 10.8083C82.3335 11.014 82.1666 11.117 81.9612 11.117Z"
+                          fill="#FFD300"
+                        />
+                        <mask
+                          id="mask0_18_2"
+                          style="mask-type: luminance"
+                          maskUnits="userSpaceOnUse"
+                          x="-8"
+                          y="-16"
+                          width="78"
+                          height="60"
+                        >
+                          <path
+                            d="M69.2093 -16H-7.16797V43.5245H69.2093V-16Z"
+                            fill="white"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_18_2)">
+                          <mask
+                            id="mask1_18_2"
+                            style="mask-type: luminance"
+                            maskUnits="userSpaceOnUse"
+                            x="-8"
+                            y="-16"
+                            width="78"
+                            height="60"
+                          >
+                            <path
+                              d="M69.2093 -16H-7.16797V43.5245H69.2093V-16Z"
+                              fill="white"
+                            />
+                          </mask>
+                          <g mask="url(#mask1_18_2)">
+                            <path
+                              d="M43.3231 0.600912C40.3658 1.60251 40.2475 4.73981 40.2475 7.34794C40.2475 8.38352 40.5474 10.0312 39.6533 10.7853C38.6264 11.6514 35.9165 11.4539 35.3414 10.1552C34.9144 9.19131 35.3308 8.10817 35.04 7.12935C34.8294 6.42085 34.026 6.19986 33.482 6.7342C32.8574 7.34744 33.0711 8.6118 33.0711 9.40059C33.0708 11.624 33.056 13.8479 33.0713 16.0714C33.077 16.895 33.0855 18.4077 34.3195 18.2609C35.6428 18.1036 35.0159 15.419 35.1594 14.5422C35.4252 12.9192 37.3851 12.8207 38.7084 13.0305C40.6747 13.3425 40.1342 15.3936 40.2626 16.8398C40.3323 17.6264 40.7891 18.5383 41.7484 18.2107C42.9276 17.8081 42.5541 15.7362 42.5541 14.7885V8.11773C42.5541 6.97985 42.3625 5.63167 42.6654 4.52563C43.022 3.22288 44.2736 2.25778 45.6297 2.61405C46.3666 2.8076 47.3405 3.55121 48.0331 2.83025C48.6638 2.17397 48.0144 1.33144 47.4088 0.969511C46.3375 0.329214 44.4964 0.203495 43.3231 0.600912ZM25.6383 21.9725C25.3554 20.3035 24.0445 20.7779 22.8192 20.1385C20.6757 19.0199 19.0371 17.4063 16.6679 16.6738C15.7407 16.3872 13.9254 16.6066 13.3431 15.7332C12.9414 15.1305 13.0801 14.1907 13.0797 13.5056V8.8874C13.0779 8.04298 13.2117 6.56909 12.0444 6.44123C10.7921 6.30406 10.7791 7.77758 10.7733 8.6308C10.758 10.854 10.7693 13.0783 10.773 15.3017C10.7745 16.1825 10.6573 17.3258 11.3967 17.9692C12.2594 18.7195 14.0517 18.3713 15.1301 18.5879C17.1975 19.0027 19.4416 20.3408 20.7687 21.9725C19.5003 21.9725 18.1772 22.0791 16.9242 21.8532C13.2326 21.1882 10.8417 18.6062 9.31458 15.3017C8.31074 13.1297 7.68415 10.8702 6.87251 8.6308C6.56826 7.79129 6.19906 6.55286 5.14076 6.44123C4.09215 6.33074 3.69617 7.59623 3.43149 8.3742C2.64806 10.6773 1.68168 12.9736 0.998623 15.3017C0.787455 16.0214 0.0611542 17.8063 1.11411 18.2107C2.15041 18.6086 2.76632 17.2206 3.39392 16.6957C4.18183 16.0365 5.4569 15.8859 6.41199 16.2618C7.92371 16.857 8.62253 18.9838 9.61054 20.1755C11.3039 22.2181 13.9895 23.8053 16.6679 24.002C17.9924 24.0992 19.4513 24.1244 20.7687 23.951C21.6965 23.8288 22.6484 23.3734 23.588 23.442C24.5555 23.5122 25.4518 24.0387 26.4073 24.198C27.971 24.4589 29.9743 24.4433 31.5333 24.1624C32.4844 23.9913 36.457 22.9742 35.3658 21.3463C34.8757 20.615 34.002 20.8348 33.3274 21.1053C31.9254 21.6674 30.524 22.413 28.9703 22.3977C27.8528 22.3864 26.7699 21.9961 25.6383 21.9725ZM23.8444 6.45822C20.1056 7.34996 18.3443 12.0135 20.1428 15.3017C21.5373 17.8512 24.4044 18.8863 27.1762 18.2448C30.8566 17.393 32.7784 12.6859 30.9492 9.40059C29.5606 6.9061 26.5752 5.80698 23.8444 6.45822ZM63.5707 24.0251V21.9725C61.5381 21.9725 59.5064 21.8447 57.6758 20.8392C55.1595 19.4573 53.5633 16.5999 52.5399 14.0149C51.7677 12.0652 51.1769 10.0643 50.3905 8.11786C50.1004 7.39979 49.6932 6.33376 48.7284 6.44123C47.7499 6.55021 47.5113 7.87964 47.2519 8.6308C46.4814 10.8633 45.621 13.0633 44.86 15.3017C44.6338 15.9674 43.8782 17.2598 44.3665 17.9334C44.757 18.4721 45.576 18.3194 46.0258 17.9685C47.3816 16.9096 48.2137 15.4643 50.2394 16.2618C51.9896 16.9509 52.7776 19.6357 54.0979 20.9232C56.8831 23.6389 59.8672 24.0251 63.5707 24.0251Z"
+                              fill="#272A57"
+                            />
+                          </g>
+                          <path
+                            d="M25.7298 3.73167L27.9642 0.365707H30.4295V0.595122L29.5435 1.62793L28.4649 2.81364L27.1552 3.96109H25.7298V3.73167Z"
+                            fill="#FFD300"
+                          />
+                        </g>
+                        <path
+                          d="M80.5002 22.0051H63.5564V24.0186H80.5152V23.7669V23.5152V22.0051H80.5002Z"
+                          fill="#272A57"
+                          stroke="#272A57"
+                          stroke-width="0.5"
+                        />
+                        <path
+                          d="M24.1245 8.21941C19.1782 9.89264 21.8051 17.5177 26.6866 15.7021C31.2899 13.99 28.7754 6.64623 24.1245 8.21941ZM48.4731 10.6048C48.2775 11.1931 47.9705 11.7894 47.8572 12.4001C47.6867 13.3196 48.6934 14.5932 49.4803 13.4931C50.0659 12.6741 49.0006 11.1898 48.4731 10.6048ZM4.64579 10.8614C4.34208 11.5485 3.77976 12.5763 4.09106 13.3453C4.40599 14.1232 5.5131 13.8734 5.68922 13.1326C5.85655 12.4288 5.37203 11.5191 5.1584 10.8614H4.64579Z"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_18_2">
+                          <rect
+                            width="90.0699"
+                            height="59.5245"
+                            fill="white"
+                            transform="translate(-7.16797 -16)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
 </main>
 <app-footer></app-footer>

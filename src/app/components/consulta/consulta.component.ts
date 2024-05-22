@@ -9,6 +9,7 @@ import { query } from '@angular/animations';
   styleUrls: ['./consulta.component.css'],
 })
 export class ConsultaComponent implements OnInit {
+  data: any;
   location: string = '';
   start: Date = new Date();
   end: Date = new Date();
@@ -54,6 +55,7 @@ export class ConsultaComponent implements OnInit {
     ) {
       this.categoryAccommodationUnitService.getAll().subscribe((response) => {
         console.log(response);
+        this.data = response;
       });
     } else if (
       this.route.snapshot.queryParams['location'] == null ||
@@ -68,6 +70,7 @@ export class ConsultaComponent implements OnInit {
         .getAccommodationUnitByCategory(array)
         .subscribe((response) => {
           console.log(response);
+          this.data = response;
         });
     } else {
       this.categoryAccommodationUnitService
@@ -75,7 +78,8 @@ export class ConsultaComponent implements OnInit {
           this.route.snapshot.queryParams['location']
         )
         .subscribe((response) => {
-          console.log(response); // Accede al parámetro recibido location, cargado en la página de inicio
+          console.log(response);
+          this.data = response; // Accede al parámetro recibido location, cargado en la página de inicio
         });
     }
   }
