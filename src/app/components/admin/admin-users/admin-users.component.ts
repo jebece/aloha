@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientService } from '../../../services/client/client.service';
+import { UserService } from '../../../services/user/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { deleteRequest } from '../../../services/client/deleteRequest';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,6 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AdminUsersComponent {
   clients: any = [];
+  admins: any = [];
   selectedClientId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
@@ -35,9 +37,24 @@ export class AdminUsersComponent {
     editPhone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   });
 
-  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService) {}
+  adminUsersAdminForm = this.formBuilder.group({
+    adminName: ['', [Validators.required, Validators.maxLength(50)]],
+    adminEmail: ['', [Validators.required, Validators.email]],
+    adminPassword: ['', Validators.required]
+  });
+
+  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService, private userService: UserService) {}
 
   ngOnInit(): void {
+    this.userService.getAdmins().subscribe(
+      (data) => {
+        this.admins = data;
+        console.log(this.admins);
+      },
+      (error) => {
+        console.error('Error al obtener a los administradores', error);
+      }
+    );
     this.clientService.getClients().subscribe(
       (data) => {
         this.clients = data;
@@ -155,6 +172,60 @@ export class AdminUsersComponent {
     }
   }
 
+  createAdmin() {
+    if (this.adminUsersAdminForm.valid) {
+      let adminName = this.adminUsersAdminForm.get('adminName')?.value;
+      let adminEmail = this.adminUsersAdminForm.get('adminEmail')?.value;
+      let adminPassword = this.adminUsersAdminForm.get('adminPassword')?.value;
+  
+      const adminData = {
+        name: adminName!,
+        email: adminEmail!,
+        password: adminPassword!
+      };
+  
+      this.userService.addAdmin(adminData).subscribe(
+        (response) => {
+          console.log('Administrador añadido correctamente:', response);
+          this.adminUsersAdminForm.reset();
+          this.router.navigate(['admin-users']).then(() => {
+            window.location.reload();
+          });
+        },
+        (error) => {
+          console.error('Error al añadir administrador:', error);
+          this.adminUsersError = 'Error al añadir administrador. Por favor, inténtalo de nuevo.';
+        }
+      );
+    }
+  }
+
+  deleteAdmin() {
+    if (this.selectedClientId !== null) {
+      const deleteData = {
+        id: this.selectedClientId
+      };
+
+      this.userService.deleteAdmin(deleteData).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.log(errorData);
+          this.adminUsersError = errorData;
+        },
+        complete: () => {
+          console.info('Borrado completo');
+          this.router.navigate(['admin-users']).then(() => {
+            window.location.reload();
+          });
+        }
+      });
+    } else {
+      console.error('Administrador no seleccionado');
+    }
+  }
+
   selectClientId(id: number) {
     this.selectedClientId = id;
     this.loadClientData();
@@ -194,6 +265,18 @@ export class AdminUsersComponent {
 
   get editEmail() {
     return this.adminUsersEditForm.controls.editEmail;
+  }
+
+  get adminName() {
+    return this.adminUsersAdminForm.controls.adminName;
+  }
+
+  get adminEmail() {
+    return this.adminUsersAdminForm.controls.adminEmail;
+  }
+
+  get adminPassword() {
+    return this.adminUsersAdminForm.controls.adminPassword;
   }
 
   loadClientData() {
