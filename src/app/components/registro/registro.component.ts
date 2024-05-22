@@ -32,7 +32,7 @@ export class RegistroComponent implements OnInit {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.registroError = errorData;
+          this.registroError = "Ya existe un usuario con el email especificado";
         },
         complete: () => {
           console.info('Registro completo');

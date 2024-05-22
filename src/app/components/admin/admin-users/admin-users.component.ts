@@ -30,13 +30,6 @@ export class AdminUsersComponent {
     password: ['', Validators.required]
   });
 
-  adminUsersEditForm = this.formBuilder.group({
-    editName: ['', [Validators.required, Validators.maxLength(50)]],
-    editSurname: ['', [Validators.required, Validators.maxLength(50)]],
-    editEmail: ['', [Validators.required, Validators.email]],
-    editPhone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
-  });
-
   adminUsersAdminForm = this.formBuilder.group({
     adminName: ['', [Validators.required, Validators.maxLength(50)]],
     adminEmail: ['', [Validators.required, Validators.email]],
@@ -49,7 +42,6 @@ export class AdminUsersComponent {
     this.userService.getAdmins().subscribe(
       (data) => {
         this.admins = data;
-        console.log(this.admins);
       },
       (error) => {
         console.error('Error al obtener a los administradores', error);
@@ -110,37 +102,7 @@ export class AdminUsersComponent {
         },
         (error) => {
           console.error('Error al añadir cliente:', error);
-          this.adminUsersError = 'Error al añadir cliente. Por favor, inténtalo de nuevo.';
-        }
-      );
-    }
-  }
-
-  editClient() {
-    if (this.adminUsersEditForm.valid) {
-      let editName = this.adminUsersEditForm.get('editName')?.value;
-      let editSurname = this.adminUsersEditForm.get('editSurname')?.value;
-      let editEmail = this.adminUsersEditForm.get('editEmail')?.value;
-      let editPhone = this.adminUsersEditForm.get('editPhone')?.value;
-
-      const userData = {
-        name: editName!,
-        surname: editSurname!,
-        email: editEmail!,
-        phone: editPhone!
-      };
-      console.log(this.selectedClientId!);
-      this.clientService.updateClient(this.selectedClientId!, userData).subscribe(
-        (response) => {
-          console.log('Cliente modificado correctamente:', response);
-          this.adminUsersEditForm.reset();
-          this.router.navigate(['admin-users']).then(() => {
-            window.location.reload();
-          });
-        },
-        (error) => {
-          console.error('Error al modificar al cliente:', error);
-          this.adminUsersError = 'Error al modificar al cliente. Por favor, inténtalo de nuevo.';
+          this.adminUsersError = 'Ya existe un cliente con el email especificado';
         }
       );
     }
@@ -148,17 +110,14 @@ export class AdminUsersComponent {
   
   deleteClient() {
     if (this.selectedClientId !== null) {
-      const deleteData: deleteRequest = {
-        id: this.selectedClientId
-      };
 
-      this.clientService.deleteClient(deleteData).subscribe({
+      this.clientService.deleteClient(this.selectedClientId).subscribe({
         next: (userData) => {
           console.log(userData);
         },
         error: (errorData) => {
           console.log(errorData);
-          this.adminUsersError = errorData;
+          this.adminUsersError = "Error al eliminar el cliente. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');
@@ -194,7 +153,7 @@ export class AdminUsersComponent {
         },
         (error) => {
           console.error('Error al añadir administrador:', error);
-          this.adminUsersError = 'Error al añadir administrador. Por favor, inténtalo de nuevo.';
+          this.adminUsersError = 'Ya existe un administrador con el email especificado';
         }
       );
     }
@@ -212,7 +171,7 @@ export class AdminUsersComponent {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.adminUsersError = errorData;
+          this.adminUsersError = "Error al eliminar el administrador. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');
@@ -228,7 +187,6 @@ export class AdminUsersComponent {
 
   selectClientId(id: number) {
     this.selectedClientId = id;
-    this.loadClientData();
   }
 
   get name() {
@@ -251,22 +209,6 @@ export class AdminUsersComponent {
     return this.adminUsersForm.controls.password;
   }
 
-  get editName() {
-    return this.adminUsersEditForm.controls.editName;
-  }
-
-  get editSurname() {
-    return this.adminUsersEditForm.controls.editSurname;
-  }
-
-  get editPhone() {
-    return this.adminUsersEditForm.controls.editPhone;
-  }
-
-  get editEmail() {
-    return this.adminUsersEditForm.controls.editEmail;
-  }
-
   get adminName() {
     return this.adminUsersAdminForm.controls.adminName;
   }
@@ -277,20 +219,6 @@ export class AdminUsersComponent {
 
   get adminPassword() {
     return this.adminUsersAdminForm.controls.adminPassword;
-  }
-
-  loadClientData() {
-    if (this.selectedClientId !== null) {
-      const selectedClient = this.clients.find((client: any) => client.id === this.selectedClientId);
-      if (selectedClient) {
-        this.adminUsersEditForm.patchValue({
-          editName: selectedClient.name,
-          editSurname: selectedClient.surname,
-          editEmail: selectedClient.email,
-          editPhone: selectedClient.phone
-        });
-      }
-    }
   }
    
 }

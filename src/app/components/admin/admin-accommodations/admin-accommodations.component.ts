@@ -88,7 +88,7 @@ export class AdminAccommodationsComponent {
         },
         (error) => {
           console.error('Error al crear alojamiento:', error);
-          this.adminAccommodationsError = 'Error al crear el alojamiento. Por favor, inténtalo de nuevo.';
+          this.adminAccommodationsError = 'Error al crear el alojamiento. Inténtalo de nuevo.';
         }
       );
     }
@@ -108,7 +108,6 @@ export class AdminAccommodationsComponent {
         address: editAddress!,
         location: editLocation!
       };
-      console.log(this.selectedAccommodationId!);
       this.accommodationService.updateAccommodation(accommodationData).subscribe(
         (response) => {
           console.log('Alojamiento modificado correctamente:', response);
@@ -119,7 +118,7 @@ export class AdminAccommodationsComponent {
         },
         (error) => {
           console.error('Error al modificar al alojamiento:', error);
-          this.adminAccommodationsError = 'Error al modificar al alojamiento. Por favor, inténtalo de nuevo.';
+          this.adminAccommodationsError = 'Error al modificar al alojamiento. Inténtalo de nuevo.';
         }
       );
     }
@@ -137,10 +136,9 @@ export class AdminAccommodationsComponent {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.adminAccommodationsError = errorData;
+          this.adminAccommodationsError = "Error al eliminar el alojamiento. Inténtalo de nuevo.";
         },
         complete: () => {
-          console.info('Borrado completo');
           this.router.navigate(['admin-accommodations']).then(() => {
             window.location.reload();
           });

@@ -127,7 +127,7 @@ export class AdminAccoUnitsComponent {
         },
         (error) => {
           console.error('Error al crear la unidad de alojamiento:', error);
-          this.adminAccoUnitsError = 'Error al crear la unidad de alojamiento. Por favor, inténtalo de nuevo.';
+          this.adminAccoUnitsError = 'Error al crear la unidad de alojamiento. Inténtalo de nuevo.';
         }
       );
     }
@@ -164,7 +164,7 @@ export class AdminAccoUnitsComponent {
         },
         (error) => {
           console.error('Error al modificar la unidad de alojamiento:', error);
-          this.adminAccoUnitsError = 'Error al modificar al alojamiento. Por favor, inténtalo de nuevo.';
+          this.adminAccoUnitsError = 'Error al modificar al alojamiento. Inténtalo de nuevo.';
         }
       );
     }
@@ -182,7 +182,7 @@ export class AdminAccoUnitsComponent {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.adminAccoUnitsError = errorData;
+          this.adminAccoUnitsError = "Error al eliminar la unidad de alojamiento. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');

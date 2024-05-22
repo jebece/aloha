@@ -61,7 +61,7 @@ export class AdminBooksComponent {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.adminBooksError = errorData;
+          this.adminBooksError = "Error al eliminar la reserva. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');

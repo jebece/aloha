@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit{
         },
         error: (errorData) => {
           console.log(errorData);
-          this.loginError = errorData;
+          this.loginError = "Usuario o contraseña incorrectos";
         },
         complete: () => {
           console.info('Login completo');

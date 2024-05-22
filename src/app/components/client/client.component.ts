@@ -110,11 +110,11 @@ export class ClientComponent implements OnInit {
         this.loginService.login(loginData).pipe(
           switchMap(() => {
             const updateData: updateRequest = {
+              email: this.clientForm.get('email')?.value ?? '',
+              password: this.confirmForm.get('password')?.value ?? '',
               name: this.clientForm.get('name')?.value ?? '',
               surname: this.clientForm.get('surname')?.value ?? '',
-              email: this.clientForm.get('email')?.value ?? '',
-              phone: this.clientForm.get('phone')?.value ?? '',
-              password: this.confirmForm.get('password')?.value ?? ''
+              phone: this.clientForm.get('phone')?.value ?? ''
             };
             return this.clientService.updateClient(this.clientId!, updateData);
           }),
@@ -127,14 +127,14 @@ export class ClientComponent implements OnInit {
           })
         ).subscribe({
           next: (userData) => {
-            console.log('Token updated successfully:', userData);
+            console.log('Token actualizado correctamente:', userData);
           },
           error: (errorData) => {
             console.log(errorData);
-            this.clientError = errorData;
+            this.clientError = "Contraseña incorrecta. Inténtalo de nuevo.";
           },
           complete: () => {
-            console.info('Registro completo');
+            console.info('Información actualizada correctamente');
             this.clientForm.reset();
             this.router.navigate(['client']).then(() => {
               window.location.reload();
@@ -151,17 +151,14 @@ export class ClientComponent implements OnInit {
 
   deleteClient() {
     if (this.clientId !== undefined) {
-      const deleteData: deleteRequest = {
-        id: this.clientId
-      };
 
-      this.clientService.deleteClient(deleteData).subscribe({
+      this.clientService.deleteClient(this.clientId).subscribe({
         next: (userData) => {
           console.log(userData);
         },
         error: (errorData) => {
           console.log(errorData);
-          this.clientError = errorData;
+          this.clientError = "Error al eliminar el cliente. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');
@@ -180,7 +177,6 @@ export class ClientComponent implements OnInit {
       this.bookingService.getBookingByClientId(this.clientId).subscribe({
         next: (bookingData) => {
           this.books = bookingData;
-          console.log(this.books);
           if (Array.isArray(this.books) && this.books.length > 0) {
             this.showRows = true;
           } else {
@@ -225,7 +221,7 @@ export class ClientComponent implements OnInit {
         },
         error: (errorData) => {
           console.log(errorData);
-          this.clientError = errorData;
+          this.clientError = "Error al cancelar la reserva. Inténtalo de nuevo.";
         },
         complete: () => {
           console.info('Borrado completo');
