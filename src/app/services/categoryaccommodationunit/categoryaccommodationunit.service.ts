@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Categoryaccommodationunit } from '../../models/categoryaccommodationunit';
 import { Accommodationunit } from '../../models/accommodationunit';
 
 @Injectable({

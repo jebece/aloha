@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
-import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-consulta',
@@ -33,19 +32,6 @@ export class ConsultaComponent implements OnInit {
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
 
-    // this.route.queryParams.subscribe((params) => {
-    //   this.location = params['location'];
-    //   this.start = params['start'];
-    //   this.end = params['end'];
-    //   this.people = +params['people'];
-    //   this.houses = params['houses'] === 'true';
-    //   this.hotels = params['hotels'] === 'true';
-    //   this.hostels = params['hostels'] === 'true';
-    //   this.bungalows = params['bungalows'] === 'true';
-    // });
-
-    console.log(this.route.snapshot.queryParams);
-
     if (
       this.route.snapshot.queryParams['location'] == null ||
       (this.route.snapshot.queryParams['location'] == '' &&
@@ -54,7 +40,6 @@ export class ConsultaComponent implements OnInit {
         ))
     ) {
       this.categoryAccommodationUnitService.getAll().subscribe((response) => {
-        console.log(response);
         this.data = response;
       });
     } else if (
@@ -65,11 +50,9 @@ export class ConsultaComponent implements OnInit {
         ))
     ) {
       const array = this.route.snapshot.queryParams['categories'].join(',');
-      console.log(array);
       this.categoryAccommodationUnitService
         .getAccommodationUnitByCategory(array)
         .subscribe((response) => {
-          console.log(response);
           this.data = response;
         });
     } else {
@@ -78,8 +61,7 @@ export class ConsultaComponent implements OnInit {
           this.route.snapshot.queryParams['location']
         )
         .subscribe((response) => {
-          console.log(response);
-          this.data = response; // Accede al parámetro recibido location, cargado en la página de inicio
+          this.data = response;
         });
     }
   }
