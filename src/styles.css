@@ -13306,6 +13306,12 @@ body {
   font-weight: bold;
   color: #5B5E85;
 }
+.pay__book-form-cards {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #272A57;
+  text-decoration: none;
+}
 .pay__book-form-info {
   display: none;
 }
