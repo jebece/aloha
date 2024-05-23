@@ -12,6 +12,7 @@ import { LoginRequest } from '../../services/auth/loginRequest';
 import { switchMap } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BookingService } from '../../services/booking/booking.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client',
@@ -47,7 +48,7 @@ export class ClientComponent implements OnInit {
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService, private bookingService: BookingService) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService, private bookingService: BookingService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe({
@@ -132,6 +133,7 @@ export class ClientComponent implements OnInit {
           error: (errorData) => {
             console.log(errorData);
             this.clientError = "Contraseña incorrecta. Inténtalo de nuevo.";
+            this.toastr.error('Error al aplicar los cambios', '', {timeOut: 1500});
           },
           complete: () => {
             console.info('Información actualizada correctamente');
@@ -165,6 +167,7 @@ export class ClientComponent implements OnInit {
           this.logout();
           this.router.navigate(['']);
           this.clientForm.reset();
+          this.toastr.success('Su cuenta ha sido eliminada', '', {timeOut: 1500});
         }
       });
     } else {

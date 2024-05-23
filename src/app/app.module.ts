@@ -25,6 +25,7 @@ import { AdminBooksComponent } from './components/admin/admin-books/admin-books.
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { OrderModule } from 'ngx-order-pipe';
 import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 const appRoutes: Routes = [
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     NgxSpinnerModule,
     FilterPipeModule,
-    OrderModule
+    OrderModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     DatePipe

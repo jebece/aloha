@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit{
     password:['', Validators.required]
   })
 
-  constructor(private formBuilder:FormBuilder, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService) {
+  constructor(private formBuilder:FormBuilder, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService, private toastr: ToastrService) {
     
   }
 
@@ -33,11 +34,13 @@ export class LoginComponent implements OnInit{
         error: (errorData) => {
           console.log(errorData);
           this.loginError = "Usuario o contraseña incorrectos";
+          this.toastr.error('Error al iniciar sesión', '', {timeOut: 1500});
         },
         complete: () => {
           console.info('Login completo');
           this.router.navigate(['']);
           this.loginForm.reset();
+          this.toastr.success('Sesión iniciada con éxito', '', {timeOut: 1500});
         }
       });
     }else{

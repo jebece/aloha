@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistroRequest } from '../../services/auth/registroRequest';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registro',
@@ -20,7 +21,7 @@ export class RegistroComponent implements OnInit {
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   })
 
-  constructor(private userService: UserService, private formBuilder:FormBuilder, private router:Router, private spinner: NgxSpinnerService) {}
+  constructor(private userService: UserService, private formBuilder:FormBuilder, private router:Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
@@ -33,11 +34,13 @@ export class RegistroComponent implements OnInit {
         error: (errorData) => {
           console.log(errorData);
           this.registroError = "Ya existe un usuario con el email especificado";
+          this.toastr.error('Error en el proceso de registro', '', {timeOut: 1500});
         },
         complete: () => {
           console.info('Registro completo');
           this.router.navigate(['']);
           this.registroForm.reset();
+          this.toastr.success('Registro completado con éxito', '', {timeOut: 1500});
         }
     });
     }else{
