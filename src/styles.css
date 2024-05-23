@@ -11,6 +11,15 @@
 * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
 */
 
+
+.ngx-toastr.custom-toast {
+  background-color: #5B5E85 !important;
+  color: #FFFFFF !important;
+  border-radius: 10px;
+  border: 0.5px solid white !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+}
+
 /*
 ORDENACION
 */

@@ -34,13 +34,13 @@ export class LoginComponent implements OnInit{
         error: (errorData) => {
           console.log(errorData);
           this.loginError = "Usuario o contraseña incorrectos";
-          this.toastr.error('Error al iniciar sesión', '', {timeOut: 1500});
+          this.toastr.error('', 'Error al iniciar sesión', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
         },
         complete: () => {
           console.info('Login completo');
           this.router.navigate(['']);
           this.loginForm.reset();
-          this.toastr.success('Sesión iniciada con éxito', '', {timeOut: 1500});
+          this.toastr.success('', 'Sesión iniciada con éxito', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
         }
       });
     }else{
