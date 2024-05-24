@@ -74,6 +74,46 @@ export class InicioComponent implements OnInit {
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
+  searchCity(city:string): void {
+    const queryParams = {
+      location: city,
+      start: this.minDate,
+      end: null,
+      people: 2,
+      houses: true,
+      hotels: true,
+      hostels: true,
+      bungalows: true
+    };
+  
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchCategory(category:string): void {
+    let houses = false;
+    let hotels = false;
+    let hostels = false;
+    let bungalows = false;
+    
+    if (category === 'houses') {  houses = true; }
+    if (category === 'hotels') {  hotels = true; }  
+    if (category === 'hostels') {  hostels = true; }
+    if (category === 'bungalows') {  bungalows = true; }
+    
+    const queryParams = {
+      location: null,
+      start: this.minDate,
+      end: null,
+      people: 2,
+      houses: houses,
+      hotels: hotels,
+      hostels: hostels,
+      bungalows: bungalows
+    };
+  
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
   showSpinner(): void {
     this.spinner.show();
     setTimeout(() => {

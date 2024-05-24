@@ -86,15 +86,16 @@
                     </div>
                     <div class="collapse col-lg-6 offset-lg-6 mt-2" id="myCards">
                         <div class="card card-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="card" id="card">
-                                <label class="form-check-label pay__book-form-info" for="card">
+                            <div class="pay__book-details-info mb-2">Selecciona tarjeta:</div>
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="radio" name="card">
+                                <label class="pay__book-details-info form-check-label " for="card">
                                     ****-****-****-1234
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="card" id="card">
-                                <label class="form-check-label pay__book-form-info" for="card">
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="radio" name="card">
+                                <label class="pay__book-details-info form-check-label " for="card">
                                     ****-****-****-5678
                                 </label>
                             </div>
@@ -103,10 +104,14 @@
                     <form class="needs-validation" novalidate [formGroup]="payForm">
                         <div class="pay__book-form-informations row gx-3">
                             <div
-                                class="pay__book-form-information col-lg-5 d-flex flex-column justify-content-end pt-lg-3">
+                                class="pay__book-form-information col-lg-3 d-flex flex-column justify-content-end pt-lg-3">
+                                <div class="pay__book-form-info">Titular</div>
+                            </div>
+                            <div
+                                class="pay__book-form-information col-lg-3 d-flex flex-column justify-content-end pt-lg-3">
                                 <div class="pay__book-form-info">N° tarjeta</div>
                             </div>
-                            <div class="pay__book-form-information col-lg-3 d-flex flex-column justify-content-end">
+                            <div class="pay__book-form-information col-lg-2 d-flex flex-column justify-content-end">
                                 <div class="pay__book-form-info">Caducidad</div>
                             </div>
                             <div class="pay__book-form-information col-lg-2 d-flex flex-column justify-content-end">
@@ -114,17 +119,24 @@
                             </div>
                         </div>
                         <div class="row gx-3">
-                            <div class="pay__book-form-controls col-lg-5 mt-2">
+                            <div class="pay__book-form-controls col-lg-3 mt-2">
+                                <div class="pay__book-form-hidden">Titular</div>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="owner" id="owner" name="owner" required>
+                                <div *ngIf="owner.invalid && (owner.dirty || owner.touched)" class="text-message mt-1 pb-lg-4">
+                                    <div *ngIf="owner.errors?.['required']">Introduzca titular</div>
+                                </div>
+                            </div>
+                            <div class="pay__book-form-controls col-lg-3 mt-2">
                                 <div class="pay__book-form-hidden">N° tarjeta</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cardNumber" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cardNumber" id="cardNumber" name="cardNumber" required>
                                 <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)" class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cardNumber.errors?.['required']">Introduzca número de tarjeta</div>
                                     <div *ngIf="cardNumber.errors?.['pattern']">Introduzca 16 dígitos numéricos</div>
                                 </div>
                             </div>
-                            <div class="pay__book-form-controls col-lg-3 mt-2">
+                            <div class="pay__book-form-controls col-lg-2 mt-2">
                                 <div class="pay__book-form-hidden">Caducidad</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cardExpiration" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cardExpiration" id="cardExpiration" name="cardExpiration" required>
                                 <div *ngIf="cardExpiration.invalid && (cardExpiration.dirty || cardExpiration.touched)" class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cardExpiration.errors?.['required']">Introduzca caducidad</div>
                                     <div *ngIf="cardExpiration.errors?.['pattern']">Formato inválido (dd/dd)</div>
@@ -132,7 +144,7 @@
                             </div>
                             <div class="pay__book-form-controls col-lg-2 mt-2">
                                 <div class="pay__book-form-hidden">CVC</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cvc" required>
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cvc" id="cvc" name="cvc" required>
                                 <div *ngIf="cvc.invalid && (cvc.dirty || cvc.touched)" class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cvc.errors?.['required']">Introduzca CVC</div>
                                     <div *ngIf="cvc.errors?.['pattern']">Formato inválido (ddd)</div>

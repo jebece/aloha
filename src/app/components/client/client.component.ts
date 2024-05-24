@@ -133,7 +133,7 @@ export class ClientComponent implements OnInit {
           error: (errorData) => {
             console.log(errorData);
             this.clientError = "Contraseña incorrecta. Inténtalo de nuevo.";
-            this.toastr.error('', 'Error al aplicar los cambios', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
+            this.toastr.error('', 'Error al aplicar los cambios', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
           },
           complete: () => {
             console.info('Información actualizada correctamente');
@@ -167,7 +167,7 @@ export class ClientComponent implements OnInit {
           this.logout();
           this.router.navigate(['']);
           this.clientForm.reset();
-          this.toastr.success('', 'Su cuenta ha sido eliminada', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
+          this.toastr.success('', 'Su cuenta ha sido eliminada', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
         }
       });
     } else {

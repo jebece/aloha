@@ -34,13 +34,13 @@ export class RegistroComponent implements OnInit {
         error: (errorData) => {
           console.log(errorData);
           this.registroError = "Ya existe un usuario con el email especificado";
-          this.toastr.error('', 'Error en el proceso de registro', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
+          this.toastr.error('', 'Error en el proceso de registro', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
         },
         complete: () => {
           console.info('Registro completo');
           this.router.navigate(['']);
           this.registroForm.reset();
-          this.toastr.success('', 'Registro completado con éxito', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast'});
+          this.toastr.success('', 'Registro completado con éxito', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
         }
     });
     }else{

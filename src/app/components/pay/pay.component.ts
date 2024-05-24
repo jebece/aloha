@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class PayComponent implements OnInit {
   payError: string = '';
   payForm = this.formBuilder.group({
+    owner: ['', Validators.required],
     cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],
     cardExpiration: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\/[0-9]{2}$')]],
     cvc: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
@@ -65,6 +66,10 @@ export class PayComponent implements OnInit {
         }
       });
     }
+  }
+
+  get owner() {
+    return this.payForm.controls.owner;
   }
 
   get cardNumber() {
