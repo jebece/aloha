@@ -96,7 +96,7 @@ export class InicioComponent implements OnInit {
     const queryParams = {
       location: city,
       start: this.minDate,
-      end: null,
+      end: this.minEndDate,
       people: 2,
       houses: true,
       hotels: true,
@@ -121,7 +121,7 @@ export class InicioComponent implements OnInit {
     const queryParams = {
       location: null,
       start: this.minDate,
-      end: null,
+      end: this.minEndDate,
       people: 2,
       houses: houses,
       hotels: hotels,
