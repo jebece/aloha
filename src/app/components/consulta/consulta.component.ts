@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-consulta',
   templateUrl: './consulta.component.html',
-  styleUrls: ['./consulta.component.css']
+  styleUrls: ['./consulta.component.css'],
 })
 export class ConsultaComponent implements OnInit {
+  data: any;
   location: string = '';
   start?: Date;
   bookStart?: Date;
@@ -25,7 +27,7 @@ export class ConsultaComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private categoryAccommodationUnitService: CategoryaccommodationunitService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -53,13 +55,46 @@ export class ConsultaComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide();
     }, 3000);
+
+    if (
+      this.route.snapshot.queryParams['location'] == null ||
+      (this.route.snapshot.queryParams['location'] == '' &&
+        this.route.snapshot.queryParams['categories'].every(
+          (element: string) => element == 'false'
+        ))
+    ) {
+      this.categoryAccommodationUnitService.getAll().subscribe((response) => {
+        this.data = response;
+      });
+    } else if (
+      this.route.snapshot.queryParams['location'] == null ||
+      (this.route.snapshot.queryParams['location'] == '' &&
+        this.route.snapshot.queryParams['categories'].some(
+          (element: string) => element == 'true'
+        ))
+    ) {
+      const array = this.route.snapshot.queryParams['categories'].join(',');
+      this.categoryAccommodationUnitService
+        .getAccommodationUnitByCategory(array)
+        .subscribe((response) => {
+          this.data = response;
+        });
+    } else {
+      this.categoryAccommodationUnitService
+        .getCategoryAccommodationUnitByLocation(
+          this.route.snapshot.queryParams['location']
+        )
+        .subscribe((response) => {
+          this.data = response;
+        });
+    }
   }
 
   updateMinEndDate(startDate: string): void {
     if (startDate) {
       const selectedDate = new Date(startDate);
       selectedDate.setDate(selectedDate.getDate() + 1);
-  
+
       const year = selectedDate.getFullYear();
       const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
       const day = selectedDate.getDate().toString().padStart(2, '0');

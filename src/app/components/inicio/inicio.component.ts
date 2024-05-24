@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../services/auth/user';
 import { UserService } from '../../services/user/user.service';
+import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -17,15 +18,12 @@ export class InicioComponent implements OnInit {
   start?: Date;
   end?: Date;
   people: number = 2;
-  houses: boolean = false;
-  hotels: boolean = false;
-  hostels: boolean = false;
-  bungalows: boolean = false;
+  categories: boolean[] = [false, false, false, false];
 
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private userService: UserService, private spinner: NgxSpinnerService) { }
+  constructor(private router: Router, private userService: UserService, private spinner: NgxSpinnerService, private categoryAccommodationUnitService: CategoryaccommodationunitService) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -44,7 +42,7 @@ export class InicioComponent implements OnInit {
       },
       complete: () => {
         console.info('Petición completada');
-      }
+      },
     });
   }
 
@@ -83,10 +81,62 @@ export class InicioComponent implements OnInit {
       start: formattedStartDate,
       end: formattedEndDate,
       people: this.people,
-      houses: this.houses,
-      hotels: this.hotels,
-      hostels: this.hostels,
-      bungalows: this.bungalows
+      categories: this.categories,
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByLocation(location: string): void {
+    const queryParams = {
+      location: location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: this.categories,
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHotels(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, true, false, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHouses(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [true, false, false, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryHostels(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, false, true, false],
+    };
+    this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchAccommodationByCategoryBungalows(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      end: this.end,
+      people: this.people,
+      categories: [false, false, false, true],
     };
 
     this.router.navigate(['/consulta'], { queryParams: queryParams });
