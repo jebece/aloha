@@ -11,8 +11,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ConsultaComponent implements OnInit {
   location: string = '';
   start?: Date;
+  bookStart?: Date;
   end?: Date;
+  bookEnd?: Date;
   people: number = 2;
+  bookPeople?: number;
   houses: boolean = false;
   hotels: boolean = false;
   hostels: boolean = false;
@@ -35,8 +38,11 @@ export class ConsultaComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.location = params['location'];
       this.start = params['start'];
+      this.bookStart = params['start'];
       this.end = params['end'];
+      this.bookEnd = params['end'];
       this.people = +params['people'];
+      this.bookPeople = +params['people'];
       this.houses = params['houses'] === 'true';
       this.hotels = params['hotels'] === 'true';
       this.hostels = params['hostels'] === 'true';
@@ -91,5 +97,25 @@ export class ConsultaComponent implements OnInit {
     };
   
     this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  searchDetails(): void {
+    const queryParams = {
+      location: this.location,
+      start: this.start,
+      bookStart: this.bookStart,
+      end: this.end,
+      bookEnd: this.bookEnd,
+      people: this.people,
+      bookPeople: this.bookPeople,
+      houses: this.houses,
+      hotels: this.hotels,
+      hostels: this.hostels,
+      bungalows: this.bungalows,
+      maxPrice: this.maxPrice,
+      id: 1
+    };
+  
+    this.router.navigate(['/details'], { queryParams: queryParams });
   }
 }

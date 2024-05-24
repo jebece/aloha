@@ -10,13 +10,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class DetailsComponent {
   location: string = '';
   start?: Date;
+  bookStart?: Date;
   end?: Date;
+  bookEnd?: Date;
   people: number = 2;
+  bookPeople?: number;
   houses: boolean = false;
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
   maxPrice: number = 300;
+  id?: number;
 
   minDate: string = '';
   minEndDate: string = '';
@@ -34,13 +38,17 @@ export class DetailsComponent {
     this.route.queryParams.subscribe(params => {
       this.location = params['location'];
       this.start = params['start'];
+      this.bookStart = params['bookStart'];
       this.end = params['end'];
+      this.bookEnd = params['bookEnd'];
       this.people = +params['people'];
+      this.bookPeople = +params['bookPeople'];
       this.houses = params['houses'] === 'true';
       this.hotels = params['hotels'] === 'true';
       this.hostels = params['hostels'] === 'true';
       this.bungalows = params['bungalows'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
+      this.id = +params['id'];
     });
 
     this.spinner.show();

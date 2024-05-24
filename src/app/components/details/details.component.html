@@ -304,15 +304,15 @@
                             <div class="details__book-resume-card row m-2">
                                 <div class="details__book-resume-entrada col-6 p-3">
                                     <div class="details__book-resume-text">Entrada</div>
-                                    <div class="details__book-resume-date">02/05/2024</div>
+                                    <div class="details__book-resume-date">{{this.bookStart | date:'dd/MM/yyyy' }}</div>
                                 </div>
                                 <div class="details__book-resume-salida col-6 p-3">
                                     <div class="details__book-resume-text">Salida</div>
-                                    <div class="details__book-resume-date">03/05/2024</div>
+                                    <div class="details__book-resume-date">{{this.bookEnd | date:'dd/MM/yyyy' }}</div>
                                 </div>
                                 <div class="details__book-resume-people p-3">
                                     <div class="details__book-resume-text">Personas</div>
-                                    <div class="details__book-resume-number">2</div>
+                                    <div class="details__book-resume-number">{{this.bookPeople}}</div>
                                 </div>
                             </div>
                         </div>
