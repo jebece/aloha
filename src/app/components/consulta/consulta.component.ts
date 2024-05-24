@@ -10,8 +10,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ConsultaComponent implements OnInit {
   location: string = '';
-  start: Date = new Date();
-  end: Date = new Date();
+  start?: Date;
+  end?: Date;
   people: number = 2;
   houses: boolean = false;
   hotels: boolean = false;
@@ -30,7 +30,8 @@ export class ConsultaComponent implements OnInit {
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
-    
+    this.updateMinEndDate(this.minDate);
+
     this.route.queryParams.subscribe(params => {
       this.location = params['location'];
       this.start = params['start'];
@@ -61,10 +62,26 @@ export class ConsultaComponent implements OnInit {
   }
 
   searchAccommodation(): void {
+    if (this.start && this.end) {
+      const startDate = new Date(this.start);
+      const endDate = new Date(this.end);
+
+      if (startDate.getTime() >= endDate.getTime()) {
+        startDate.setDate(endDate.getDate() - 1);
+        this.start = startDate;
+      }
+    }
+
+    const startDate = this.start ? new Date(this.start) : new Date(this.minDate);
+    const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
+
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
     const queryParams = {
       location: this.location,
-      start: this.start,
-      end: this.end,
+      start: formattedStartDate,
+      end: formattedEndDate,
       people: this.people,
       houses: this.houses,
       hotels: this.hotels,

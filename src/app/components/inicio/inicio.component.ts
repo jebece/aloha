@@ -7,15 +7,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css'] 
+  styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
   user?: User;
   errorMessage: string = '';
-  
+
   location: string = '';
-  start: Date = new Date();
-  end: Date = new Date();
+  start?: Date;
+  end?: Date;
   people: number = 2;
   houses: boolean = false;
   hotels: boolean = false;
@@ -25,7 +25,7 @@ export class InicioComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private userService:UserService, private spinner: NgxSpinnerService) {}
+  constructor(private router: Router, private userService: UserService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -33,15 +33,16 @@ export class InicioComponent implements OnInit {
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
-  
+    this.updateMinEndDate(this.minDate);
+
     this.userService.getUser().subscribe({
-      next: (userData) =>{
-        this.user=userData;
+      next: (userData) => {
+        this.user = userData;
       },
-      error: (errorData) =>{
-        this.errorMessage=errorData;
+      error: (errorData) => {
+        this.errorMessage = errorData;
       },
-      complete: () =>{
+      complete: () => {
         console.info('Petición completada');
       }
     });
@@ -51,30 +52,47 @@ export class InicioComponent implements OnInit {
     if (startDate) {
       const selectedDate = new Date(startDate);
       selectedDate.setDate(selectedDate.getDate() + 1);
-  
+
       const year = selectedDate.getFullYear();
       const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
       const day = selectedDate.getDate().toString().padStart(2, '0');
       this.minEndDate = `${year}-${month}-${day}`;
     }
   }
-  
+
   searchAccommodation(): void {
+
+    if (this.start && this.end) {
+      const startDate = new Date(this.start);
+      const endDate = new Date(this.end);
+
+      if (startDate.getTime() >= endDate.getTime()) {
+        startDate.setDate(endDate.getDate() - 1);
+        this.start = startDate;
+      }
+    }
+
+    const startDate = this.start ? new Date(this.start) : new Date(this.minDate);
+    const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
+
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
     const queryParams = {
       location: this.location,
-      start: this.start,
-      end: this.end,
+      start: formattedStartDate,
+      end: formattedEndDate,
       people: this.people,
       houses: this.houses,
       hotels: this.hotels,
       hostels: this.hostels,
       bungalows: this.bungalows
     };
-  
+
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
-  searchCity(city:string): void {
+  searchCity(city: string): void {
     const queryParams = {
       location: city,
       start: this.minDate,
@@ -85,21 +103,21 @@ export class InicioComponent implements OnInit {
       hostels: true,
       bungalows: true
     };
-  
+
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
-  searchCategory(category:string): void {
+  searchCategory(category: string): void {
     let houses = false;
     let hotels = false;
     let hostels = false;
     let bungalows = false;
-    
-    if (category === 'houses') {  houses = true; }
-    if (category === 'hotels') {  hotels = true; }  
-    if (category === 'hostels') {  hostels = true; }
-    if (category === 'bungalows') {  bungalows = true; }
-    
+
+    if (category === 'houses') { houses = true; }
+    if (category === 'hotels') { hotels = true; }
+    if (category === 'hostels') { hostels = true; }
+    if (category === 'bungalows') { bungalows = true; }
+
     const queryParams = {
       location: null,
       start: this.minDate,
@@ -110,7 +128,7 @@ export class InicioComponent implements OnInit {
       hostels: hostels,
       bungalows: bungalows
     };
-  
+
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
