@@ -6,7 +6,6 @@ import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.servic
 import { updateRequest } from '../../services/client/updateRequest';
 import { ClientService } from '../../services/client/client.service';
 import { Router } from '@angular/router';
-import { deleteRequest } from '../../services/client/deleteRequest';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { switchMap } from 'rxjs';
@@ -33,68 +32,79 @@ export class ClientComponent implements OnInit {
     password: ['', Validators.required]
   });
 
+  userLoginOn: boolean = false;
+  userData?: User;
   user?: User;
   errorMessage: string = '';
   decodedToken: any;
   clientId?: number;
   clientPassword?: string;
-  books: any ;
+  books: any;
   selectedBookId: number | null = null;
   page: number = 1;
   showRows: boolean = false;
-  booksFilter: any = { accommodationUnit: { accommodation: { name: '' } }};
+  booksFilter: any = { accommodationUnit: { accommodation: { name: '' } } };
   order: string = 'accommodationUnit.accommodation.name';
   reverse: boolean = false;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router:Router, private loginService:LoginService, private spinner: NgxSpinnerService, private bookingService: BookingService, private toastr: ToastrService) {}
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private clientService: ClientService, private router: Router, private loginService: LoginService, private spinner: NgxSpinnerService, private bookingService: BookingService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe({
-      next: (userData) => {
-        this.user = userData;
-        if (this.user && this.user.token) {
-          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
-        }
-        if (this.decodedToken.name) {
-          this.clientForm.get('name')?.setValue(this.decodedToken.name);
-        }
-        if (this.decodedToken.surname) {
-          this.clientForm.get('surname')?.setValue(this.decodedToken.surname);
-        }
-        if (this.decodedToken.email) {
-          this.clientForm.get('email')?.setValue(this.decodedToken.email);
-        }
-        if (this.decodedToken.phone) {
-          this.clientForm.get('phone')?.setValue(this.decodedToken.phone);
-        }
-        if (this.decodedToken.id) {
-          this.clientId = this.decodedToken.id;
-        }
-        if (this.decodedToken.id) {
-          this.clientId = this.decodedToken.id;
-          this.getBookings();
-        }
-      },
-      error: (errorData) => {
-        this.errorMessage = errorData;
-      },
-      complete: () => {
-        console.info('Petición completada');
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
       }
     });
-  
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 500);
+    if (!this.userLoginOn) {
+      this.router.navigate(['login']);
+    } else {
+      this.userService.getUser().subscribe({
+        next: (userData) => {
+          this.user = userData;
+          if (this.user && this.user.token) {
+            this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+          }
+          if (this.decodedToken.name) {
+            this.clientForm.get('name')?.setValue(this.decodedToken.name);
+          }
+          if (this.decodedToken.surname) {
+            this.clientForm.get('surname')?.setValue(this.decodedToken.surname);
+          }
+          if (this.decodedToken.email) {
+            this.clientForm.get('email')?.setValue(this.decodedToken.email);
+          }
+          if (this.decodedToken.phone) {
+            this.clientForm.get('phone')?.setValue(this.decodedToken.phone);
+          }
+          if (this.decodedToken.id) {
+            this.clientId = this.decodedToken.id;
+          }
+          if (this.decodedToken.id) {
+            this.clientId = this.decodedToken.id;
+            this.getBookings();
+          }
+        },
+        error: (errorData) => {
+          this.errorMessage = errorData;
+        },
+        complete: () => {
+          console.info('Petición completada');
+        }
+      });
+
+      this.spinner.show();
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
+    }
   }
-  
+
   setOrder(columnName: string) {
-    if(this.order === columnName) {
+    if (this.order === columnName) {
       this.reverse = !this.reverse;
-    }else {
+    } else {
       this.reverse = false;
     }
     this.order = columnName;
@@ -107,7 +117,7 @@ export class ClientComponent implements OnInit {
           email: this.decodedToken.email ?? '',
           password: this.confirmForm.get('password')?.value ?? ''
         };
-  
+
         this.loginService.login(loginData).pipe(
           switchMap(() => {
             const updateData: updateRequest = {
@@ -133,7 +143,7 @@ export class ClientComponent implements OnInit {
           error: (errorData) => {
             console.log(errorData);
             this.clientError = "Contraseña incorrecta. Inténtalo de nuevo.";
-            this.toastr.error('', 'Error al aplicar los cambios', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
+            this.toastr.error('', 'Error al aplicar los cambios', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
           },
           complete: () => {
             console.info('Información actualizada correctamente');
@@ -167,7 +177,7 @@ export class ClientComponent implements OnInit {
           this.logout();
           this.router.navigate(['']);
           this.clientForm.reset();
-          this.toastr.success('', 'Su cuenta ha sido eliminada', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
+          this.toastr.success('', 'Su cuenta ha sido eliminada', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
         }
       });
     } else {
@@ -262,5 +272,5 @@ export class ClientComponent implements OnInit {
     this.loginService.logout();
   }
 
-  
+
 }

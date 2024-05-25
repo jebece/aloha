@@ -3,6 +3,8 @@ import { AccommodationService } from '../../../services/accommodation/accommodat
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from '../../../services/auth/user';
+import { LoginService } from '../../../services/auth/login.service';
 
 
 @Component({
@@ -11,6 +13,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './admin-accommodations.component.css'
 })
 export class AdminAccommodationsComponent {
+  userLoginOn: boolean = false;
+  userData?: User;
   accommodations: any;
   selectedAccommodationId: number | null = null;
   page: number = 1;
@@ -34,9 +38,17 @@ export class AdminAccommodationsComponent {
     editLocation: ['', [Validators.required, Validators.maxLength(50)]]
   });
 
-  constructor(private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService) {}
+  constructor(private loginService: LoginService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService) {}
   
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if (!this.userLoginOn) {
+      this.router.navigate(['login']);
+    } else {
     this.accommodationService.getAccommodations().subscribe(
       (data) => {
         this.accommodations = data;
@@ -53,6 +65,7 @@ export class AdminAccommodationsComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
   }
 
   setOrder(columnName: string) {

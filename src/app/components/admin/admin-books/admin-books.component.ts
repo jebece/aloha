@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingService } from '../../../services/booking/booking.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginService } from '../../../services/auth/login.service';
+import { User } from '../../../services/auth/user';
 
 @Component({
   selector: 'app-admin-books',
@@ -9,6 +11,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './admin-books.component.css'
 })
 export class AdminBooksComponent {
+  userLoginOn: boolean = false;
+  userData?: User;
   books: any;
   selectedBookId: number | null = null;
   page: number = 1;
@@ -19,9 +23,17 @@ export class AdminBooksComponent {
 
   adminBooksError: string = '';
 
-  constructor(private router: Router, private spinner: NgxSpinnerService, private bookingService: BookingService) {}
+  constructor(private loginService: LoginService, private router: Router, private spinner: NgxSpinnerService, private bookingService: BookingService) {}
 
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if (!this.userLoginOn) {
+      this.router.navigate(['login']);
+    } else {
     this.bookingService.getBookings().subscribe(
       (data) => {
         this.books = data;
@@ -38,6 +50,7 @@ export class AdminBooksComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
   }
 
   setOrder(columnName: string) {

@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AccommodationService } from '../../../services/accommodation/accommodation.service';
 import { CategoryService } from '../../../services/category/category.service';
 import { ServiceService } from '../../../services/service/service.service';
+import { User } from '../../../services/auth/user';
+import { LoginService } from '../../../services/auth/login.service';
 
 @Component({
   selector: 'app-admin-acco-units',
@@ -13,6 +15,8 @@ import { ServiceService } from '../../../services/service/service.service';
   styleUrl: './admin-acco-units.component.css'
 })
 export class AdminAccoUnitsComponent {
+  userLoginOn: boolean = false;
+  userData?: User;
   accommodations: any;
   accoUnits: any;
   categories: any;
@@ -43,9 +47,17 @@ export class AdminAccoUnitsComponent {
     editSelectedServices: [[], Validators.required]
   });
 
-  constructor(private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService) {}
+  constructor(private loginService: LoginService, private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService) {}
   
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if (!this.userLoginOn) {
+      this.router.navigate(['login']);
+    } else {
     this.accommodationService.getAccommodations().subscribe(
       (data) => {
         this.accommodations = data;
@@ -85,6 +97,7 @@ export class AdminAccoUnitsComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
   }
 
   setOrder(columnName: string) {

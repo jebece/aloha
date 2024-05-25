@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { ClientService } from '../../../services/client/client.service';
 import { UserService } from '../../../services/user/user.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { deleteRequest } from '../../../services/client/deleteRequest';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { User } from '../../../services/auth/user';
+import { LoginService } from '../../../services/auth/login.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -12,6 +13,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './admin-users.component.css'
 })
 export class AdminUsersComponent {
+  userLoginOn: boolean = false;
+  userData?: User;
   clients: any = [];
   admins: any = [];
   selectedClientId: number | null = null;
@@ -36,9 +39,17 @@ export class AdminUsersComponent {
     adminPassword: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService, private userService: UserService) {}
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService, private userService: UserService) {}
 
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if (!this.userLoginOn) {
+      this.router.navigate(['login']);
+    } else {
     this.userService.getAdmins().subscribe(
       (data) => {
         this.admins = data;
@@ -63,6 +74,7 @@ export class AdminUsersComponent {
     setTimeout(() => {
       this.spinner.hide();
     }, 500);
+  }
   }
 
 
