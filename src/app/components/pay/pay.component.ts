@@ -5,7 +5,8 @@ import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.servic
 import { UserService } from '../../services/user/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginService } from '../../services/auth/login.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
 
 
 
@@ -32,11 +33,33 @@ export class PayComponent implements OnInit {
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router) {
+  accoUnit?: any;
+  bookStart?: Date;
+  bookEnd?: Date;
+  bookPeople?: number;
+  id: number = 0;
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService) {
     this.userLoginOn = false;
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.bookStart = params['bookStart'];
+      this.bookEnd = params['bookEnd'];
+      this.bookPeople = +params['bookPeople'];
+      this.id = +params['id'];
+    });
+
+    this.accoUnitService.getAccoUnitById(this.id).subscribe(
+      (data) => {
+        this.accoUnit = data;
+      },
+      (error) => {
+        console.error('Error al obtener la unidad de alojamiento', error);
+      }
+    );
+
     this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => {
         this.userLoginOn = userLoginOn;
@@ -82,5 +105,22 @@ export class PayComponent implements OnInit {
 
   get cvc() {
     return this.payForm.controls.cvc;
+  }
+
+  diferenciaEnDias(): number {
+    const fechaInicio = this.bookStart;
+    const fechaFin = this.bookEnd;
+
+    if (fechaInicio) {
+      fechaInicio.setHours(0, 0, 0, 0);
+    }
+    if (fechaFin) {
+      fechaFin.setHours(0, 0, 0, 0);
+    }
+
+    const unDia = 1000 * 60 * 60 * 24;
+    const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
+
+    return Math.round(diferenciaEnMs / unDia);
   }
 }

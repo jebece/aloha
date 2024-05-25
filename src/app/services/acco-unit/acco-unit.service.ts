@@ -16,6 +16,13 @@ export class AccoUnitService {
     .pipe(catchError(this.handleError));
   }
 
+  getAccoUnitById(id: number) {
+    return this.http.get(environment.urlHost + '/api/accommodation-unit/' + id)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   public createAccoUnit(accoUnitData: any){
     return this.http.post(environment.urlHost + '/api/accommodation-unit/create', accoUnitData)
     .pipe(catchError(this.handleError));

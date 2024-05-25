@@ -23,6 +23,8 @@ export class ConsultaComponent implements OnInit {
   hostels: boolean = false;
   bungalows: boolean = false;
   maxPrice: number = 300;
+  selectedAccoUnitId: number | null = null;
+  selectedAccoUnitToPay: number | null = null;
 
   minDate: string = '';
   minEndDate: string = '';
@@ -134,7 +136,7 @@ export class ConsultaComponent implements OnInit {
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
-  searchDetails(): void {
+  searchDetails(id:number): void {
     const queryParams = {
       location: this.location,
       start: this.start,
@@ -148,9 +150,30 @@ export class ConsultaComponent implements OnInit {
       hostels: this.hostels,
       bungalows: this.bungalows,
       maxPrice: this.maxPrice,
-      id: 1
+      id: id
     };
   
     this.router.navigate(['/details'], { queryParams: queryParams });
+  }
+
+  selectAccoUnitId(id: number) {
+    this.selectedAccoUnitId = id;
+    this.searchDetails(this.selectedAccoUnitId);
+  }
+
+  goToPay(id: number): void{
+    const queryParams = {
+      bookStart: this.bookStart,
+      bookEnd: this.bookEnd,
+      bookPeople: this.bookPeople,
+      id: id
+    };
+
+    this.router.navigate(['/pay'], { queryParams: queryParams });
+  }
+
+  selectAccoUnitToPay(id: number) {
+    this.selectedAccoUnitToPay = id;
+    this.goToPay(this.selectedAccoUnitToPay);
   }
 }

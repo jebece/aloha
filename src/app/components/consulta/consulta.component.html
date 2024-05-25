@@ -305,7 +305,7 @@
             </div>
             <div class="consulta__results-alohamiento-information col-lg-6">
               <div class="row">
-                <a (click)="searchDetails()" class="consulta__results-alohamiento-name">{{ item.accommodation.name
+                <a (click)="selectAccoUnitId(item.id)" class="consulta__results-alohamiento-name">{{ item.accommodation.name
                 }}</a>
               </div>
               <div class="consulta__results-alohamiento-direction row">
@@ -326,7 +326,7 @@
                 <div>{{ item.price }}€</div>
               </div>
               <div class="consulta__results-aholamiento-book row">
-                <button class="btn btn-success" [routerLink]="['/pay']">
+                <button class="btn btn-success" (click)="selectAccoUnitToPay(item.id)">
                   <div>
                     <svg width="83" height="25" viewBox="0 0 83 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_18_2)">

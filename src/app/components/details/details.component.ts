@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
 
 @Component({
   selector: 'app-details',
@@ -8,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './details.component.css'
 })
 export class DetailsComponent {
+  accoUnit?: any;
   location: string = '';
   start?: Date;
   bookStart?: Date;
@@ -20,12 +22,14 @@ export class DetailsComponent {
   hostels: boolean = false;
   bungalows: boolean = false;
   maxPrice: number = 300;
-  id?: number;
+  id: number = 0;
 
   minDate: string = '';
   minEndDate: string = '';
+
+  description: string[] | undefined;
   
-  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private accoUnitService: AccoUnitService) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -50,6 +54,15 @@ export class DetailsComponent {
       this.maxPrice = +params['maxPrice'] || 300;
       this.id = +params['id'];
     });
+
+    this.accoUnitService.getAccoUnitById(this.id).subscribe(
+      (data) => {
+        this.accoUnit = data;
+      },
+      (error) => {
+        console.error('Error al obtener la unidad de alojamiento', error);
+      }
+    );
 
     this.spinner.show();
     setTimeout(() => {
@@ -99,5 +112,33 @@ export class DetailsComponent {
     };
   
     this.router.navigate(['/consulta'], { queryParams: queryParams });
+  }
+
+  goToPay(){
+    const queryParams = {
+      bookStart: this.bookStart,
+      bookEnd: this.bookEnd,
+      bookPeople: this.bookPeople,
+      id: this.id
+    };
+
+    this.router.navigate(['/pay'], { queryParams: queryParams });
+  }
+
+  diferenciaEnDias(): number {
+    const fechaInicio = this.bookStart;
+    const fechaFin = this.bookEnd;
+
+    if (fechaInicio) {
+      fechaInicio.setHours(0, 0, 0, 0);
+    }
+    if (fechaFin) {
+      fechaFin.setHours(0, 0, 0, 0);
+    }
+
+    const unDia = 1000 * 60 * 60 * 24;
+    const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
+
+    return Math.round(diferenciaEnMs / unDia);
   }
 }

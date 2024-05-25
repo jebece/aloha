@@ -32,25 +32,25 @@
                         <div class="pay__book-details-info">Fecha de entrada</div>
                     </div>
                     <div class="pay__book-details-arrival">
-                        <div class="pay__book-details-value">02/05/2024</div>
+                        <div class="pay__book-details-value">{{this.bookStart | date:'dd/MM/yyyy' }}</div>
                     </div>
                     <div class="pay__book-details-exit mt-2">
                         <div class="pay__book-details-info">Fecha de salida</div>
                     </div>
                     <div class="pay__book-details-exit">
-                        <div class="pay__book-details-value">03/05/2024</div>
+                        <div class="pay__book-details-value">{{this.bookEnd | date:'dd/MM/yyyy' }}</div>
                     </div>
                     <div class="pay__book-details-people mt-2">
                         <div class="pay__book-details-info">N° personas</div>
                     </div>
                     <div class="pay__book-details-people">
-                        <div class="pay__book-details-value">2</div>
+                        <div class="pay__book-details-value">{{this.bookPeople}}</div>
                     </div>
                     <div class="pay__book-details-total mt-2">
                         <div class="pay__book-details-info">Total</div>
                     </div>
                     <div class="pay__book-details-total">
-                        <div class="pay__book-details-value">100€</div>
+                        <div class="pay__book-details-value">{{ diferenciaEnDias() *  accoUnit.price}}€</div>
                     </div>
                 </section>
                 <section class="pay__accomm-details col-md-6">
@@ -59,16 +59,16 @@
                             <div class="pay__accomm-details-text">Detalles del alojamiento</div>
                         </div>
                         <div class="pay__accomm-details-name mt-2">
-                            <div>NH Collection Sevilla</div>
+                            <div>{{ this.accoUnit.accommodation.name}}</div>
                         </div>
                         <div class="pay__accomm-details-location">
-                            <div>Av. de Diego Martínez Barrio, 8, 41013 Sevilla</div>
+                            <div>{{this.accoUnit.accommodation.address}} - {{this.accoUnit.accommodation.location}}</div>
                         </div>
                         <div class="pay__accomm-details-type mt-2">
                             <div class="pay__accomm-details-info">Tipo</div>
                         </div>
                         <div class="pay__accomm-details-type">
-                            <div class="pay__accomm-details-value">Hotel</div>
+                            <div class="pay__accomm-details-value">{{this.accoUnit.category.name}}</div>
                         </div>
                     </div>
                 </section>

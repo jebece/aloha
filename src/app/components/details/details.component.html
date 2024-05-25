@@ -173,7 +173,7 @@
     <section class="details__content container-xl mt-4">
         <div class="details__header row">
             <div class="details__header-title">
-                <div class="details__header-title-text">NH Collection Sevilla</div>
+                <div class="details__header-title-text">{{ this.accoUnit.accommodation.name}}</div>
             </div>
             <div class="details__header-direction">
                 <div class="details__header-direction-icon d-inline">
@@ -186,7 +186,7 @@
                             fill="#272A57" />
                     </svg>
                 </div>
-                <div class="details__header-direction-text d-inline">Av. de Diego Martínez Barrio, 8, 41013 Sevilla
+                <div> class="details__header-direction-text d-inline">{{this.accoUnit.accommodation.address}} - {{this.accoUnit.accommodation.location}}
                 </div>
             </div>
         </div>
@@ -281,15 +281,7 @@
                 </div>
                 <div class="details__footer-description my-4">
                     <div class="details__footer-text">
-                        <p>El hotel NH Collection Sevilla, antes conocido como NH Central Convenciones, goza de una
-                            ubicación privilegiada dentro del distrito financiero y empresarial de Sevilla. La parte
-                            histórica de la ciudad está a poca distancia andando. La comunicación en transporte
-                            público es inmejorable desde el hotel, así que tendrás todo Sevilla a tu alcance.</p>
-                        <p>Al igual que el resto del hotel, las habitaciones son modernas y cómodas, con detalles de
-                            lujo como duchas con efecto lluvia y menú de almohadas.</p>
-                        <p>Instalaciones para conferencias y reuniones como las nuestras no se ven todos los días,
-                            con salas confortables y la tecnología más avanzada. Un moderno restaurante, piscina al
-                            aire libre y terraza de verano son otros atractivos más de nuestro hotel.</p>
+                        <p>{{this.accoUnit.accommodation.description}}</p>
                     </div>
                 </div>
             </section>
@@ -297,7 +289,7 @@
                 <div class="container-xl">
                     <div class="details__book-card row py-3">
                         <div class="details__book-price">
-                            <span class="details__book-price-lgtext ms-2">100€</span>
+                            <span class="details__book-price-lgtext ms-2">{{this.accoUnit.price}}€</span>
                             <span class="details__book-price-smtext">noche</span>
                         </div>
                         <div class="details__book-resume mt-3">
@@ -318,7 +310,7 @@
                         </div>
                         <div class="details__book-aholame row my-4 ">
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-success" [routerLink]="['/pay']">
+                                <button class="btn btn-success" (click)="goToPay()">
                                     <div><svg height="40" viewBox="0 0 83 25" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g clip-path="url(#clip0_18_2)">
@@ -367,7 +359,7 @@
                         </div>
                         <div class="details__book-total d-flex justify-content-between pt-3">
                             <div class="details__book-total-text ms-2">Total</div>
-                            <div class="details__book-total-price me-2">100€</div>
+                            <div class="details__book-total-price me-2">{{ diferenciaEnDias() *  accoUnit.price}}€</div>
                         </div>
                     </div>
                 </div>
