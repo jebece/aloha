@@ -7,7 +7,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginService } from '../../services/auth/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
-
+import { BookingService } from '../../services/booking/booking.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class PayComponent implements OnInit {
   bookPeople?: number;
   id: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService, private bookingService: BookingService,  private toastr: ToastrService) {
     this.userLoginOn = false;
   }
 
@@ -121,5 +122,36 @@ export class PayComponent implements OnInit {
     const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
 
     return Math.round(diferenciaEnMs / unDia);
+  }
+
+  createBooking() {
+    if (this.payForm.valid) {
+      const bookingData = {
+        checkIn: this.bookStart,
+        checkOut: this.bookEnd,
+        accommodationUnit: {
+          id: this.accoUnit.id,
+          accommodation: {
+            id: this.accoUnit.accommodation.id
+          },
+          category: {
+            id: this.accoUnit.category.id
+          }
+        },
+        client: {
+          id: this.clientId
+        },
+      }
+      this.bookingService.createBooking(bookingData).subscribe(
+        (data) => {
+          this.toastr.success('', 'Reserva formalizada con éxito', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
+          this.router.navigate(['client']);
+        },
+        (error) => {
+          this.payError = 'Error al realizar la reserva. Inténtelo de nuevo';
+          this.toastr.error('', 'Error al realizar la reserva', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
+        }
+      );
+    }
   }
 }

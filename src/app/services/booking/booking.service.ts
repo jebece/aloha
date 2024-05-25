@@ -20,6 +20,11 @@ export class BookingService {
     .pipe(catchError(this.handleError));
   }
 
+  public createBooking(bookingData: any): Observable<any> {
+    return this.http.post(environment.urlHost + '/api/booking/create', bookingData)
+    .pipe(catchError(this.handleError));
+  }
+
   public deleteBooking(id: any): Observable<any> {
     return this.http.delete(`${environment.urlHost}/api/booking/delete`, { body: id })
     .pipe(catchError(this.handleError));
