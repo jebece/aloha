@@ -27,7 +27,7 @@
         <div class="header__buttons col-lg-4 d-lg-flex align-items-center">
             <a *ngIf="!userLoginOn" class="header__btn btn btn-primary" href="/login">Iniciar sesión</a>
             <a *ngIf="!userLoginOn" class="header__btn btn btn-primary ms-lg-2 me-lg-4" href="/registro">Crear cuenta</a>
-            <a *ngIf="userLoginOn" class="header__btn-close btn btn-primary d-flex align-items-center" (click)="logout()" href="">
+            <a *ngIf="userLoginOn" class="header__btn btn btn-primary d-flex align-items-center" (click)="logout()" href="">
                 <div>Cerrar sesión</div>
             </a>
             <a *ngIf="userLoginOn" class="header__icon ms-lg-4 me-lg-4 d-flex align-items-center" href="/client">
