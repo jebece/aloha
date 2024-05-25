@@ -173,7 +173,7 @@
     <section class="details__content container-xl mt-4">
         <div class="details__header row">
             <div class="details__header-title">
-                <div class="details__header-title-text">{{ this.accoUnit.accommodation.name}}</div>
+                <div class="details__header-title-text">{{ this.accoUnit?.accommodation?.name }}</div>
             </div>
             <div class="details__header-direction">
                 <div class="details__header-direction-icon d-inline">
@@ -186,7 +186,7 @@
                             fill="#272A57" />
                     </svg>
                 </div>
-                <div> class="details__header-direction-text d-inline">{{this.accoUnit.accommodation.address}} - {{this.accoUnit.accommodation.location}}
+                <div class="details__header-direction-text d-inline"> {{this.accoUnit?.accommodation?.address}} - {{this.accoUnit?.accommodation?.location}}
                 </div>
             </div>
         </div>
@@ -281,7 +281,7 @@
                 </div>
                 <div class="details__footer-description my-4">
                     <div class="details__footer-text">
-                        <p>{{this.accoUnit.accommodation.description}}</p>
+                        <p>{{this.accoUnit?.accommodation?.description}}</p>
                     </div>
                 </div>
             </section>
@@ -359,7 +359,7 @@
                         </div>
                         <div class="details__book-total d-flex justify-content-between pt-3">
                             <div class="details__book-total-text ms-2">Total</div>
-                            <div class="details__book-total-price me-2">{{ diferenciaEnDias() *  accoUnit.price}}€</div>
+                            <div class="details__book-total-price me-2">{{ diferenciaEnDias() *  this.accoUnit.price}}€</div>
                         </div>
                     </div>
                 </div>

@@ -44,22 +44,6 @@ export class PayComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.bookStart = params['bookStart'];
-      this.bookEnd = params['bookEnd'];
-      this.bookPeople = +params['bookPeople'];
-      this.id = +params['id'];
-    });
-
-    this.accoUnitService.getAccoUnitById(this.id).subscribe(
-      (data) => {
-        this.accoUnit = data;
-      },
-      (error) => {
-        console.error('Error al obtener la unidad de alojamiento', error);
-      }
-    );
-
     this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => {
         this.userLoginOn = userLoginOn;
@@ -89,6 +73,21 @@ export class PayComponent implements OnInit {
         }
       });
     }
+    this.route.queryParams.subscribe(params => {
+      this.bookStart = params['bookStart'];
+      this.bookEnd = params['bookEnd'];
+      this.bookPeople = +params['bookPeople'];
+      this.id = +params['id'];
+    });
+
+    this.accoUnitService.getAccoUnitById(this.id).subscribe(
+      (data) => {
+        this.accoUnit = data;
+      },
+      (error) => {
+        console.error('Error al obtener la unidad de alojamiento', error);
+      }
+    );
   }
 
   get owner() {
@@ -108,17 +107,17 @@ export class PayComponent implements OnInit {
   }
 
   diferenciaEnDias(): number {
-    const fechaInicio = this.bookStart;
-    const fechaFin = this.bookEnd;
+    const fechaInicio = this.bookStart ? new Date(this.bookStart) : null;
+    const fechaFin = this.bookEnd ? new Date(this.bookEnd) : null;
 
-    if (fechaInicio) {
+    if (fechaInicio && !isNaN(fechaInicio.getTime())) {
       fechaInicio.setHours(0, 0, 0, 0);
     }
-    if (fechaFin) {
+    if (fechaFin && !isNaN(fechaFin.getTime())) {
       fechaFin.setHours(0, 0, 0, 0);
     }
 
-    const unDia = 1000 * 60 * 60 * 24;
+    const unDia = 1000 * 60 * 60 * 24; // Milisegundos en un día
     const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
 
     return Math.round(diferenciaEnMs / unDia);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
@@ -6,10 +6,10 @@ import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrl: './details.component.css'
+  styleUrls: ['./details.component.css']
 })
-export class DetailsComponent {
-  accoUnit?: any;
+export class DetailsComponent implements OnInit {
+  accoUnit: any = [];
   location: string = '';
   start?: Date;
   bookStart?: Date;
@@ -28,8 +28,13 @@ export class DetailsComponent {
   minEndDate: string = '';
 
   description: string[] | undefined;
-  
-  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private accoUnitService: AccoUnitService) {}
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private accoUnitService: AccoUnitService
+  ) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -58,6 +63,7 @@ export class DetailsComponent {
     this.accoUnitService.getAccoUnitById(this.id).subscribe(
       (data) => {
         this.accoUnit = data;
+        console.log('Unidad de alojamiento obtenida', this.accoUnit);
       },
       (error) => {
         console.error('Error al obtener la unidad de alojamiento', error);
@@ -74,7 +80,7 @@ export class DetailsComponent {
     if (startDate) {
       const selectedDate = new Date(startDate);
       selectedDate.setDate(selectedDate.getDate() + 1);
-  
+
       const year = selectedDate.getFullYear();
       const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
       const day = selectedDate.getDate().toString().padStart(2, '0');
@@ -110,11 +116,11 @@ export class DetailsComponent {
       bungalows: this.bungalows,
       maxPrice: this.maxPrice
     };
-  
+
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
-  goToPay(){
+  goToPay() {
     const queryParams = {
       bookStart: this.bookStart,
       bookEnd: this.bookEnd,
@@ -126,17 +132,17 @@ export class DetailsComponent {
   }
 
   diferenciaEnDias(): number {
-    const fechaInicio = this.bookStart;
-    const fechaFin = this.bookEnd;
+    const fechaInicio = this.bookStart ? new Date(this.bookStart) : null;
+    const fechaFin = this.bookEnd ? new Date(this.bookEnd) : null;
 
-    if (fechaInicio) {
+    if (fechaInicio && !isNaN(fechaInicio.getTime())) {
       fechaInicio.setHours(0, 0, 0, 0);
     }
-    if (fechaFin) {
+    if (fechaFin && !isNaN(fechaFin.getTime())) {
       fechaFin.setHours(0, 0, 0, 0);
     }
 
-    const unDia = 1000 * 60 * 60 * 24;
+    const unDia = 1000 * 60 * 60 * 24; // Milisegundos en un día
     const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
 
     return Math.round(diferenciaEnMs / unDia);

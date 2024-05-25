@@ -50,7 +50,7 @@
                         <div class="pay__book-details-info">Total</div>
                     </div>
                     <div class="pay__book-details-total">
-                        <div class="pay__book-details-value">{{ diferenciaEnDias() *  accoUnit.price}}€</div>
+                        <div class="pay__book-details-value">{{ diferenciaEnDias() *  this.accoUnit?.price}}€</div>
                     </div>
                 </section>
                 <section class="pay__accomm-details col-md-6">
@@ -59,16 +59,16 @@
                             <div class="pay__accomm-details-text">Detalles del alojamiento</div>
                         </div>
                         <div class="pay__accomm-details-name mt-2">
-                            <div>{{ this.accoUnit.accommodation.name}}</div>
+                            <div>{{ this.accoUnit?.accommodation?.name}}</div>
                         </div>
                         <div class="pay__accomm-details-location">
-                            <div>{{this.accoUnit.accommodation.address}} - {{this.accoUnit.accommodation.location}}</div>
+                            <div>{{this.accoUnit?.accommodation?.address}} - {{this.accoUnit?.accommodation?.location}}</div>
                         </div>
                         <div class="pay__accomm-details-type mt-2">
                             <div class="pay__accomm-details-info">Tipo</div>
                         </div>
                         <div class="pay__accomm-details-type">
-                            <div class="pay__accomm-details-value">{{this.accoUnit.category.name}}</div>
+                            <div class="pay__accomm-details-value">{{this.accoUnit?.category?.name}}</div>
                         </div>
                     </div>
                 </section>
