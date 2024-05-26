@@ -138,7 +138,7 @@
                         *ngFor="let accommodation of accommodations | filterBy: accommodationFilter | orderBy: order : reverse | paginate: { itemsPerPage: 10, currentPage: page}">
                         <td class="admin__content-cell">{{ accommodation.id }}</td>
                         <td class="admin__content-cell">{{ accommodation.name }}</td>
-                        <td class="admin__content-cell">{{ accommodation.description }}</td>
+                        <td class="admin__content-cell-description">{{ accommodation.description }}</td>
                         <td class="admin__content-cell">{{ accommodation.address }}</td>
                         <td class="admin__content-cell">{{ accommodation.location }}</td>
                         <td class="admin__content-cell">

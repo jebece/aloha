@@ -3273,6 +3273,15 @@ body {
   background-color: #BBD1EA;
   padding: 0.5rem 0;
 }
+
+.admin__content-cell-description {
+  font-size: 0.875rem;
+  color: #272A57;
+  background-color: #BBD1EA;
+  padding: 0.5rem 0;
+  max-width: 20rem;
+}
+
 .admin__content-links {
   transition: transform 0.3s ease;
 }
