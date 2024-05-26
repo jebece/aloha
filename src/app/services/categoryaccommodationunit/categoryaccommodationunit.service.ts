@@ -50,4 +50,10 @@ export class CategoryaccommodationunitService {
       `${this.urlAccommodation}/category/${categories}`
     );
   }
+
+  getAccommodationUnitByService(services: boolean[]) {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/service/${services}`
+    );
+  }
 }
