@@ -54,6 +54,21 @@ th.order-active span{
   background-color: #BBD1EA;
 }
 
+.scroll-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 3rem;
+  height: 3rem;
+  background-color: #5B5E85;
+  border: 0.5px solid white;
+  color: #fff;
+  font-size: 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

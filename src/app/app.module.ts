@@ -26,6 +26,7 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
 import { OrderModule } from 'ngx-order-pipe';
 import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
 import { ToastrModule } from 'ngx-toastr';
+import { TopButtonComponent } from './components/top-button/top-button.component';
 
 
 const appRoutes: Routes = [
@@ -59,7 +60,8 @@ const appRoutes: Routes = [
     AdminAccommodationsComponent,
     AdminAccoUnitsComponent,
     AdminBooksComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
+    TopButtonComponent
   ],
   imports: [
     BrowserModule,
