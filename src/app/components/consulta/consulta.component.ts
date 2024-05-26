@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AccommodationunitserviceserviceService } from '../../services/accommodationunitserviceservice/accommodationunitserviceservice.service';
 
 @Component({
   selector: 'app-consulta',
@@ -22,6 +23,8 @@ export class ConsultaComponent implements OnInit {
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
+  services: boolean[] = [false, false, false, false];
+  categories: boolean[] = [false, false, false, false];
   maxPrice: number = 300;
   selectedAccoUnitId: number | null = null;
   selectedAccoUnitToPay: number | null = null;
@@ -29,7 +32,13 @@ export class ConsultaComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService, private categoryAccommodationUnitService: CategoryaccommodationunitService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private categoryAccommodationUnitService: CategoryaccommodationunitService,
+    private accommodationUnitServiceService: AccommodationunitserviceserviceService
+  ) {}
 
   ngOnInit(): void {
     const today = new Date();
@@ -39,7 +48,7 @@ export class ConsultaComponent implements OnInit {
     this.minDate = `${year}-${month}-${day}`;
     this.updateMinEndDate(this.minDate);
 
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.location = params['location'];
       this.start = params['start'];
       this.bookStart = params['start'];
@@ -115,7 +124,9 @@ export class ConsultaComponent implements OnInit {
       }
     }
 
-    const startDate = this.start ? new Date(this.start) : new Date(this.minDate);
+    const startDate = this.start
+      ? new Date(this.start)
+      : new Date(this.minDate);
     const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
 
     const formattedStartDate = startDate.toISOString().split('T')[0];
@@ -130,13 +141,70 @@ export class ConsultaComponent implements OnInit {
       hotels: this.hotels,
       hostels: this.hostels,
       bungalows: this.bungalows,
-      maxPrice: this.maxPrice
+      services: this.services,
+      maxPrice: this.maxPrice,
     };
-  
+
     this.router.navigate(['/consulta'], { queryParams: queryParams });
   }
 
-  searchDetails(id:number): void {
+  searchSamePageAccommodation(): void {
+    if (this.start && this.end) {
+      const startDate = new Date(this.start);
+      const endDate = new Date(this.end);
+
+      if (startDate.getTime() >= endDate.getTime()) {
+        startDate.setDate(endDate.getDate() - 1);
+        this.start = startDate;
+      }
+    }
+
+    const startDate = this.start
+      ? new Date(this.start)
+      : new Date(this.minDate);
+    const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
+
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
+
+    const queryParams = {
+      location: this.location,
+      start: formattedStartDate,
+      end: formattedEndDate,
+      people: this.people,
+      houses: this.houses,
+      hotels: this.hotels,
+      hostels: this.hostels,
+      bungalows: this.bungalows,
+      categories: this.categories,
+      services: this.services,
+      maxPrice: this.maxPrice,
+    };
+
+    console.log(queryParams['services']);
+
+    if (
+      (queryParams['location'] == null || queryParams['location'] == '') &&
+      queryParams['services'].every((element: boolean) => element == false)
+    ) {
+      this.categoryAccommodationUnitService.getAll().subscribe((response) => {
+        this.data = response;
+      });
+    } else if (
+      (queryParams['location'] == null || queryParams['location'] == '') &&
+      queryParams['services'].some((element: boolean) => element == true)
+    ) {
+      const array = queryParams['services'].join(',');
+      console.log(array);
+      this.categoryAccommodationUnitService
+        .getAccommodationUnitByService(queryParams['services'])
+        .subscribe((response) => {
+          this.data = response;
+        });
+    }
+  }
+
+  searchDetails(id: number): void {
     const queryParams = {
       location: this.location,
       start: this.start,
@@ -150,9 +218,9 @@ export class ConsultaComponent implements OnInit {
       hostels: this.hostels,
       bungalows: this.bungalows,
       maxPrice: this.maxPrice,
-      id: id
+      id: id,
     };
-  
+
     this.router.navigate(['/details'], { queryParams: queryParams });
   }
 
@@ -161,12 +229,12 @@ export class ConsultaComponent implements OnInit {
     this.searchDetails(this.selectedAccoUnitId);
   }
 
-  goToPay(id: number): void{
+  goToPay(id: number): void {
     const queryParams = {
       bookStart: this.bookStart,
       bookEnd: this.bookEnd,
       bookPeople: this.bookPeople,
-      id: id
+      id: id,
     };
 
     this.router.navigate(['/pay'], { queryParams: queryParams });
