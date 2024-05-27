@@ -62,6 +62,9 @@ export class ConsultaComponent implements OnInit {
       this.bungalows = params['bungalows'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
     });
+
+    this.categories = [this.houses, this.hotels, this.hostels, this.bungalows];
+    
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
