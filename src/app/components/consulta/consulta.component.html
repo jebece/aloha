@@ -271,15 +271,15 @@
       </section>
       <section class="consulta__results col-lg-9">
         <div class="consulta__results-main-title">
-          <div>{{ data.length }} alojamientos encontrados</div>
+          <div>{{data?.length ? data.length : 0}} alojamientos encontrados</div>
         </div>
-        <div class="consulta__results-filters d-flex justify-content-end mt-4">
+        <div class="consulta__results-filters d-flex justify-content-end mt-4" *ngIf="showRows">
           <select class="consulta__results-select form-select">
             <option selected>Precio ascendente</option>
             <option>Precio descendente</option>
           </select>
         </div>
-        <div *ngFor="let item of data" class="consulta__results-alohamientos container-xl mb-4">
+        <div *ngFor="let item of data | paginate: { itemsPerPage: 10, currentPage: page}" class="consulta__results-alohamientos container-xl mb-4">
           <div class="consulta__results-alohamiento row p-3 mt-3">
             <div class="consulta__results-alohamiento-carrousel col-lg-4">
               <div id="example1" class="carousel slide">
@@ -369,6 +369,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="d-flex justify-content-center mb-4" *ngIf="showRows">
+          <pagination-controls (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"
+              class="custom-pagination"></pagination-controls>
         </div>
       </section>
     </div>

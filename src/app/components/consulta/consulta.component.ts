@@ -11,6 +11,8 @@ import { AccommodationunitserviceserviceService } from '../../services/accommoda
   styleUrls: ['./consulta.component.css'],
 })
 export class ConsultaComponent implements OnInit {
+  page: number = 1;
+  showRows: boolean = false;
   data: any;
   location: string = '';
   start?: Date;
@@ -79,6 +81,9 @@ export class ConsultaComponent implements OnInit {
     ) {
       this.categoryAccommodationUnitService.getAll().subscribe((response) => {
         this.data = response;
+        if (Array.isArray(this.data) && this.data.length > 0) {
+          this.showRows = true;
+        }
       });
     } else if (
       this.route.snapshot.queryParams['location'] == null ||
@@ -92,6 +97,9 @@ export class ConsultaComponent implements OnInit {
         .getAccommodationUnitByCategory(array)
         .subscribe((response) => {
           this.data = response;
+          if (Array.isArray(this.data) && this.data.length > 0) {
+            this.showRows = true;
+          }
         });
     } else {
       this.categoryAccommodationUnitService
@@ -100,6 +108,9 @@ export class ConsultaComponent implements OnInit {
         )
         .subscribe((response) => {
           this.data = response;
+          if (Array.isArray(this.data) && this.data.length > 0) {
+            this.showRows = true;
+          }
         });
     }
   }
