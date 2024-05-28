@@ -30,8 +30,8 @@ export class AccoUnitServiceService {
     .pipe(catchError(this.handleError));
   }
 
-  public deleteAccoUnitService(accoUnitServiceData:any){
-    return this.http.delete(environment.urlHost + '/api/accommodation-unit-service/delete', accoUnitServiceData)
+  public deleteAccoUnitService(id:any){
+    return this.http.delete(environment.urlHost + '/api/accommodation-unit-service/delete/' + id)
     .pipe(catchError(this.handleError));
   }
 

@@ -219,7 +219,7 @@ export class AdminAccoUnitsComponent {
       let editCapacity = this.adminAccoUnitsEditForm.get('editCapacity')?.value;
       let editSelectedServices = this.adminAccoUnitsEditForm.get('editSelectedServices')?.value ?? [];
       let accoUnitId: number | null = null;
-
+  
       const accommodationData = {
         id: this.selectedAccoUnitId!,
         price: editPrice!,
@@ -248,23 +248,8 @@ export class AdminAccoUnitsComponent {
                 (data) => {
                   this.accoUnitsServices = data;
                   for (let i = 0; i < this.accoUnitsServices.length; i++) {
-                    if (this.accoUnitsServices[i].accommodationUnit.id == accoUnitId) {
-                      const accoUnitServiceData = {
-                        id: this.accoUnitsServices[i].id,
-                        accommodationUnit: {
-                          id: accoUnitId,
-                          accommodation: {
-                            id: editAccommodationId,
-                          },
-                          category: {
-                            id: editCategoryId
-                          }
-                        },
-                        service: {
-                          id: this.accoUnitsServices[i].service.id
-                        }
-                      };
-                      this.accoUnitServiceService.deleteAccoUnitService(accoUnitServiceData).subscribe(
+                    if (this.accoUnitsServices[i].accommodationUnit.id == accoUnitId) {     
+                      this.accoUnitServiceService.deleteAccoUnitService(this.accoUnitsServices[i].id).subscribe(
                         (response) => {
                           console.log('Servicio de unidad de alojamiento eliminado correctamente:', response);
                         },
@@ -277,38 +262,40 @@ export class AdminAccoUnitsComponent {
                 },
                 (error) => {
                   console.error('Error al obtener los servicios de las unidades de alojamiento', error);
+                },
+                () => {
+                  if (editSelectedServices.length > 0) {
+                    for (let i = 0; i < editSelectedServices.length; i++) {
+                      const accoUnitServiceData = {
+                        accommodationUnit: {
+                          id: accoUnitId,
+                          accommodation: {
+                            id: editAccommodationId,
+                          },
+                          category: {
+                            id: editCategoryId
+                          }
+                        },
+                        service: {
+                          id: editSelectedServices[i]
+                        }
+                      };
+                      this.accoUnitServiceService.editAccoUnitService(accoUnitServiceData).subscribe(
+                        (response) => {
+                          console.log('Servicio de unidad de alojamiento modificado correctamente:', response);
+                        },
+                        (error) => {
+                          console.error('Error al modificar el servicio de la unidad de alojamiento:', error);
+                        }
+                      );
+                    }
+                  }
+                  this.adminAccoUnitsEditForm.reset();
+                  this.router.navigate(['admin-acco-units']).then(() => {
+                    window.location.reload();
+                  });
                 }
               );
-              if (editSelectedServices.length > 0) {
-                for (let i = 0; i < editSelectedServices.length; i++) {
-                  const accoUnitServiceData = {
-                    accommodationUnit: {
-                      id: accoUnitId,
-                      accommodation: {
-                        id: editAccommodationId,
-                      },
-                      category: {
-                        id: editCategoryId
-                      }
-                    },
-                    service: {
-                      id: editSelectedServices[i]
-                    }
-                  };
-                  this.accoUnitServiceService.editAccoUnitService(accoUnitServiceData).subscribe(
-                    (response) => {
-                      console.log('Servicio de unidad de alojamiento modificado correctamente:', response);
-                      this.adminAccoUnitsEditForm.reset();
-                      this.router.navigate(['admin-acco-units']).then(() => {
-                        window.location.reload();
-                      });
-                    },
-                    (error) => {
-                      console.error('Error al modificar el servicio de la unidad de alojamiento:', error);
-                    }
-                  );
-                }
-              }
             },
             (error) => {
               console.error('Error al obtener las unidades de alojamiento', error);
@@ -322,6 +309,7 @@ export class AdminAccoUnitsComponent {
       );
     }
   }
+  
 
   deleteAccoUnit() {
     if (this.selectedAccoUnitId !== null) {
