@@ -12,7 +12,7 @@ export class TopButtonComponent {
   }
 
   showScrollButton: boolean = false;
-  showScrollHeight: number = 400; // Altura a partir de la cual mostrar el botón
+  showScrollHeight: number = 400; 
 
   constructor() { }
 
