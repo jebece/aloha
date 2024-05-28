@@ -150,7 +150,9 @@
                         <td class="admin__content-cell">{{ accoUnit.price }}</td>
                         <td class="admin__content-cell">{{ accoUnit.number }}</td>
                         <td class="admin__content-cell">{{ accoUnit.capacity }}</td>
-                        <td class="admin__content-cell">{{ accoUnit.capacity }}</td>
+                        <td class="admin__content-cell">
+                            <div *ngFor="let service of accoUnitServices[accoUnit.id]">{{ service }}</div>
+                          </td>
                         <td class="admin__content-cell">
                             <div class="admin__content-links" data-bs-toggle="modal" data-bs-target="#admin-modal-edit" (click)="selectAccoUnitId(accoUnit.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25"
@@ -353,7 +355,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="admin__modal-delete-title mb-3 mt-3 text-center">¿Seguro que deseas eliminar
-                                este alojamiento?</div>
+                                esta unidad de alojamiento?</div>
                             <div class="admin__modal-delete-warning mb-5 text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
                                     class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">

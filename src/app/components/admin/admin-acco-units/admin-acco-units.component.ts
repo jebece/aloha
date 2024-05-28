@@ -8,6 +8,7 @@ import { CategoryService } from '../../../services/category/category.service';
 import { ServiceService } from '../../../services/service/service.service';
 import { User } from '../../../services/auth/user';
 import { LoginService } from '../../../services/auth/login.service';
+import { AccoUnitServiceService } from '../../../services/acco-unit-service/acco-unit-service.service';
 
 @Component({
   selector: 'app-admin-acco-units',
@@ -19,6 +20,8 @@ export class AdminAccoUnitsComponent {
   userData?: User;
   accommodations: any;
   accoUnits: any;
+  accoUnitsServices: any;
+  accoUnitServices: any = [];
   categories: any;
   services: any;
   selectedAccoUnitId: number | null = null;
@@ -47,7 +50,7 @@ export class AdminAccoUnitsComponent {
     editSelectedServices: [[], Validators.required]
   });
 
-  constructor(private loginService: LoginService, private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService) {}
+  constructor(private loginService: LoginService, private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService, private accoUnitServiceService: AccoUnitServiceService) {}
   
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -87,6 +90,23 @@ export class AdminAccoUnitsComponent {
         this.accoUnits = data;
         if (Array.isArray(this.accoUnits) && this.accoUnits.length > 0) {
           this.showRows = true;
+          this.accoUnitServiceService.getAccoUnitServices().subscribe(
+            (data) => {
+              this.accoUnitsServices = data;
+                this.accoUnits.forEach((unit: any) => {
+                this.accoUnitServices[unit.id] = [];
+              });
+
+              this.accoUnitsServices.forEach((unitService: any) => {
+                if (this.accoUnitServices[unitService.accommodationUnit.id]) {
+                  this.accoUnitServices[unitService.accommodationUnit.id].push(unitService.service.name);
+                }
+              });
+            },
+            (error) => {
+              console.error('Error al obtener los servicios de las unidades de alojamiento', error);
+            }
+          );
         }
       },
       (error) => {
@@ -116,7 +136,8 @@ export class AdminAccoUnitsComponent {
       let price= this.adminAccoUnitsForm.get('price')?.value;
       let number= this.adminAccoUnitsForm.get('number')?.value;
       let capacity= this.adminAccoUnitsForm.get('capacity')?.value;
-      let selectedServices= this.adminAccoUnitsForm.get('selectedServices')?.value;
+      let selectedServices= this.adminAccoUnitsForm.get('selectedServices')?.value ?? [];
+      let accoUnitId: number | null = null;
   
       const accoUnitData = {
         price: price!,
@@ -133,16 +154,59 @@ export class AdminAccoUnitsComponent {
       this.accoUnitService.createAccoUnit(accoUnitData).subscribe(
         (response) => {
           console.log('Unidad de alojamiento creada correctamente:', response);
-          this.adminAccoUnitsForm.reset();
-          this.router.navigate(['admin-acco-units']).then(() => {
-            window.location.reload();
-          });
+          this.accoUnitService.getAccoUnits().subscribe(
+            (data) => {
+              this.accoUnits = data;
+              for (let i = 0; i < this.accoUnits.length; i++) {
+                if (this.accoUnits[i].price == price && this.accoUnits[i].number == number && this.accoUnits[i].capacity == capacity && this.accoUnits[i].accommodation.id == accommodationId && this.accoUnits[i].category.id == categoryId) {
+                  accoUnitId = this.accoUnits[i].id;
+                  break;
+                }
+              }
+              if (selectedServices.length > 0) {
+                for (let i = 0; i < selectedServices.length; i++) {
+                  const accoUnitServiceData = {
+                    accommodationUnit: {
+                      id: accoUnitId,
+                      accommodation: {
+                        id: accommodationId,
+                      },
+                      category: {
+                        id: categoryId
+                      }
+                    },
+                    service: {
+                      id: selectedServices[i]
+                    }
+                  };
+                  this.accoUnitServiceService.createAccoUnitService(accoUnitServiceData).subscribe(
+                    (response) => {
+                      console.log('Servicio de unidad de alojamiento insertado correctamente:', response);
+                      this.adminAccoUnitsForm.reset();
+                      this.router.navigate(['admin-acco-units']).then(() => {
+                        window.location.reload();
+                      });
+                    },
+                    (error) => {
+                      console.error('Error al insertar el servicio de la unidad de alojamiento:', error);
+                    }
+                  );
+                }
+              }
+            },
+            (error) => {
+              console.error('Error al obtener las unidades de alojamiento', error);
+            }
+          );
+
         },
         (error) => {
           console.error('Error al crear la unidad de alojamiento:', error);
           this.adminAccoUnitsError = 'Error al crear la unidad de alojamiento. Inténtalo de nuevo.';
         }
       );
+
+
     }
   }
 
@@ -153,7 +217,8 @@ export class AdminAccoUnitsComponent {
       let editPrice = this.adminAccoUnitsEditForm.get('editPrice')?.value;
       let editNumber = this.adminAccoUnitsEditForm.get('editNumber')?.value;
       let editCapacity = this.adminAccoUnitsEditForm.get('editCapacity')?.value;
-      let editSelectedServices = this.adminAccoUnitsEditForm.get('editSelectedServices')?.value;
+      let editSelectedServices = this.adminAccoUnitsEditForm.get('editSelectedServices')?.value ?? [];
+      let accoUnitId: number | null = null;
 
       const accommodationData = {
         id: this.selectedAccoUnitId!,
@@ -170,10 +235,85 @@ export class AdminAccoUnitsComponent {
       this.accoUnitService.updateAccoUnit(accommodationData).subscribe(
         (response) => {
           console.log('Unidad de alojamiento modificada correctamente:', response);
-          this.adminAccoUnitsEditForm.reset();
-          this.router.navigate(['admin-acco-units']).then(() => {
-            window.location.reload();
-          });
+          this.accoUnitService.getAccoUnits().subscribe(
+            (data) => {
+              this.accoUnits = data;
+              for (let i = 0; i < this.accoUnits.length; i++) {
+                if (this.accoUnits[i].price == editPrice && this.accoUnits[i].number == editNumber && this.accoUnits[i].capacity == editCapacity && this.accoUnits[i].accommodation.id == editAccommodationId && this.accoUnits[i].category.id == editCategoryId) {
+                  accoUnitId = this.accoUnits[i].id;
+                  break;
+                }
+              }
+              this.accoUnitServiceService.getAccoUnitServicesByAccoUnitId(accoUnitId).subscribe(
+                (data) => {
+                  this.accoUnitsServices = data;
+                  for (let i = 0; i < this.accoUnitsServices.length; i++) {
+                    if (this.accoUnitsServices[i].accommodationUnit.id == accoUnitId) {
+                      const accoUnitServiceData = {
+                        id: this.accoUnitsServices[i].id,
+                        accommodationUnit: {
+                          id: accoUnitId,
+                          accommodation: {
+                            id: editAccommodationId,
+                          },
+                          category: {
+                            id: editCategoryId
+                          }
+                        },
+                        service: {
+                          id: this.accoUnitsServices[i].service.id
+                        }
+                      };
+                      this.accoUnitServiceService.deleteAccoUnitService(accoUnitServiceData).subscribe(
+                        (response) => {
+                          console.log('Servicio de unidad de alojamiento eliminado correctamente:', response);
+                        },
+                        (error) => {
+                          console.error('Error al eliminar el servicio de la unidad de alojamiento:', error);
+                        }
+                      );
+                    }
+                  }
+                },
+                (error) => {
+                  console.error('Error al obtener los servicios de las unidades de alojamiento', error);
+                }
+              );
+              if (editSelectedServices.length > 0) {
+                for (let i = 0; i < editSelectedServices.length; i++) {
+                  const accoUnitServiceData = {
+                    accommodationUnit: {
+                      id: accoUnitId,
+                      accommodation: {
+                        id: editAccommodationId,
+                      },
+                      category: {
+                        id: editCategoryId
+                      }
+                    },
+                    service: {
+                      id: editSelectedServices[i]
+                    }
+                  };
+                  this.accoUnitServiceService.editAccoUnitService(accoUnitServiceData).subscribe(
+                    (response) => {
+                      console.log('Servicio de unidad de alojamiento modificado correctamente:', response);
+                      this.adminAccoUnitsEditForm.reset();
+                      this.router.navigate(['admin-acco-units']).then(() => {
+                        window.location.reload();
+                      });
+                    },
+                    (error) => {
+                      console.error('Error al modificar el servicio de la unidad de alojamiento:', error);
+                    }
+                  );
+                }
+              }
+            },
+            (error) => {
+              console.error('Error al obtener las unidades de alojamiento', error);
+            }
+          );
         },
         (error) => {
           console.error('Error al modificar la unidad de alojamiento:', error);
