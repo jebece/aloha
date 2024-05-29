@@ -4,6 +4,7 @@ import { CategoryaccommodationunitService } from '../../services/categoryaccommo
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccommodationunitserviceserviceService } from '../../services/accommodationunitserviceservice/accommodationunitserviceservice.service';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-consulta',
@@ -66,7 +67,7 @@ export class ConsultaComponent implements OnInit {
     });
 
     this.categories = [this.houses, this.hotels, this.hostels, this.bungalows];
-    
+
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
@@ -195,27 +196,50 @@ export class ConsultaComponent implements OnInit {
       maxPrice: this.maxPrice,
     };
 
-    console.log(queryParams['services']);
+    queryParams['categories'] = [
+      queryParams['houses'],
+      queryParams['hotels'],
+      queryParams['hostels'],
+      queryParams['bungalows'],
+    ];
 
-    if (
-      (queryParams['location'] == null || queryParams['location'] == '') &&
-      queryParams['services'].every((element: boolean) => element == false)
-    ) {
-      this.categoryAccommodationUnitService.getAll().subscribe((response) => {
-        this.data = response;
-      });
-    } else if (
-      (queryParams['location'] == null || queryParams['location'] == '') &&
-      queryParams['services'].some((element: boolean) => element == true)
-    ) {
-      const array = queryParams['services'].join(',');
-      console.log(array);
-      this.categoryAccommodationUnitService
-        .getAccommodationUnitByService(queryParams['services'])
-        .subscribe((response) => {
-          this.data = response;
-        });
+    if (queryParams['location'] == null || queryParams['location'] == '') {
+      queryParams['location'] = 'null';
     }
+
+    this.categoryAccommodationUnitService
+      .getAccommodationUnitByAll(
+        queryParams['location'],
+        queryParams['maxPrice'],
+        queryParams['services'],
+        queryParams['categories']
+      )
+      .subscribe((response) => {
+        this.data = response;
+        if (Array.isArray(this.data) && this.data.length > 0) {
+          this.showRows = true;
+        }
+      });
+
+    // if (
+    //   (queryParams['location'] == null || queryParams['location'] == '') &&
+    //   queryParams['services'].every((element: boolean) => element == false)
+    // ) {
+    //   this.categoryAccommodationUnitService.getAll().subscribe((response) => {
+    //     this.data = response;
+    //   });
+    // } else if (
+    //   (queryParams['location'] == null || queryParams['location'] == '') &&
+    //   queryParams['services'].some((element: boolean) => element == true)
+    // ) {
+    //   const array = queryParams['services'].join(',');
+    //   console.log(array);
+    //   this.categoryAccommodationUnitService
+    //     .getAccommodationUnitByService(queryParams['services'])
+    //     .subscribe((response) => {
+    //       this.data = response;
+    //     });
+    // }
   }
 
   searchDetails(id: number): void {
