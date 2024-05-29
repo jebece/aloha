@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
 import { BookingService } from '../../services/booking/booking.service';
 import { ToastrService } from 'ngx-toastr';
+import { CardService } from '../../services/card/card.service';
+import { ClientCardService } from '../../services/client-card/client-card.service';
 
 
 @Component({
@@ -31,6 +33,10 @@ export class PayComponent implements OnInit {
   errorMessage: string = '';
   decodedToken: any;
   clientId?: number;
+  existCard: any = true;
+  cardId: any;
+  clientCards: any;
+  show: boolean = false;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
@@ -40,7 +46,7 @@ export class PayComponent implements OnInit {
   bookPeople?: number;
   id: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService, private bookingService: BookingService,  private toastr: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService, private bookingService: BookingService, private toastr: ToastrService, private cardService: CardService, private clientCardService: ClientCardService) {
     this.userLoginOn = false;
   }
 
@@ -61,6 +67,17 @@ export class PayComponent implements OnInit {
           }
           if (this.decodedToken.id) {
             this.clientId = this.decodedToken.id;
+            this.cardService.getCardsByClientId(this.clientId).subscribe(
+              (data) => {
+                this.clientCards = data;
+                if (Array.isArray(this.clientCards) && this.clientCards.length > 0) {
+                  this.show = true;
+                }
+              },
+              (error) => {
+                console.error('Error al obtener las tarjetas del cliente', error);
+              }
+            );
           }
         },
         error: (errorData) => {
@@ -144,14 +161,65 @@ export class PayComponent implements OnInit {
       }
       this.bookingService.createBooking(bookingData).subscribe(
         (data) => {
-          this.toastr.success('', 'Reserva formalizada con éxito', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
-          this.router.navigate(['client']);
+          const cardData = {
+            number: this.cardNumber.value,
+            expirationDate: this.cardExpiration.value,
+            cvv: this.cvc.value,
+            owner: this.owner.value
+          }
+          this.cardService.existCard(cardData).subscribe(
+            exist => {
+              this.existCard = (exist as { exists: boolean }).exists;
+              if (!this.existCard) {
+                this.cardService.createCard(cardData).subscribe(
+                  (data) => {
+                    this.cardId = data;
+                    const clientCardData = {
+                      client: {
+                        id: this.clientId
+                      },
+                      card: {
+                        id: this.cardId
+                      }
+                    }
+                    this.clientCardService.createClientCard(clientCardData).subscribe(
+                      (data) => {
+                        this.toastr.success('', 'Reserva formalizada con éxito', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+                        this.router.navigate(['client']);
+                      },
+                      (error) => {
+                        console.log('Error al crear la tarjeta-cliente');
+                      }
+                    );
+                  },
+                  (error) => {
+                    console.log('Error al crear la tarjeta');
+                  }
+                );
+              }else{
+                this.toastr.success('', 'Reserva formalizada con éxito', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+                this.router.navigate(['client']);
+              }
+            },
+            error =>  {
+              console.log('Error al comprobar la tarjeta', error);
+            }
+          );
         },
         (error) => {
           this.payError = 'Error al realizar la reserva. Inténtelo de nuevo';
-          this.toastr.error('', 'Error al realizar la reserva', {timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right'});
+          this.toastr.error('', 'Error al realizar la reserva', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
         }
       );
     }
+  }
+
+  updateFormFields(card: any) {
+    this.payForm.patchValue({
+      owner: card.owner,
+      cardNumber: card.number,
+      cardExpiration: card.expirationDate,
+      cvc: card.cvv
+    });
   }
 }
