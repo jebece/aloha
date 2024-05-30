@@ -56,4 +56,15 @@ export class CategoryaccommodationunitService {
       `${this.urlAccommodation}/service/${services}`
     );
   }
+
+  getAccommodationUnitByAll(
+    location: string,
+    maxPrice: number,
+    services: boolean[],
+    categories: boolean[]
+  ) {
+    return this.http.get<Accommodationunit>(
+      `${this.urlAccommodation}/location/${location}/price/${maxPrice}/services/${services}/categories/${categories}`
+    );
+  }
 }
