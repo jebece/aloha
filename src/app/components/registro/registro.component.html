@@ -51,6 +51,7 @@
                   id="password" name="password" required />
                   <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-message mt-1">
                     <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
+                    <div *ngIf="password.errors?.['minlength']">Debe contener, al menos, 7 caracteres</div>
                   </div>
                   <div class="text-message mt-4 text-center">{{registroError}}</div>
               </div>

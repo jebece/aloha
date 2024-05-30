@@ -17,7 +17,7 @@ export class RegistroComponent implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(50)]],
     surname: ['', [Validators.required, Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(7)]],
     phone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]]
   })
 
