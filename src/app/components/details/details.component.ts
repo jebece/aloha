@@ -6,6 +6,7 @@ import { User } from '../../services/auth/user';
 import { LoginService } from '../../services/auth/login.service';
 import { UserService } from '../../services/user/user.service';
 import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
+import { AccoUnitServiceService } from '../../services/acco-unit-service/acco-unit-service.service';
 
 @Component({
   selector: 'app-details',
@@ -18,6 +19,7 @@ export class DetailsComponent implements OnInit {
   decodedToken: any;
   isAdmin: boolean = false;
   accoUnit: any = [];
+  services: any = [];
   location: string = '';
   start?: Date;
   bookStart?: Date;
@@ -45,6 +47,7 @@ export class DetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private accoUnitService: AccoUnitService,
+    private accoUnitServiceService: AccoUnitServiceService,
     private loginService: LoginService,
     private userService: UserService
   ) { }
@@ -62,7 +65,7 @@ export class DetailsComponent implements OnInit {
         if (this.user && this.user.token) {
           this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
         }
-        if (this.decodedToken.role === 'CLIENT') {
+        if (this.decodedToken.role === 'ADMIN') {
           this.isAdmin = true;
         }
       }
@@ -100,6 +103,16 @@ export class DetailsComponent implements OnInit {
       },
       (error) => {
         console.error('Error al obtener la unidad de alojamiento', error);
+      }
+    );
+
+    this.accoUnitServiceService.getAccoUnitServicesByAccoUnitId(this.id).subscribe(
+      (data) => {
+        this.services = data;
+        console.log('Servicios obtenidos correctamente');
+      },
+      (error) => {
+        console.error('Error al obtener los servicios de la unidad de alojamiento', error);
       }
     );
 

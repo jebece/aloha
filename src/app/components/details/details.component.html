@@ -266,18 +266,8 @@
         </section>
         <div class="row gx-5">
             <section class="details__footer col-lg-8">
-                <div class="details__footer-services">
-                    <div class="details__footer-service mb-3">Piscina</div>
-                    <div class="details__footer-service mb-3">Admite mascotas</div>
-                    <div class="details__footer-service mb-3">Wifi</div>
-                    <div class="details__footer-service mb-3">Parking</div>
-                    <div class="details__footer-service mb-3">Aire acondicionado</div>
-                    <div class="details__footer-service mb-3">Terraza</div>
-                    <div class="details__footer-service mb-3">Balcón</div>
-                    <div class="details__footer-service mb-3">Vistas a la ciudad</div>
-                    <div class="details__footer-service mb-3">Recepción 24 horas</div>
-                    <div class="details__footer-service mb-3">Bañera</div>
-
+                <div class="details__footer-services d-inline-block" *ngFor="let service of services">
+                    <div class="details__footer-service mb-3 me-4">{{service.service.name}}</div>
                 </div>
                 <div class="details__footer-description my-4">
                     <div class="details__footer-text" *ngFor="let paragraph of this.description">
