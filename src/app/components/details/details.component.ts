@@ -28,6 +28,7 @@ export class DetailsComponent implements OnInit {
   minEndDate: string = '';
 
   description: string[] | undefined;
+paragraph: any;
 
   constructor(
     private router: Router,
@@ -63,6 +64,7 @@ export class DetailsComponent implements OnInit {
     this.accoUnitService.getAccoUnitById(this.id).subscribe(
       (data) => {
         this.accoUnit = data;
+        this.description = this.accoUnit.accommodation.description.split('. ').map((sentence: string) => sentence.trim()).filter((sentence: any) => sentence);
         console.log('Unidad de alojamiento obtenida', this.accoUnit);
       },
       (error) => {

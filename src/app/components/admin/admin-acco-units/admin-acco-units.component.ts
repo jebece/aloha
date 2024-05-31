@@ -313,11 +313,10 @@ export class AdminAccoUnitsComponent {
 
   deleteAccoUnit() {
     if (this.selectedAccoUnitId !== null) {
-      const deleteData: any = {
-        id: this.selectedAccoUnitId
-      };
+      const id = this.selectedAccoUnitId;
 
-      this.accoUnitService.deleteAccoUnit(deleteData).subscribe({
+
+      this.accoUnitService.deleteAccoUnit(id).subscribe({
         next: (userData) => {
           console.log(userData);
         },

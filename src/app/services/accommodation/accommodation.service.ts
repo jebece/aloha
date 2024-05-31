@@ -27,7 +27,7 @@ export class AccommodationService {
   }
 
   public deleteAccommodation(id: any): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/accommodation/delete`, { body: id })
+    return this.http.delete(environment.urlHost + '/api/accommodation/delete/' + id)
     .pipe(catchError(this.handleError));
   }
 

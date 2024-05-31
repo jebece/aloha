@@ -280,8 +280,8 @@
 
                 </div>
                 <div class="details__footer-description my-4">
-                    <div class="details__footer-text">
-                        <p>{{this.accoUnit?.accommodation?.description}}</p>
+                    <div class="details__footer-text" *ngFor="let paragraph of this.description">
+                        <p>{{paragraph}}.</p>
                     </div>
                 </div>
             </section>

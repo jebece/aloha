@@ -26,14 +26,14 @@ export class AdminAccommodationsComponent {
   adminAccommodationsError: string = '';
   adminAccommodationsForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(50)]],
-    description: ['', [Validators.required, Validators.maxLength(250)]],
+    description: ['', [Validators.required, Validators.minLength(255), Validators.maxLength(1000)]],
     address: ['', [Validators.required, Validators.maxLength(100)]],
     location: ['', [Validators.required, Validators.maxLength(50)]]
   });
 
   adminAccommodationsEditForm = this.formBuilder.group({
     editName: ['', [Validators.required, Validators.maxLength(50)]],
-    editDescription: ['', [Validators.required, Validators.maxLength(250)]],
+    editDescription: ['', [Validators.required, Validators.minLength(255), Validators.maxLength(1000)]],
     editAddress: ['', [Validators.required, Validators.maxLength(100)]],
     editLocation: ['', [Validators.required, Validators.maxLength(50)]]
   });
@@ -139,11 +139,9 @@ export class AdminAccommodationsComponent {
 
   deleteAccommodation() {
     if (this.selectedAccommodationId !== null) {
-      const deleteData: any = {
-        id: this.selectedAccommodationId
-      };
+      const id = this.selectedAccommodationId;
 
-      this.accommodationService.deleteAccommodation(deleteData).subscribe({
+      this.accommodationService.deleteAccommodation(id).subscribe({
         next: (userData) => {
           console.log(userData);
         },

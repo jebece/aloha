@@ -33,8 +33,8 @@ export class AccoUnitService {
     .pipe(catchError(this.handleError));
   }
 
-  public deleteAccoUnit(id: any): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/accommodation-unit/delete`, { body: id })
+  public deleteAccoUnit(id: any) {
+    return this.http.delete(environment.urlHost + '/api/accommodation-unit/delete/' + id)
     .pipe(catchError(this.handleError));
   }
 

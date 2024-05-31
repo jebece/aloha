@@ -198,6 +198,7 @@
                                     <div *ngIf="description.invalid && (description.dirty || description.touched)"
                                         class="text-message mt-1">
                                         <div *ngIf="description.errors?.['required']">Introduzca descripción</div>
+                                        <div *ngIf="description.errors?.['minlength']">Descripción demasiado corta</div>
                                         <div *ngIf="description.errors?.['maxlength']">Descripción demasiado extensa
                                         </div>
                                     </div>
@@ -265,6 +266,7 @@
                                     <div *ngIf="editDescription.invalid && (editDescription.dirty || editDescription.touched)"
                                         class="text-message mt-1">
                                         <div *ngIf="editDescription.errors?.['required']">Introduzca descripción</div>
+                                        <div *ngIf="description.errors?.['minlength']">Descripción demasiado corta</div>
                                         <div *ngIf="editDescription.errors?.['maxlength']">Descripción demasiado extensa
                                         </div>
                                     </div>
