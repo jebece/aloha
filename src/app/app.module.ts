@@ -28,6 +28,7 @@ import { AdminHeaderComponent } from './components/admin/admin-header/admin-head
 import { ToastrModule } from 'ngx-toastr';
 import { TopButtonComponent } from './components/top-button/top-button.component';
 import { CookieService } from 'ngx-cookie-service';
+import { FaqsComponent } from './components/faqs/faqs.component';
 
 
 const appRoutes: Routes = [
@@ -41,7 +42,8 @@ const appRoutes: Routes = [
   { path: 'consulta', component: ConsultaComponent },
   { path: 'details', component: DetailsComponent },
   { path: 'pay', component: PayComponent },
-  { path: 'registro', component: RegistroComponent }
+  { path: 'registro', component: RegistroComponent },
+  { path: 'faqs', component: FaqsComponent }
 ];
 
 @NgModule({
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     AdminAccoUnitsComponent,
     AdminBooksComponent,
     AdminHeaderComponent,
-    TopButtonComponent
+    TopButtonComponent,
+    FaqsComponent
   ],
   imports: [
     BrowserModule,
