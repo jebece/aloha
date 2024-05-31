@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
+import { User } from '../../services/auth/user';
+import { LoginService } from '../../services/auth/login.service';
+import { UserService } from '../../services/user/user.service';
+import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 
 @Component({
   selector: 'app-details',
@@ -9,6 +13,10 @@ import { AccoUnitService } from '../../services/acco-unit/acco-unit.service';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
+  userLoginOn: boolean = false;
+  user?: User;
+  decodedToken: any;
+  isAdmin: boolean = false;
   accoUnit: any = [];
   location: string = '';
   start?: Date;
@@ -28,16 +36,39 @@ export class DetailsComponent implements OnInit {
   minEndDate: string = '';
 
   description: string[] | undefined;
-paragraph: any;
+  paragraph: any;
+
+  private jwtDecoderService = inject(JwtDecoderService);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private accoUnitService: AccoUnitService
+    private accoUnitService: AccoUnitService,
+    private loginService: LoginService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if(this.userLoginOn) {
+    this.userService.getUser().subscribe({
+      next: (userData) => {
+        this.user = userData;
+        if (this.user && this.user.token) {
+          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+        }
+        if (this.decodedToken.role === 'CLIENT') {
+          this.isAdmin = true;
+        }
+      }
+    });
+  }
+
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -65,7 +96,7 @@ paragraph: any;
       (data) => {
         this.accoUnit = data;
         this.description = this.accoUnit.accommodation.description.split('. ').map((sentence: string) => sentence.trim()).filter((sentence: any) => sentence);
-        console.log('Unidad de alojamiento obtenida', this.accoUnit);
+        console.log('Unidad de alojamiento obtenida');
       },
       (error) => {
         console.error('Error al obtener la unidad de alojamiento', error);

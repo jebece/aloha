@@ -33,10 +33,10 @@ export class ClientComponent implements OnInit {
   });
 
   userLoginOn: boolean = false;
-  userData?: User;
   user?: User;
-  errorMessage: string = '';
   decodedToken: any;
+  unautorized: boolean = true;
+  errorMessage: string = '';
   clientId?: number;
   clientPassword?: string;
   books: any;
@@ -57,8 +57,22 @@ export class ClientComponent implements OnInit {
         this.userLoginOn = userLoginOn;
       }
     });
-    if (!this.userLoginOn) {
+    if (this.userLoginOn) {
+      this.userService.getUser().subscribe({
+        next: (userData) => {
+          this.user = userData;
+          if (this.user && this.user.token) {
+            this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+          }
+          if (this.decodedToken.role === 'CLIENT') {
+            this.unautorized = false;
+          }
+        }
+      });
+    }
+    if (this.unautorized) {
       this.router.navigate(['login']);
+      this.toastr.error('Debes iniciar sesión como cliente', 'Acceso restringido', { timeOut: 2000, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
     } else {
       this.userService.getUser().subscribe({
         next: (userData) => {

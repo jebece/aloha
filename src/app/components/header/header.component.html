@@ -19,7 +19,8 @@
                 <div class="navigation__links navbar-nav">
                     <a *ngIf="!userLoginOn" class="navigation__link nav-link text-center hidden" href="/login">Iniciar sesión</a>
                     <a *ngIf="!userLoginOn" class="navigation__link nav-link hidden ms-lg-3 text-center" href="/registro">Crear cuenta</a>
-                    <a *ngIf="userLoginOn" class="navigation__link nav-link text-center hidden" href="/client">Mi cuenta</a>
+                    <a *ngIf="userLoginOn && showProfileButton" class="navigation__link nav-link text-center hidden" href="/client">Mi cuenta</a>
+                    <a *ngIf="userLoginOn && showPanelButton" class="navigation__link nav-link text-center hidden" href="/admin-users">Panel Admón.</a>
                     <a *ngIf="userLoginOn" class="navigation__link nav-link text-center hidden" (click)="logout()" href="">Cerrar sesión</a>
                 </div>
             </div>
@@ -27,10 +28,14 @@
         <div class="header__buttons col-lg-4 d-lg-flex align-items-center">
             <a *ngIf="!userLoginOn" class="header__btn btn btn-primary" href="/login">Iniciar sesión</a>
             <a *ngIf="!userLoginOn" class="header__btn btn btn-primary ms-lg-2 me-lg-4" href="/registro">Crear cuenta</a>
-            <a *ngIf="userLoginOn" class="header__btn btn btn-primary d-flex align-items-center" (click)="logout()" href="">
+            <a *ngIf="userLoginOn && showPanelButton" class="header__btn btn btn-primary" href="/admin-users">Panel Admón.</a>
+            <a *ngIf="userLoginOn && showPanelButton" class="header__btn btn btn-primary d-flex align-items-center ms-lg-2 me-lg-4" (click)="logout()" href="">
                 <div>Cerrar sesión</div>
             </a>
-            <a *ngIf="userLoginOn" class="header__icon ms-lg-4 me-lg-4 d-flex align-items-center" href="/client">
+            <a *ngIf="userLoginOn && showProfileButton" class="header__btn btn btn-primary d-flex align-items-center" (click)="logout()" href="">
+                <div>Cerrar sesión</div>
+            </a>
+            <a *ngIf="userLoginOn && showProfileButton" class="header__icon ms-lg-4 me-lg-4 d-flex align-items-center" href="/client">
                 <div>
                     <svg width="40" height="40" viewBox="0 0 21 21" fill="FFFFFF" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_27_23)">

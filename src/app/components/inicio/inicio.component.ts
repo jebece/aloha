@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../services/auth/user';
-import { UserService } from '../../services/user/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -10,7 +8,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  user?: User;
   errorMessage: string = '';
 
   location: string = '';
@@ -25,7 +22,7 @@ export class InicioComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
-  constructor(private router: Router, private userService: UserService, private spinner: NgxSpinnerService) { }
+  constructor(private router: Router, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -34,18 +31,6 @@ export class InicioComponent implements OnInit {
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
     this.updateMinEndDate(this.minDate);
-
-    this.userService.getUser().subscribe({
-      next: (userData) => {
-        this.user = userData;
-      },
-      error: (errorData) => {
-        this.errorMessage = errorData;
-      },
-      complete: () => {
-        console.info('Petición completada');
-      }
-    });
   }
 
   updateMinEndDate(startDate: string): void {

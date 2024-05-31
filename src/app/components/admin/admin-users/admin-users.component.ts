@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClientService } from '../../../services/client/client.service';
 import { UserService } from '../../../services/user/user.service';
@@ -6,15 +6,20 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../services/auth/user';
 import { LoginService } from '../../../services/auth/login.service';
+import { JwtDecoderService } from '../../../services/jwt-decoder/jwt-decoder.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-users',
   templateUrl: './admin-users.component.html',
   styleUrl: './admin-users.component.css'
 })
-export class AdminUsersComponent {
+export class AdminUsersComponent implements OnInit{
   userLoginOn: boolean = false;
-  userData?: User;
+  user?: User;
+  decodedToken: any;
+  unautorized: boolean = true;
+  users: any = [];
   clients: any = [];
   admins: any = [];
   selectedClientId: number | null = null;
@@ -35,11 +40,15 @@ export class AdminUsersComponent {
 
   adminUsersAdminForm = this.formBuilder.group({
     adminName: ['', [Validators.required, Validators.maxLength(50)]],
+    adminSurname: ['', [Validators.required, Validators.maxLength(50)]],
     adminEmail: ['', [Validators.required, Validators.email]],
+    adminPhone: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
     adminPassword: ['', Validators.required]
   });
 
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService, private userService: UserService) {}
+  private jwtDecoderService = inject(JwtDecoderService);
+
+  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private clientService: ClientService, private router: Router, private spinner: NgxSpinnerService, private userService: UserService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -47,20 +56,30 @@ export class AdminUsersComponent {
         this.userLoginOn = userLoginOn;
       }
     });
-    if (!this.userLoginOn) {
-      this.router.navigate(['login']);
-    } else {
-    this.userService.getAdmins().subscribe(
-      (data) => {
-        this.admins = data;
-      },
-      (error) => {
-        console.error('Error al obtener a los administradores', error);
+    if(this.userLoginOn) {
+    this.userService.getUser().subscribe({
+      next: (userData) => {
+        this.user = userData;
+        if (this.user && this.user.token) {
+          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+        }
+        if (this.decodedToken.role === 'ADMIN') {
+          this.unautorized = false;
+        }
       }
-    );
+    });
+    }
+    if (this.unautorized) {
+      this.router.navigate(['login']);
+      this.toastr.error('Inicia sesión como administrador', 'Acceso restringido', { timeOut: 2000, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+    } else {
     this.clientService.getClients().subscribe(
       (data) => {
-        this.clients = data;
+        this.users = data;
+        if (Array.isArray(this.users) && this.users.length > 0) {
+          this.clients = this.users.filter((user: any) => user.role === 'CLIENT');
+          this.admins = this.users.filter((user: any) => user.role === 'ADMIN');
+        }
         if (Array.isArray(this.clients) && this.clients.length > 0) {
           this.showRows = true;
         }
@@ -146,16 +165,22 @@ export class AdminUsersComponent {
   createAdmin() {
     if (this.adminUsersAdminForm.valid) {
       let adminName = this.adminUsersAdminForm.get('adminName')?.value;
+      let adminSurname = this.adminUsersAdminForm.get('adminSurname')?.value;
       let adminEmail = this.adminUsersAdminForm.get('adminEmail')?.value;
+      let adminPhone = this.adminUsersAdminForm.get('adminPhone')?.value;
+      let adminRole = 'ADMIN';
       let adminPassword = this.adminUsersAdminForm.get('adminPassword')?.value;
-  
+
       const adminData = {
         name: adminName!,
+        surname: adminSurname!,
         email: adminEmail!,
+        phone: adminPhone!,
+        role: adminRole!,
         password: adminPassword!
       };
   
-      this.userService.addAdmin(adminData).subscribe(
+      this.clientService.createClient(adminData).subscribe(
         (response) => {
           console.log('Administrador añadido correctamente:', response);
           this.adminUsersAdminForm.reset();
@@ -173,11 +198,9 @@ export class AdminUsersComponent {
 
   deleteAdmin() {
     if (this.selectedClientId !== null) {
-      const deleteData = {
-        id: this.selectedClientId
-      };
+      const id = this.selectedClientId;
 
-      this.userService.deleteAdmin(deleteData).subscribe({
+      this.clientService.deleteClient(id).subscribe({
         next: (userData) => {
           console.log(userData);
         },
@@ -223,6 +246,14 @@ export class AdminUsersComponent {
 
   get adminName() {
     return this.adminUsersAdminForm.controls.adminName;
+  }
+
+  get adminSurname() {
+    return this.adminUsersAdminForm.controls.adminSurname;
+  }
+
+  get adminPhone() {
+    return this.adminUsersAdminForm.controls.adminPhone;
   }
 
   get adminEmail() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
@@ -6,6 +6,9 @@ import { LoginRequest } from '../../services/auth/loginRequest';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
+import { User } from '../../services/auth/user';
+import { UserService } from '../../services/user/user.service';
+import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,10 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-
+  userLoginOn: boolean = false;
+  userData?: User;
+  user?: User;
+  decodedToken: any;
   loginError: string = '';
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -21,7 +27,9 @@ export class LoginComponent implements OnInit {
     rememberMe: [false]
   })
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService, private spinner: NgxSpinnerService, private toastr: ToastrService, private cookieService: CookieService) {
+  private jwtDecoderService = inject(JwtDecoderService);
+
+  constructor(private formBuilder: FormBuilder, private router: Router, private loginService: LoginService, private spinner: NgxSpinnerService, private toastr: ToastrService, private cookieService: CookieService, private userService: UserService) {
 
   }
 
@@ -60,10 +68,44 @@ export class LoginComponent implements OnInit {
             this.cookieService.set('email', email, expires);
             this.cookieService.set('password', password, expires);
           }
-
-          this.router.navigate(['']);
-          this.loginForm.reset();
-          this.toastr.success('', 'Sesión iniciada con éxito', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+          this.loginService.currentUserLoginOn.subscribe({
+            next: (userLoginOn) => {
+              this.userLoginOn = userLoginOn;
+            }
+          });
+          if (!this.userLoginOn) {
+            this.router.navigate(['login']);
+          } else {
+            this.userService.getUser().subscribe({
+              next: (userData) => {
+                this.user = userData;
+                if (this.user && this.user.token) {
+                  this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+                }
+                if (this.decodedToken.role === 'ADMIN') {
+                  this.router.navigate(['admin-users']);
+                  this.loginForm.reset();
+                  this.toastr.success('', 'Sesión iniciada con éxito', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+                }
+                if (this.decodedToken.role === 'CLIENT') {
+                  this.router.navigate(['']);
+                  this.loginForm.reset();
+                  this.toastr.success('', 'Sesión iniciada con éxito', { timeOut: 1500, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
+                }
+              },
+              error: (errorData) => {
+                this.loginError = 'Error al obtener los datos del usuario';
+              },
+              complete: () => {
+                console.info('Petición completada');
+              }
+            });
+      
+            this.spinner.show();
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 500);
+          }
         }
       });
     } else {

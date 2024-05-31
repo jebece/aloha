@@ -68,7 +68,9 @@
                     <tr>
                         <th class="admin__content-head">ID</th>
                         <th class="admin__content-head">Nombre</th>
+                        <th class="admin__content-head">Apellidos</th>
                         <th class="admin__content-head">Email</th>
+                        <th class="admin__content-head">Teléfono</th>
                         <th class="admin__content-head"></th>
                     </tr>
                 </thead>
@@ -77,7 +79,9 @@
                         *ngFor="let admin of admins">
                         <td class="admin__content-cell">{{ admin.id }}</td>
                         <td class="admin__content-cell">{{ admin.name }}</td>
+                        <td class="admin__content-cell">{{ admin.surname }}</td>
                         <td class="admin__content-cell">{{ admin.email }}</td>
+                        <td class="admin__content-cell">{{ admin.phone }}</td>
                         <td class="admin__content-cell">
                             <div data-bs-toggle="modal" data-bs-target="#admin-modal-delete-admin"
                                 (click)="selectClientId(admin.id)" class="admin__content-links">
@@ -109,6 +113,17 @@
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-3">
+                                    <label for="adminSurname"
+                                        class="admin__modal-create-form-label form-label">Apellidos</label>
+                                    <input type="text" class="admin__modal-create-form-control form-control"
+                                        id="adminSurname" required formControlName="adminSurname">
+                                    <div *ngIf="adminSurname.invalid && (adminSurname.dirty || adminSurname.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="adminSurname.errors?.['required']">Introduzca apellidos</div>
+                                        <div *ngIf="adminSurname.errors?.['maxlength']">Apellidos demasiado largos</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
                                     <label for="adminEmail"
                                         class="admin__modal-create-form-label form-label">Email</label>
                                     <input type="email" class="admin__modal-create-form-control form-control"
@@ -117,6 +132,17 @@
                                         class="text-message mt-1">
                                         <div *ngIf="adminEmail.errors?.['required']">Introduzca email</div>
                                         <div *ngIf="adminEmail.errors?.['email']">Debe tener formato email</div>
+                                    </div>
+                                </div>
+                                <div class="admin__modal-create-form-input mb-3">
+                                    <label for="adminPhone"
+                                        class="admin__modal-create-form-label form-label">Teléfono</label>
+                                    <input type="tel" class="admin__modal-create-form-control form-control" id="adminPhone"
+                                        required formControlName="adminPhone">
+                                    <div *ngIf="adminPhone.invalid && (adminPhone.dirty || adminPhone.touched)"
+                                        class="text-message mt-1">
+                                        <div *ngIf="adminPhone.errors?.['required']">Introduzca teléfono</div>
+                                        <div *ngIf="adminPhone.errors?.['pattern']">Introduzca 9 dígitos numéricos</div>
                                     </div>
                                 </div>
                                 <div class="admin__modal-create-form-input mb-4">

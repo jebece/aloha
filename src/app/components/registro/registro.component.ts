@@ -27,7 +27,15 @@ export class RegistroComponent implements OnInit {
 
   formSubmit() {
     if(this.registroForm.valid){
-      this.userService.addClient(this.registroForm.value as RegistroRequest).subscribe({
+      const userData = {
+        name: this.registroForm.value.name,
+        surname: this.registroForm.value.surname,
+        email: this.registroForm.value.email,
+        password: this.registroForm.value.password,
+        phone: this.registroForm.value.phone,
+        role: 'CLIENT'
+      };
+      this.userService.addClient(userData as RegistroRequest).subscribe({
         next: (userData) => {
           console.log(userData);
         },

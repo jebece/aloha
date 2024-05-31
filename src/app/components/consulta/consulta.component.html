@@ -327,7 +327,7 @@
                 <div>{{ item.price }}€</div>
               </div>
               <div class="consulta__results-aholamiento-book row">
-                <button class="btn btn-success" (click)="selectAccoUnitToPay(item.id)">
+                <button *ngIf="!this.isAdmin" class="btn btn-success" (click)="selectAccoUnitToPay(item.id)">
                   <div>
                     <svg width="83" height="25" viewBox="0 0 83 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_18_2)">

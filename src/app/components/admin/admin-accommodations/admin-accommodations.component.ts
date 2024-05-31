@@ -1,20 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AccommodationService } from '../../../services/accommodation/accommodation.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../services/auth/user';
 import { LoginService } from '../../../services/auth/login.service';
-
+import { UserService } from '../../../services/user/user.service';
+import { JwtDecoderService } from '../../../services/jwt-decoder/jwt-decoder.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-accommodations',
   templateUrl: './admin-accommodations.component.html',
   styleUrl: './admin-accommodations.component.css'
 })
-export class AdminAccommodationsComponent {
+export class AdminAccommodationsComponent implements OnInit{
   userLoginOn: boolean = false;
-  userData?: User;
+  user?: User;
+  decodedToken: any;
+  unautorized: boolean = true;
   accommodations: any;
   selectedAccommodationId: number | null = null;
   page: number = 1;
@@ -38,7 +42,9 @@ export class AdminAccommodationsComponent {
     editLocation: ['', [Validators.required, Validators.maxLength(50)]]
   });
 
-  constructor(private loginService: LoginService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService) {}
+  private jwtDecoderService = inject(JwtDecoderService);
+
+  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -46,8 +52,22 @@ export class AdminAccommodationsComponent {
         this.userLoginOn = userLoginOn;
       }
     });
-    if (!this.userLoginOn) {
+    if (this.userLoginOn) {
+    this.userService.getUser().subscribe({
+      next: (userData) => {
+        this.user = userData;
+        if (this.user && this.user.token) {
+          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+        }
+        if (this.decodedToken.role === 'ADMIN') {
+          this.unautorized = false;
+        }
+      }
+    });
+    }
+    if (this.unautorized) {
       this.router.navigate(['login']);
+      this.toastr.error('Inicia sesión como administrador', 'Acceso restringido', { timeOut: 2000, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
     } else {
     this.accommodationService.getAccommodations().subscribe(
       (data) => {

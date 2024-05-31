@@ -31,21 +31,6 @@ export class UserService {
     .pipe(catchError(this.handleError));
   }
 
-  public addAdmin(user: any) {
-    return this.http.post(environment.urlHost + '/auth/registerAdmin', user)
-    .pipe(catchError(this.handleError));
-  }
-
-  public getAdmins() {
-    return this.http.get(environment.urlHost + '/api/admin')
-    .pipe(catchError(this.handleError));
-  }
-
-  public deleteAdmin(id: any): Observable<any> {
-    return this.http.delete(`${environment.urlHost}/api/admin/delete`, { body: id })
-    .pipe(catchError(this.handleError));
-  }
-
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('Se ha producido un error ', error.error);

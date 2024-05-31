@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AccoUnitService } from '../../../services/acco-unit/acco-unit.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,6 +9,9 @@ import { ServiceService } from '../../../services/service/service.service';
 import { User } from '../../../services/auth/user';
 import { LoginService } from '../../../services/auth/login.service';
 import { AccoUnitServiceService } from '../../../services/acco-unit-service/acco-unit-service.service';
+import { JwtDecoderService } from '../../../services/jwt-decoder/jwt-decoder.service';
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-admin-acco-units',
@@ -17,7 +20,9 @@ import { AccoUnitServiceService } from '../../../services/acco-unit-service/acco
 })
 export class AdminAccoUnitsComponent {
   userLoginOn: boolean = false;
-  userData?: User;
+  user?: User;
+  decodedToken: any;
+  unautorized: boolean = true;
   accommodations: any;
   accoUnits: any;
   accoUnitsServices: any;
@@ -50,7 +55,9 @@ export class AdminAccoUnitsComponent {
     editSelectedServices: [[], Validators.required]
   });
 
-  constructor(private loginService: LoginService, private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService, private accoUnitServiceService: AccoUnitServiceService) {}
+  private jwtDecoderService = inject(JwtDecoderService);
+
+  constructor(private loginService: LoginService, private userService: UserService, private accoUnitService: AccoUnitService, private categoryService: CategoryService, private serviceService: ServiceService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private accommodationService: AccommodationService, private accoUnitServiceService: AccoUnitServiceService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -58,8 +65,22 @@ export class AdminAccoUnitsComponent {
         this.userLoginOn = userLoginOn;
       }
     });
-    if (!this.userLoginOn) {
+    if(this.userLoginOn) {
+    this.userService.getUser().subscribe({
+      next: (userData) => {
+        this.user = userData;
+        if (this.user && this.user.token) {
+          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+        }
+        if (this.decodedToken.role === 'ADMIN') {
+          this.unautorized = false;
+        }
+      }
+    });
+    }
+    if (this.unautorized) {
       this.router.navigate(['login']);
+      this.toastr.error('Inicia sesión como administrador', 'Acceso restringido', { timeOut: 2000, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
     } else {
     this.accommodationService.getAccommodations().subscribe(
       (data) => {

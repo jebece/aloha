@@ -1,10 +1,13 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AccommodationunitserviceserviceService } from '../../services/accommodationunitserviceservice/accommodationunitserviceservice.service';
-import { query } from '@angular/animations';
+import { LoginService } from '../../services/auth/login.service';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../services/auth/user';
+import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 
 @Component({
   selector: 'app-consulta',
@@ -12,6 +15,10 @@ import { query } from '@angular/animations';
   styleUrls: ['./consulta.component.css'],
 })
 export class ConsultaComponent implements OnInit {
+  userLoginOn: boolean = false;
+  user?: User;
+  decodedToken: any;
+  isAdmin: boolean = false;
   page: number = 1;
   showRows: boolean = false;
   data: any;
@@ -35,15 +42,38 @@ export class ConsultaComponent implements OnInit {
   minDate: string = '';
   minEndDate: string = '';
 
+  private jwtDecoderService = inject(JwtDecoderService);
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private categoryAccommodationUnitService: CategoryaccommodationunitService,
-    private accommodationUnitServiceService: AccommodationunitserviceserviceService
-  ) {}
+    private accommodationUnitServiceService: AccommodationunitserviceserviceService,
+    private loginService: LoginService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        this.userLoginOn = userLoginOn;
+      }
+    });
+    if (this.userLoginOn) {
+      this.userService.getUser().subscribe({
+        next: (userData) => {
+          this.user = userData;
+          if (this.user && this.user.token) {
+            this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+          }
+          if (this.decodedToken.role === 'ADMIN') {
+            this.isAdmin = true;
+          }
+        }
+      });
+    }
+
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');

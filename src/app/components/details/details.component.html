@@ -310,7 +310,7 @@
                         </div>
                         <div class="details__book-aholame row my-4 ">
                             <div class="d-flex justify-content-center">
-                                <button class="btn btn-success" (click)="goToPay()">
+                                <button *ngIf="!this.isAdmin" class="btn btn-success" (click)="goToPay()">
                                     <div><svg height="40" viewBox="0 0 83 25" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g clip-path="url(#clip0_18_2)">
