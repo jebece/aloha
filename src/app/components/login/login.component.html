@@ -25,6 +25,10 @@
                                 <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-message mt-1">
                                     <div *ngIf="password.errors?.['required']">Introduzca su contraseña</div>
                                 </div>
+                                <div class="form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe" formControlName="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Recordar credenciales</label>
+                                </div>
                                 <div class="text-message mt-4 text-center">{{loginError}}</div>
                             </div>
                             <div class="row">

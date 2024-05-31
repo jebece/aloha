@@ -27,6 +27,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { AdminHeaderComponent } from './components/admin/admin-header/admin-header.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TopButtonComponent } from './components/top-button/top-button.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 const appRoutes: Routes = [
@@ -78,7 +79,8 @@ const appRoutes: Routes = [
     ToastrModule.forRoot()
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
