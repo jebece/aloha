@@ -30,6 +30,12 @@ export class CardService {
       .pipe(catchError(this.handleError));
   }
 
+  public deleteCard(cardData: any) {
+    return this.http.delete(`${environment.urlHost}/api/card/delete`, { body: cardData })
+      .pipe(catchError(this.handleError));
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('Se ha producido un error ', error.error);

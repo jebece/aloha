@@ -37,6 +37,7 @@ export class PayComponent implements OnInit {
   cardId: any;
   clientCards: any;
   show: boolean = false;
+  selectedCardId: number | null = null;
 
   private jwtDecoderService = inject(JwtDecoderService);
 
@@ -235,5 +236,38 @@ export class PayComponent implements OnInit {
       cardExpiration: card.expirationDate,
       cvc: card.cvv
     });
+  }
+
+  selectCardId(id: number) {
+    this.selectedCardId = id;
+    this.deleteCard();
+  }
+
+  deleteCard() {
+    if (this.selectedCardId !== null) {
+      const deleteData: any = {
+        id: this.selectedCardId
+      };
+
+      this.cardService.deleteCard(deleteData).subscribe({
+        next: (userData) => {
+          this.cardService.getCardsByClientId(this.clientId).subscribe(
+            (data) => {
+              this.clientCards = data;
+              this.show = Array.isArray(this.clientCards) && this.clientCards.length > 0;
+            },
+            (error) => {
+              console.error('Error al obtener las tarjetas del cliente', error);
+            }
+          );
+        },
+        error: (errorData) => {
+          console.log(errorData);
+          this.payError = "Error al eliminar la tarjeta. Inténtalo de nuevo.";
+        }
+      });
+    } else {
+      console.error('Tarjeta no seleccionada');
+    }
   }
 }

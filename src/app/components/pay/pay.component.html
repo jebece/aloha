@@ -50,7 +50,7 @@
                         <div class="pay__book-details-info">Total</div>
                     </div>
                     <div class="pay__book-details-total">
-                        <div class="pay__book-details-value">{{ diferenciaEnDias() *  this.accoUnit?.price}}€</div>
+                        <div class="pay__book-details-value">{{ diferenciaEnDias() * this.accoUnit?.price}}€</div>
                     </div>
                 </section>
                 <section class="pay__accomm-details col-md-6">
@@ -62,7 +62,8 @@
                             <div>{{ this.accoUnit?.accommodation?.name}}</div>
                         </div>
                         <div class="pay__accomm-details-location">
-                            <div>{{this.accoUnit?.accommodation?.address}} - {{this.accoUnit?.accommodation?.location}}</div>
+                            <div>{{this.accoUnit?.accommodation?.address}} - {{this.accoUnit?.accommodation?.location}}
+                            </div>
                         </div>
                         <div class="pay__accomm-details-type mt-2">
                             <div class="pay__accomm-details-info">Tipo</div>
@@ -77,24 +78,43 @@
                 <div class="pay__book-form mb-4">
                     <div class="pay__book-form-title mt-3 d-flex justify-content-between">
                         <div class="pay__book-form-text">Datos de pago</div>
-                        <div class="pay__book-form-cards d-flex justify-content-center align-items-center me-2" data-bs-toggle="collapse" href="#myCards" role="button" aria-expanded="false" aria-controls="mis tarjetas" *ngIf="show">
+                        <div class="pay__book-form-cards d-flex justify-content-center align-items-center me-2"
+                            data-bs-toggle="collapse" href="#myCards" role="button" aria-expanded="false"
+                            aria-controls="mis tarjetas" *ngIf="show">
                             <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#272A57" class="bi bi-credit-card-2-back-fill" viewBox="0 0 16 16">
-                                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5H0zm11.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM0 11v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1z"/>
-                                  </svg> Mis tarjetas</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#272A57"
+                                    class="bi bi-credit-card-2-back-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5H0zm11.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM0 11v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1z" />
+                                </svg> Mis tarjetas
+                            </div>
                         </div>
                     </div>
                     <div class="collapse col-lg-6 offset-lg-6 mt-2" id="myCards" *ngIf="show">
                         <div class="card card-body">
                             <div class="pay__book-details-info mb-2">Selecciona tarjeta:</div>
                             <div class="form-check mt-1" *ngFor="let card of this.clientCards">
-                                <input class="form-check-input" type="radio" name="card" (change)="updateFormFields(card)">
-                                <label class="pay__book-details-info form-check-label " for="card">
-                                    <div class="d-inline-block">Número: **** - **** - **** - {{card.number | slice:12:16}}</div><div class="d-inline-block ms-2">Caducidad: {{card.expirationDate}}</div><div class="d-inline-block ms-2">CVC: {{card.cvv}}</div><div class="d-inline-block ms-2">Titular: {{card.owner}}</div>
+                                <input class="form-check-input" type="radio" name="card"
+                                    (change)="updateFormFields(card)">
+                                <label class="pay__book-details-info form-check-label d-flex justify-content-between"
+                                    for="card">
+                                    <div>
+                                        <div class="d-inline-block">N°: **** - **** - **** - {{card.number |
+                                            slice:12:16}}.</div>
+                                        <div class="d-inline-block ms-2">Caducidad: {{card.expirationDate}}.</div>
+                                        <div class="d-inline-block ms-2">CVC: {{card.cvv}}.</div>
+                                    </div>
+                                    <div class="client__profile-links d-flex align-items-center mx-2" (click)="selectCardId(card.id)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#272A57"
+                                            class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                        </svg>
+                                    </div>
                                 </label>
                             </div>
                         </div>
-                      </div>
+                    </div>
                     <form class="needs-validation" novalidate [formGroup]="payForm">
                         <div class="pay__book-form-informations row gx-3">
                             <div
@@ -115,37 +135,46 @@
                         <div class="row gx-3">
                             <div class="pay__book-form-controls col-lg-3 mt-2">
                                 <div class="pay__book-form-hidden">Titular</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="owner" id="owner" name="owner" required>
-                                <div *ngIf="owner.invalid && (owner.dirty || owner.touched)" class="text-message mt-1 pb-lg-4">
+                                <input type="text" class="pay__book-form-control form-control" formControlName="owner"
+                                    id="owner" name="owner" required>
+                                <div *ngIf="owner.invalid && (owner.dirty || owner.touched)"
+                                    class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="owner.errors?.['required']">Introduzca titular</div>
                                 </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-3 mt-2">
                                 <div class="pay__book-form-hidden">N° tarjeta</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cardNumber" id="cardNumber" name="cardNumber" required>
-                                <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)" class="text-message mt-1 pb-lg-4">
+                                <input type="text" class="pay__book-form-control form-control"
+                                    formControlName="cardNumber" id="cardNumber" name="cardNumber" required>
+                                <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)"
+                                    class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cardNumber.errors?.['required']">Introduzca número de tarjeta</div>
                                     <div *ngIf="cardNumber.errors?.['pattern']">Introduzca 16 dígitos numéricos</div>
                                 </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-2 mt-2">
                                 <div class="pay__book-form-hidden">Caducidad</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cardExpiration" id="cardExpiration" name="cardExpiration" required>
-                                <div *ngIf="cardExpiration.invalid && (cardExpiration.dirty || cardExpiration.touched)" class="text-message mt-1 pb-lg-4">
+                                <input type="text" class="pay__book-form-control form-control"
+                                    formControlName="cardExpiration" id="cardExpiration" name="cardExpiration" required>
+                                <div *ngIf="cardExpiration.invalid && (cardExpiration.dirty || cardExpiration.touched)"
+                                    class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cardExpiration.errors?.['required']">Introduzca caducidad</div>
                                     <div *ngIf="cardExpiration.errors?.['pattern']">Formato inválido (dd/dd)</div>
                                 </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-2 mt-2">
                                 <div class="pay__book-form-hidden">CVC</div>
-                                <input type="text" class="pay__book-form-control form-control" formControlName="cvc" id="cvc" name="cvc" required>
-                                <div *ngIf="cvc.invalid && (cvc.dirty || cvc.touched)" class="text-message mt-1 pb-lg-4">
+                                <input type="text" class="pay__book-form-control form-control" formControlName="cvc"
+                                    id="cvc" name="cvc" required>
+                                <div *ngIf="cvc.invalid && (cvc.dirty || cvc.touched)"
+                                    class="text-message mt-1 pb-lg-4">
                                     <div *ngIf="cvc.errors?.['required']">Introduzca CVC</div>
                                     <div *ngIf="cvc.errors?.['pattern']">Formato inválido (ddd)</div>
                                 </div>
                             </div>
                             <div class="pay__book-form-controls col-lg-2 pb-4 mt-4 mt-lg-2">
-                                <button class="consulta__form-submit btn btn-secondary" type="submit" (click)="createBooking()">PAGAR</button>
+                                <button class="consulta__form-submit btn btn-secondary" type="submit"
+                                    (click)="createBooking()">PAGAR</button>
                             </div>
                             <div class="text-center text-message mb-4">{{this.payError}}</div>
                         </div>
@@ -157,5 +186,6 @@
     </div>
 </main>
 <app-footer></app-footer>
-<ngx-spinner bdColor = "rgba(0,0,0,0.4)" size = "medium" color = "#272a57" type = "ball-square-spin" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor="rgba(0,0,0,0.4)" size="medium" color="#272a57" type="ball-square-spin"
+    [fullScreen]="true"></ngx-spinner>
 <app-top-button></app-top-button>
