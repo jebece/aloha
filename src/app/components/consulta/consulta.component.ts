@@ -52,25 +52,27 @@ export class ConsultaComponent implements OnInit {
     private accommodationUnitServiceService: AccommodationunitserviceserviceService,
     private loginService: LoginService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => {
         this.userLoginOn = userLoginOn;
-      }
+      },
     });
     if (this.userLoginOn) {
       this.userService.getUser().subscribe({
         next: (userData) => {
           this.user = userData;
           if (this.user && this.user.token) {
-            this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+            this.decodedToken = this.jwtDecoderService.decodeToken(
+              this.user.token
+            );
           }
           if (this.decodedToken.role === 'ADMIN') {
             this.isAdmin = true;
           }
-        }
+        },
       });
     }
 
@@ -242,7 +244,10 @@ export class ConsultaComponent implements OnInit {
         queryParams['location'],
         queryParams['maxPrice'],
         queryParams['services'],
-        queryParams['categories']
+        queryParams['categories'],
+        queryParams['start'],
+        queryParams['end'],
+        queryParams['people']
       )
       .subscribe((response) => {
         this.data = response;

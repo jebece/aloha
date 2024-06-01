@@ -61,10 +61,13 @@ export class CategoryaccommodationunitService {
     location: string,
     maxPrice: number,
     services: boolean[],
-    categories: boolean[]
+    categories: boolean[],
+    start: string,
+    end: string,
+    capacity: number
   ) {
     return this.http.get<Accommodationunit>(
-      `${this.urlAccommodation}/location/${location}/price/${maxPrice}/services/${services}/categories/${categories}`
+      `${this.urlAccommodation}/location/${location}/price/${maxPrice}/services/${services}/categories/${categories}/check-in/${start}/check-out/${end}/capacity/${capacity}`
     );
   }
 }
