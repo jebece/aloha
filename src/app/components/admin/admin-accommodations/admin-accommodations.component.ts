@@ -8,6 +8,7 @@ import { LoginService } from '../../../services/auth/login.service';
 import { UserService } from '../../../services/user/user.service';
 import { JwtDecoderService } from '../../../services/jwt-decoder/jwt-decoder.service';
 import { ToastrService } from 'ngx-toastr';
+import { UploadService } from '../../../services/upload/upload.service';
 
 @Component({
   selector: 'app-admin-accommodations',
@@ -26,6 +27,7 @@ export class AdminAccommodationsComponent implements OnInit{
   accommodationFilter: any = { name: '' };
   order: string = 'name';
   reverse: boolean = false;
+  files: File[] = [];
 
   adminAccommodationsError: string = '';
   adminAccommodationsForm = this.formBuilder.group({
@@ -44,7 +46,7 @@ export class AdminAccommodationsComponent implements OnInit{
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
+  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService, private uploadService: UploadService) {}
   
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -114,6 +116,7 @@ export class AdminAccommodationsComponent implements OnInit{
       this.accommodationService.createAccommodation(accommodationData).subscribe(
         (response) => {
           console.log('Alojamiento creado correctamente:', response);
+          this.uploadImages();
           this.adminAccommodationsForm.reset();
           this.router.navigate(['admin-accommodations']).then(() => {
             window.location.reload();
@@ -222,6 +225,35 @@ export class AdminAccommodationsComponent implements OnInit{
           editLocation: selectedAccommodation.location
         });
       }
+    }
+  }
+
+  onSelect(event: any) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+  
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  uploadImages() {
+    if (this.files.length > 0) {
+      this.files.forEach((file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'aloha-images');
+        formData.append('cloud_name', 'djddmwtoy');
+        this.uploadService.uploadImg(formData).subscribe(
+          (response) => {
+            console.log('Imagen subida correctamente:', response);
+          },
+          (error) => {
+            console.error('Error al subir la imagen:', error);
+          }
+        );
+      });
     }
   }
 }

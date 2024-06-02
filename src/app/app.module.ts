@@ -29,6 +29,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { TopButtonComponent } from './components/top-button/top-button.component';
 import { CookieService } from 'ngx-cookie-service';
 import { FaqsComponent } from './components/faqs/faqs.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 const appRoutes: Routes = [
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
     NgxSpinnerModule,
     FilterPipeModule,
     OrderModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxDropzoneModule
   ],
   providers: [
     DatePipe,

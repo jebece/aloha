@@ -225,6 +225,12 @@
                                         <div *ngIf="location.errors?.['maxlength']">Ubicación demasiado extensa</div>
                                     </div>
                                 </div>
+                                <ngx-dropzone (change)="onSelect($event)" class="mb-3">
+                                    <ngx-dropzone-label>Clica o arrastra las imágenes</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
                                 <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-create-form-buttons mb-3 row ">
