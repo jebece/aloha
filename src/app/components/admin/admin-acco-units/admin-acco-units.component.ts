@@ -210,6 +210,7 @@ export class AdminAccoUnitsComponent {
                     },
                     (error) => {
                       console.error('Error al insertar el servicio de la unidad de alojamiento:', error);
+                      this.adminAccoUnitsError = 'Error al insertar el servicio de la unidad de alojamiento';
                     }
                   );
                 }
@@ -217,6 +218,7 @@ export class AdminAccoUnitsComponent {
             },
             (error) => {
               console.error('Error al obtener las unidades de alojamiento', error);
+              this.adminAccoUnitsError = 'Error al obtener las unidades de alojamiento';
             }
           );
 
@@ -276,6 +278,7 @@ export class AdminAccoUnitsComponent {
                         },
                         (error) => {
                           console.error('Error al eliminar el servicio de la unidad de alojamiento:', error);
+                          this.adminAccoUnitsError = 'Error al eliminar el servicio de la unidad de alojamiento';
                         }
                       );
                     }
@@ -283,6 +286,7 @@ export class AdminAccoUnitsComponent {
                 },
                 (error) => {
                   console.error('Error al obtener los servicios de las unidades de alojamiento', error);
+                  this.adminAccoUnitsError = 'Error al obtener los servicios de las unidades de alojamiento';
                 },
                 () => {
                   if (editSelectedServices.length > 0) {
@@ -307,6 +311,7 @@ export class AdminAccoUnitsComponent {
                         },
                         (error) => {
                           console.error('Error al modificar el servicio de la unidad de alojamiento:', error);
+                          this.adminAccoUnitsError = 'Error al modificar el servicio de la unidad de alojamiento';
                         }
                       );
                     }
@@ -320,6 +325,7 @@ export class AdminAccoUnitsComponent {
             },
             (error) => {
               console.error('Error al obtener las unidades de alojamiento', error);
+              this.adminAccoUnitsError = 'Error al obtener las unidades de alojamiento';
             }
           );
         },
