@@ -44,7 +44,6 @@ export class PayComponent implements OnInit {
   accoUnit?: any;
   bookStart?: Date;
   bookEnd?: Date;
-  bookPeople?: number;
   id: number = 0;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private spinner: NgxSpinnerService, private loginService: LoginService, private router: Router, private route: ActivatedRoute, private accoUnitService: AccoUnitService, private bookingService: BookingService, private toastr: ToastrService, private cardService: CardService, private clientCardService: ClientCardService) {
@@ -109,7 +108,6 @@ export class PayComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.bookStart = params['bookStart'];
       this.bookEnd = params['bookEnd'];
-      this.bookPeople = +params['bookPeople'];
       this.id = +params['id'];
     });
 
@@ -204,11 +202,13 @@ export class PayComponent implements OnInit {
                       },
                       (error) => {
                         console.log('Error al crear la tarjeta-cliente');
+                        this.payError = 'Error al crear la tarjeta-cliente. Inténtelo de nuevo';
                       }
                     );
                   },
                   (error) => {
                     console.log('Error al crear la tarjeta');
+                    this.payError = 'Error al crear la tarjeta. Inténtelo de nuevo';
                   }
                 );
               }else{
@@ -218,6 +218,7 @@ export class PayComponent implements OnInit {
             },
             error =>  {
               console.log('Error al comprobar la tarjeta', error);
+              this.payError = 'Error al comprobar la tarjeta. Inténtelo de nuevo';
             }
           );
         },

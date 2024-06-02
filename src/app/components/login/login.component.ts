@@ -49,9 +49,6 @@ export class LoginComponent implements OnInit {
         password: this.loginForm.value.password
       };
       this.loginService.login(userData as LoginRequest).subscribe({
-        next: (userData) => {
-          console.log(userData);
-        },
         error: (errorData) => {
           console.log(errorData);
           this.loginError = "Usuario o contraseña incorrectos";

@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CategoryaccommodationunitService } from '../../services/categoryaccommodationunit/categoryaccommodationunit.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AccommodationunitserviceserviceService } from '../../services/accommodationunitserviceservice/accommodationunitserviceservice.service';
 import { LoginService } from '../../services/auth/login.service';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/auth/user';
@@ -28,11 +27,14 @@ export class ConsultaComponent implements OnInit {
   end?: Date;
   bookEnd?: Date;
   people: number = 2;
-  bookPeople?: number;
   houses: boolean = false;
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
+  piscina: boolean = false;
+  mascotas: boolean = false;
+  wifi: boolean = false;
+  parking: boolean = false;
   services: boolean[] = [false, false, false, false];
   categories: boolean[] = [false, false, false, false];
   maxPrice: number = 300;
@@ -49,7 +51,6 @@ export class ConsultaComponent implements OnInit {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private categoryAccommodationUnitService: CategoryaccommodationunitService,
-    private accommodationUnitServiceService: AccommodationunitserviceserviceService,
     private loginService: LoginService,
     private userService: UserService
   ) {}
@@ -90,62 +91,23 @@ export class ConsultaComponent implements OnInit {
       this.end = params['end'];
       this.bookEnd = params['end'];
       this.people = +params['people'];
-      this.bookPeople = +params['people'];
       this.houses = params['houses'] === 'true';
       this.hotels = params['hotels'] === 'true';
       this.hostels = params['hostels'] === 'true';
       this.bungalows = params['bungalows'] === 'true';
+      this.piscina = params['piscina'] === 'true';
+      this.mascotas = params['mascotas'] === 'true';
+      this.wifi = params['wifi'] === 'true';
+      this.parking = params['parking'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
     });
-
-    this.categories = [this.houses, this.hotels, this.hostels, this.bungalows];
 
     this.spinner.show();
     setTimeout(() => {
       this.spinner.hide();
     }, 3000);
 
-    if (
-      this.route.snapshot.queryParams['location'] == null ||
-      (this.route.snapshot.queryParams['location'] == '' &&
-        this.route.snapshot.queryParams['categories'].every(
-          (element: string) => element == 'false'
-        ))
-    ) {
-      this.categoryAccommodationUnitService.getAll().subscribe((response) => {
-        this.data = response;
-        if (Array.isArray(this.data) && this.data.length > 0) {
-          this.showRows = true;
-        }
-      });
-    } else if (
-      this.route.snapshot.queryParams['location'] == null ||
-      (this.route.snapshot.queryParams['location'] == '' &&
-        this.route.snapshot.queryParams['categories'].some(
-          (element: string) => element == 'true'
-        ))
-    ) {
-      const array = this.route.snapshot.queryParams['categories'].join(',');
-      this.categoryAccommodationUnitService
-        .getAccommodationUnitByCategory(array)
-        .subscribe((response) => {
-          this.data = response;
-          if (Array.isArray(this.data) && this.data.length > 0) {
-            this.showRows = true;
-          }
-        });
-    } else {
-      this.categoryAccommodationUnitService
-        .getCategoryAccommodationUnitByLocation(
-          this.route.snapshot.queryParams['location']
-        )
-        .subscribe((response) => {
-          this.data = response;
-          if (Array.isArray(this.data) && this.data.length > 0) {
-            this.showRows = true;
-          }
-        });
-    }
+    this.searchSamePageAccommodation();
   }
 
   updateMinEndDate(startDate: string): void {
@@ -160,41 +122,6 @@ export class ConsultaComponent implements OnInit {
     }
   }
 
-  searchAccommodation(): void {
-    if (this.start && this.end) {
-      const startDate = new Date(this.start);
-      const endDate = new Date(this.end);
-
-      if (startDate.getTime() >= endDate.getTime()) {
-        startDate.setDate(endDate.getDate() - 1);
-        this.start = startDate;
-      }
-    }
-
-    const startDate = this.start
-      ? new Date(this.start)
-      : new Date(this.minDate);
-    const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
-
-    const formattedStartDate = startDate.toISOString().split('T')[0];
-    const formattedEndDate = endDate.toISOString().split('T')[0];
-
-    const queryParams = {
-      location: this.location,
-      start: formattedStartDate,
-      end: formattedEndDate,
-      people: this.people,
-      houses: this.houses,
-      hotels: this.hotels,
-      hostels: this.hostels,
-      bungalows: this.bungalows,
-      services: this.services,
-      maxPrice: this.maxPrice,
-    };
-
-    this.router.navigate(['/consulta'], { queryParams: queryParams });
-  }
-
   searchSamePageAccommodation(): void {
     if (this.start && this.end) {
       const startDate = new Date(this.start);
@@ -202,13 +129,15 @@ export class ConsultaComponent implements OnInit {
 
       if (startDate.getTime() >= endDate.getTime()) {
         startDate.setDate(endDate.getDate() - 1);
-        this.start = startDate;
+        this.start = startDate.toISOString().split('T')[0] as any;
       }
     }
 
-    const startDate = this.start
-      ? new Date(this.start)
-      : new Date(this.minDate);
+    this.bookStart = this.start;
+    this.bookEnd = this.end;
+    this.showRows = false;
+
+    const startDate = this.start ? new Date(this.start) : new Date(this.minDate);
     const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
 
     const formattedStartDate = startDate.toISOString().split('T')[0];
@@ -223,6 +152,10 @@ export class ConsultaComponent implements OnInit {
       hotels: this.hotels,
       hostels: this.hostels,
       bungalows: this.bungalows,
+      piscina: this.piscina,
+      mascotas: this.mascotas,
+      wifi: this.wifi,
+      parking: this.parking,
       categories: this.categories,
       services: this.services,
       maxPrice: this.maxPrice,
@@ -235,10 +168,17 @@ export class ConsultaComponent implements OnInit {
       queryParams['bungalows'],
     ];
 
+    queryParams['services'] = [
+      queryParams['piscina'],
+      queryParams['mascotas'],
+      queryParams['wifi'],
+      queryParams['parking'],
+    ];
+
     if (queryParams['location'] == null || queryParams['location'] == '') {
       queryParams['location'] = 'null';
     }
-
+    
     this.categoryAccommodationUnitService
       .getAccommodationUnitByAll(
         queryParams['location'],
@@ -255,26 +195,6 @@ export class ConsultaComponent implements OnInit {
           this.showRows = true;
         }
       });
-
-    // if (
-    //   (queryParams['location'] == null || queryParams['location'] == '') &&
-    //   queryParams['services'].every((element: boolean) => element == false)
-    // ) {
-    //   this.categoryAccommodationUnitService.getAll().subscribe((response) => {
-    //     this.data = response;
-    //   });
-    // } else if (
-    //   (queryParams['location'] == null || queryParams['location'] == '') &&
-    //   queryParams['services'].some((element: boolean) => element == true)
-    // ) {
-    //   const array = queryParams['services'].join(',');
-    //   console.log(array);
-    //   this.categoryAccommodationUnitService
-    //     .getAccommodationUnitByService(queryParams['services'])
-    //     .subscribe((response) => {
-    //       this.data = response;
-    //     });
-    // }
   }
 
   searchDetails(id: number): void {
@@ -285,11 +205,14 @@ export class ConsultaComponent implements OnInit {
       end: this.end,
       bookEnd: this.bookEnd,
       people: this.people,
-      bookPeople: this.bookPeople,
       houses: this.houses,
       hotels: this.hotels,
       hostels: this.hostels,
       bungalows: this.bungalows,
+      piscina: this.piscina,
+      mascotas: this.mascotas,
+      wifi: this.wifi,
+      parking: this.parking,
       maxPrice: this.maxPrice,
       id: id,
     };
@@ -306,7 +229,6 @@ export class ConsultaComponent implements OnInit {
     const queryParams = {
       bookStart: this.bookStart,
       bookEnd: this.bookEnd,
-      bookPeople: this.bookPeople,
       id: id,
     };
 

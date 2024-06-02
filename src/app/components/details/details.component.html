@@ -64,7 +64,7 @@
                                 <div class="details__form-filters-services ms-2">
                                     <div class="details__form-filters-service form-check">
                                         <input class="details__form-filters-services-control form-check-input"
-                                            type="checkbox" value="" id="piscina">
+                                            type="checkbox" value="" id="piscina" [(ngModel)]="piscina" name="piscina">
                                         <label class="details__form-filters-services-label form-check-label"
                                             for="piscina">
                                             Piscina
@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="details__form-filters-service form-check">
                                         <input class="details__form-filters-services-control form-check-input"
-                                            type="checkbox" value="" id="mascotas">
+                                            type="checkbox" value="" id="mascotas" [(ngModel)]="mascotas" name="mascotas">
                                         <label class="details__form-filters-services-label form-check-label"
                                             for="mascotas">
                                             Admite mascotas
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="details__form-filters-service form-check">
                                         <input class="details__form-filters-services-control form-check-input"
-                                            type="checkbox" value="" id="wifi">
+                                            type="checkbox" value="" id="wifi" [(ngModel)]="wifi" name="wifi">
                                         <label class="details__form-filters-services-label form-check-label"
                                             for="wifi">
                                             Wifi
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="details__form-filters-service form-check">
                                         <input class="details__form-filters-services-control form-check-input"
-                                            type="checkbox" value="" id="parking">
+                                            type="checkbox" value="" id="parking" [(ngModel)]="parking" name="parking">
                                         <label class="details__form-filters-services-label form-check-label"
                                             for="parking">
                                             Parking
@@ -294,7 +294,7 @@
                                 </div>
                                 <div class="details__book-resume-people p-3">
                                     <div class="details__book-resume-text">Personas</div>
-                                    <div class="details__book-resume-number">{{this.bookPeople}}</div>
+                                    <div class="details__book-resume-number">{{this.accoUnit.capacity}}</div>
                                 </div>
                             </div>
                         </div>

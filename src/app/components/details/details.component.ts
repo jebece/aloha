@@ -26,11 +26,14 @@ export class DetailsComponent implements OnInit {
   end?: Date;
   bookEnd?: Date;
   people: number = 2;
-  bookPeople?: number;
   houses: boolean = false;
   hotels: boolean = false;
   hostels: boolean = false;
   bungalows: boolean = false;
+  piscina: boolean = false;
+  mascotas: boolean = false;
+  wifi: boolean = false;
+  parking: boolean = false;
   maxPrice: number = 300;
   id: number = 0;
 
@@ -86,11 +89,14 @@ export class DetailsComponent implements OnInit {
       this.end = params['end'];
       this.bookEnd = params['bookEnd'];
       this.people = +params['people'];
-      this.bookPeople = +params['bookPeople'];
       this.houses = params['houses'] === 'true';
       this.hotels = params['hotels'] === 'true';
       this.hostels = params['hostels'] === 'true';
       this.bungalows = params['bungalows'] === 'true';
+      this.piscina = params['piscina'] === 'true';
+      this.mascotas = params['mascotas'] === 'true';
+      this.wifi = params['wifi'] === 'true';
+      this.parking = params['parking'] === 'true';
       this.maxPrice = +params['maxPrice'] || 300;
       this.id = +params['id'];
     });
@@ -160,6 +166,10 @@ export class DetailsComponent implements OnInit {
       hotels: this.hotels,
       hostels: this.hostels,
       bungalows: this.bungalows,
+      piscina: this.piscina,
+      mascotas: this.mascotas,
+      wifi: this.wifi,
+      parking: this.parking,
       maxPrice: this.maxPrice
     };
 
@@ -170,7 +180,6 @@ export class DetailsComponent implements OnInit {
     const queryParams = {
       bookStart: this.bookStart,
       bookEnd: this.bookEnd,
-      bookPeople: this.bookPeople,
       id: this.id
     };
 

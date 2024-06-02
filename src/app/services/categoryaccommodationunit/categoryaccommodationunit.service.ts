@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Accommodationunit } from '../../models/accommodationunit';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryaccommodationunitService {
-  private url = 'http://localhost:8080/api/category-accommodation-unit';
-  private urlAccommodation = 'http://localhost:8080/api/accommodation-unit';
+  private url = environment.urlHost + '/api/category-accommodation-unit';
+  private urlAccommodation = environment.urlHost + '/api/accommodation-unit';
 
   constructor(private http: HttpClient) {}
 

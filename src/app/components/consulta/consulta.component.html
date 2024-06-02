@@ -63,28 +63,28 @@
                 <div class="consulta__form-filters-services ms-2">
                   <div class="consulta__form-filters-service form-check">
                     <input class="consulta__form-filters-services-control form-check-input" type="checkbox" value=""
-                      id="piscina" />
+                      id="piscina" [(ngModel)]="piscina" name="piscina"/>
                     <label class="consulta__form-filters-services-label form-check-label" for="piscina">
                       Piscina
                     </label>
                   </div>
                   <div class="consulta__form-filters-service form-check">
                     <input class="consulta__form-filters-services-control form-check-input" type="checkbox" value=""
-                      id="mascotas" />
+                      id="mascotas" [(ngModel)]="mascotas" name="mascotas"/>
                     <label class="consulta__form-filters-services-label form-check-label" for="mascotas">
                       Admite mascotas
                     </label>
                   </div>
                   <div class="consulta__form-filters-service form-check">
                     <input class="consulta__form-filters-services-control form-check-input" type="checkbox" value=""
-                      id="wifi" />
+                      id="wifi" [(ngModel)]="wifi" name="wifi"/>
                     <label class="consulta__form-filters-services-label form-check-label" for="wifi">
                       Wifi
                     </label>
                   </div>
                   <div class="consulta__form-filters-service form-check">
                     <input class="consulta__form-filters-services-control form-check-input" type="checkbox" value=""
-                      id="parking" />
+                      id="parking" [(ngModel)]="parking" name="parking"/>
                     <label class="consulta__form-filters-services-label form-check-label" for="parking">
                       Parking
                     </label>
@@ -185,28 +185,28 @@
           <div class="consulta__filters-services ms-2">
             <div class="consulta__filters-service form-check">
               <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                [(ngModel)]="services[0]" id="piscina" />
+              [(ngModel)]="piscina" name="piscina" />
               <label class="consulta__filters-services-label form-check-label" for="piscina">
                 Piscina
               </label>
             </div>
             <div class="consulta__filters-service form-check">
               <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                [(ngModel)]="services[1]" id="mascotas" />
+              [(ngModel)]="mascotas" name="mascotas" />
               <label class="consulta__filters-services-label form-check-label" for="mascotas">
                 Admite mascotas
               </label>
             </div>
             <div class="consulta__filters-service form-check">
               <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                [(ngModel)]="services[2]" id="wifi" />
+              [(ngModel)]="wifi" name="wifi" />
               <label class="consulta__filters-services-label form-check-label" for="wifi">
                 Wifi
               </label>
             </div>
             <div class="consulta__filters-service form-check">
               <input class="consulta__filters-services-control form-check-input" type="checkbox"
-                [(ngModel)]="services[3]" id="parking" />
+              [(ngModel)]="parking" name="parking"/>
               <label class="consulta__filters-services-label form-check-label" for="parking">
                 Parking
               </label>
@@ -279,10 +279,10 @@
             <option>Precio descendente</option>
           </select>
         </div>
-        <div *ngFor="let item of data | paginate: { itemsPerPage: 10, currentPage: page}" class="consulta__results-alohamientos container-xl mb-4">
+        <div *ngFor="let item of data | paginate: { itemsPerPage: 5, currentPage: page} let i = index" class="consulta__results-alohamientos container-xl mb-4">
           <div class="consulta__results-alohamiento row p-3 mt-3">
             <div class="consulta__results-alohamiento-carrousel col-lg-4">
-              <div id="example1" class="carousel slide">
+              <div id="carousel{{ i }}" class="carousel slide">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="../../../assets/img/santiagoCompostela.jpg" class="d-block w-100" alt="..." />
@@ -294,11 +294,11 @@
                     <img src="../../../assets/img/valencia.jpg" class="d-block w-100" alt="..." />
                   </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#example1" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + i" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#example1" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel' + i" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="visually-hidden">Next</span>
                 </button>
