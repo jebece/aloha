@@ -7,6 +7,7 @@ import { LoginService } from '../../services/auth/login.service';
 import { UserService } from '../../services/user/user.service';
 import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 import { AccoUnitServiceService } from '../../services/acco-unit-service/acco-unit-service.service';
+import { ImageService } from '../../services/image/image.service';
 
 @Component({
   selector: 'app-details',
@@ -36,6 +37,8 @@ export class DetailsComponent implements OnInit {
   parking: boolean = false;
   maxPrice: number = 300;
   id: number = 0;
+  images: any = [];
+  selectedImageUrl: string = '';
 
   minDate: string = '';
   minEndDate: string = '';
@@ -52,7 +55,8 @@ export class DetailsComponent implements OnInit {
     private accoUnitService: AccoUnitService,
     private accoUnitServiceService: AccoUnitServiceService,
     private loginService: LoginService,
-    private userService: UserService
+    private userService: UserService,
+    private imageService: ImageService
   ) { }
 
   ngOnInit(): void {
@@ -106,6 +110,15 @@ export class DetailsComponent implements OnInit {
         this.accoUnit = data;
         this.description = this.accoUnit.accommodation.description.split('. ').map((sentence: string) => sentence.trim()).filter((sentence: any) => sentence);
         console.log('Unidad de alojamiento obtenida');
+        this.imageService.getImagesByAccommodationId(this.accoUnit.accommodation.id).subscribe(
+          (data) => {
+            this.images = data;
+            console.log('Imágenes obtenidas correctamente');
+          },
+          (error) => {
+            console.error('Error al obtener las imágenes', error);
+          }
+        );
       },
       (error) => {
         console.error('Error al obtener la unidad de alojamiento', error);
@@ -201,5 +214,9 @@ export class DetailsComponent implements OnInit {
     const diferenciaEnMs = fechaFin && fechaInicio ? Math.abs(fechaFin.getTime() - fechaInicio.getTime()) : 0;
 
     return Math.round(diferenciaEnMs / unDia);
+  }
+
+  selectImageUrl(url: string) {
+    this.selectedImageUrl = url;
   }
 }

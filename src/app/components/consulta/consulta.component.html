@@ -279,19 +279,13 @@
             <option>Precio descendente</option>
           </select>
         </div>
-        <div *ngFor="let item of data | paginate: { itemsPerPage: 5, currentPage: page} let i = index" class="consulta__results-alohamientos container-xl mb-4">
+        <div *ngFor="let item of data | paginate: { itemsPerPage: 5, currentPage: page }; let i = index" class="consulta__results-alohamientos container-xl mb-4">
           <div class="consulta__results-alohamiento row p-3 mt-3">
             <div class="consulta__results-alohamiento-carrousel col-lg-4">
-              <div id="carousel{{ i }}" class="carousel slide">
+              <div [id]="'carousel' + i" class="carousel slide">
                 <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="../../../assets/img/santiagoCompostela.jpg" class="d-block w-100" alt="..." />
-                  </div>
-                  <div class="carousel-item">
-                    <img src="../../../assets/img/madrid.jpg" class="d-block w-100" alt="..." />
-                  </div>
-                  <div class="carousel-item">
-                    <img src="../../../assets/img/valencia.jpg" class="d-block w-100" alt="..." />
+                  <div *ngFor="let img of images[i][0]; let imgIndex = index" [class.active]="imgIndex === 0" class="carousel-item">
+                    <img [src]="img.url" class="d-block w-100 object-fit-cover" alt="Image {{img.id}}" />
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + i" data-bs-slide="prev">

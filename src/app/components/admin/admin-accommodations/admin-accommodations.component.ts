@@ -9,6 +9,7 @@ import { UserService } from '../../../services/user/user.service';
 import { JwtDecoderService } from '../../../services/jwt-decoder/jwt-decoder.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from '../../../services/upload/upload.service';
+import { ImageService } from '../../../services/image/image.service';
 
 @Component({
   selector: 'app-admin-accommodations',
@@ -30,6 +31,7 @@ export class AdminAccommodationsComponent implements OnInit{
   order: string = 'name';
   reverse: boolean = false;
   files: File[] = [];
+  showSpinner: boolean = false;
 
   adminAccommodationsError: string = '';
   adminAccommodationsForm = this.formBuilder.group({
@@ -48,7 +50,7 @@ export class AdminAccommodationsComponent implements OnInit{
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService, private uploadService: UploadService) {}
+  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService, private uploadService: UploadService, private imageService: ImageService) {}
   
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -103,6 +105,8 @@ export class AdminAccommodationsComponent implements OnInit{
 
   createAccommodation() {
     if (this.adminAccommodationsForm.valid) {
+      if (this.files.length > 0) {
+      this.showSpinner = true;
       let name = this.adminAccommodationsForm.get('name')?.value;
       let description = this.adminAccommodationsForm.get('description')?.value;
       let address = this.adminAccommodationsForm.get('address')?.value;
@@ -128,11 +132,6 @@ export class AdminAccommodationsComponent implements OnInit{
               }
               if(this.accommodationIdFind !== null) {
                 this.uploadImages(this.accommodationIdFind);
-                console.log(this.accommodationIdFind)
-                this.adminAccommodationsForm.reset();
-                this.router.navigate(['admin-accommodations']).then(() => {
-                  window.location.reload();
-                });
               }
             },
             (error) => {
@@ -145,11 +144,15 @@ export class AdminAccommodationsComponent implements OnInit{
           this.adminAccommodationsError = 'Error al crear el alojamiento. Inténtalo de nuevo.';
         }
       );
+      } else {
+        this.adminAccommodationsError = 'Debes subir al menos una imagen';
+      }
     }
   }
 
   editAccommodation() {
     if (this.adminAccommodationsEditForm.valid) {
+
       let editName = this.adminAccommodationsEditForm.get('editName')?.value;
       let editDescription = this.adminAccommodationsEditForm.get('editDescription')?.value;
       let editAddress = this.adminAccommodationsEditForm.get('editAddress')?.value;
@@ -247,7 +250,12 @@ export class AdminAccommodationsComponent implements OnInit{
   }
 
   onSelect(event: any) {
-    console.log(event);
+    if (this.files.length + event.addedFiles.length > 12) {
+      console.log('Se ha excedido el límite máximo de 12 imágenes.');
+      this.adminAccommodationsError = 'Se ha excedido el límite máximo de 12 imágenes.';
+      return;
+    }
+
     this.files.push(...event.addedFiles);
   }
   
@@ -267,10 +275,19 @@ export class AdminAccommodationsComponent implements OnInit{
           (response) => {
             const url = response.url;
             const imageData = {
-              id: accommodationId,
-              url: url
+              url: url,
+              accommodation:{
+                id: accommodationId
+              }
             };
-            
+            this.imageService.createImage(imageData).subscribe(
+              (response) => {
+                console.log('Imagen subida correctamente:', response);
+              },
+              (error) => {
+                console.error('Error al subir la imagen:', error);
+              }
+            );
           },
           (error) => {
             console.error('Error al subir la imagen:', error);
@@ -278,5 +295,10 @@ export class AdminAccommodationsComponent implements OnInit{
         );
       });
     }
+    this.router.navigate(['admin-accommodations']).then(() => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000); 
+    });
   }
 }

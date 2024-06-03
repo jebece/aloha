@@ -191,78 +191,32 @@
             </div>
         </div>
         <section class="details__gallery row my-4">
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catHostel.jpg" alt="galeria1" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHostel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catBungalow.jpg" alt="galeria2" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catBungalow">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catHotel.jpg" alt="galeria3" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHotel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catHostel.jpg" alt="galeria4" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHostel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-md-0">
-                <figure>
-                    <img src="../../../assets/img/catBungalow.jpg" alt="galeria5" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catBungalow">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-md-0">
-                <figure>
-                    <img src="../../../assets/img/catHotel.jpg" alt="galeria6" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHotel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catHostel.jpg" alt="galeria7" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHostel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-lg-0">
-                <figure>
-                    <img src="../../../assets/img/catBungalow.jpg" alt="galeria8" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catBungalow">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3">
-                <figure>
-                    <img src="../../../assets/img/catHotel.jpg" alt="galeria9" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHotel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3">
-                <figure>
-                    <img src="../../../assets/img/catHostel.jpg" alt="galeria10" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHostel">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3">
-                <figure>
-                    <img src="../../../assets/img/catBungalow.jpg" alt="galeria11" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catBungalow">
-                </figure>
-            </div>
-            <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3">
-                <figure>
-                    <img src="../../../assets/img/catHotel.jpg" alt="galeria12" class="details__gallery-img img-fluid"
-                        data-bs-toggle="modal" data-bs-target="#modal-imagen" data-bs-imagen="catHotel">
-                </figure>
-            </div>
+            <ng-container *ngFor="let image of images; let i = index">
+                <ng-container *ngIf="i < 4">
+                    <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-lg-0" (click)="selectImageUrl(image.url)">
+                        <figure>
+                            <img src="{{image.url}}" alt="imagen galeria{{i + 1}}" class="details__gallery-img img-fluid"
+                                data-bs-toggle="modal" data-bs-target="#modal-imagen">
+                        </figure>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="i >= 4 && i < 8">
+                    <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-md-0" (click)="selectImageUrl(image.url)">
+                        <figure>
+                            <img src="{{image.url}}" alt="imagen galeria{{i + 1}}" class="details__gallery-img img-fluid"
+                                data-bs-toggle="modal" data-bs-target="#modal-imagen">
+                        </figure>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="i >= 8 && i < 12">
+                    <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3" (click)="selectImageUrl(image.url)">
+                        <figure>
+                            <img src="{{image.url}}" alt="imagen galeria{{i + 1}}" class="details__gallery-img img-fluid"
+                                data-bs-toggle="modal" data-bs-target="#modal-imagen">
+                        </figure>
+                    </div>
+                </ng-container>
+            </ng-container>
         </section>
         <div class="row gx-5">
             <section class="details__footer col-lg-8">
@@ -360,7 +314,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
-
+                    <img src="{{selectedImageUrl}}" alt="" class="img-fluid">
                 </div>
             </div>
         </div>

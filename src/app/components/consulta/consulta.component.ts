@@ -7,6 +7,7 @@ import { LoginService } from '../../services/auth/login.service';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/auth/user';
 import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
+import { ImageService } from '../../services/image/image.service';
 
 @Component({
   selector: 'app-consulta',
@@ -40,6 +41,7 @@ export class ConsultaComponent implements OnInit {
   maxPrice: number = 300;
   selectedAccoUnitId: number | null = null;
   selectedAccoUnitToPay: number | null = null;
+  images: any[] = [];
 
   minDate: string = '';
   minEndDate: string = '';
@@ -52,7 +54,8 @@ export class ConsultaComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private categoryAccommodationUnitService: CategoryaccommodationunitService,
     private loginService: LoginService,
-    private userService: UserService
+    private userService: UserService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -193,7 +196,17 @@ export class ConsultaComponent implements OnInit {
         this.data = response;
         if (Array.isArray(this.data) && this.data.length > 0) {
           this.showRows = true;
+          for (let i = 0; i < this.data.length; i++) {
+            this.imageService.getImagesByAccommodationId(this.data[i].accommodation.id).subscribe(
+              (response) => {
+                if (!this.images[i]) {
+                  this.images[i] = [];
+                }
+                this.images[i].push(response);
+              });
+          }
         }
+
       });
   }
 
