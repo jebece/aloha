@@ -285,7 +285,7 @@
               <div [id]="'carousel' + i" class="carousel slide">
                 <div class="carousel-inner">
                   <div *ngFor="let img of images[i][0]; let imgIndex = index" [class.active]="imgIndex === 0" class="carousel-item">
-                    <img [src]="img.url" class="d-block w-100 object-fit-cover" alt="Image {{img.id}}" />
+                    <img [src]="img.url" class="d-block w-100 object-fit-cover" alt="Image {{img.id}}" class="carousel-img"/>
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel' + i" data-bs-slide="prev">

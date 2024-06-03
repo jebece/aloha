@@ -2835,6 +2835,12 @@ body {
   color: #272A57;
   font-weight: bold;
 }
+.carousel-img{
+  width: 100%;
+  max-height: 13rem;
+  min-height: 13rem;
+  object-fit: cover;
+}
 
 .details__search {
   background-color: #BBD1EA;
@@ -2847,7 +2853,6 @@ body {
   height: 13rem;
   object-fit: cover;
 }
-
 @media (min-width: 992px) {
   .details__form-info {
     display: block;
