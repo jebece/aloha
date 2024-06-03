@@ -21,7 +21,9 @@ export class AdminAccommodationsComponent implements OnInit{
   decodedToken: any;
   unautorized: boolean = true;
   accommodations: any;
+  accommodationsChecking: any;
   selectedAccommodationId: number | null = null;
+  accommodationIdFind: number | null = null;
   page: number = 1;
   showRows: boolean = false;
   accommodationFilter: any = { name: '' };
@@ -116,11 +118,27 @@ export class AdminAccommodationsComponent implements OnInit{
       this.accommodationService.createAccommodation(accommodationData).subscribe(
         (response) => {
           console.log('Alojamiento creado correctamente:', response);
-          this.uploadImages();
-          this.adminAccommodationsForm.reset();
-          this.router.navigate(['admin-accommodations']).then(() => {
-            window.location.reload();
-          });
+          this.accommodationService.getAccommodations().subscribe(
+            (data) => {
+              this.accommodationsChecking = data;
+              for (let i = 0; i < this.accommodationsChecking.length; i++) {
+                if (this.accommodationsChecking[i].name == name && this.accommodationsChecking[i].description == description && this.accommodationsChecking[i].address == address && this.accommodationsChecking[i].location == location) {
+                  this.accommodationIdFind = this.accommodationsChecking[i].id;
+                }
+              }
+              if(this.accommodationIdFind !== null) {
+                this.uploadImages(this.accommodationIdFind);
+                console.log(this.accommodationIdFind)
+                this.adminAccommodationsForm.reset();
+                this.router.navigate(['admin-accommodations']).then(() => {
+                  window.location.reload();
+                });
+              }
+            },
+            (error) => {
+              console.error('Error al obtener los alojamientos', error);
+            }
+          );
         },
         (error) => {
           console.error('Error al crear alojamiento:', error);
@@ -238,7 +256,7 @@ export class AdminAccommodationsComponent implements OnInit{
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  uploadImages() {
+  uploadImages(accommodationId: number) {
     if (this.files.length > 0) {
       this.files.forEach((file) => {
         const formData = new FormData();
@@ -247,7 +265,12 @@ export class AdminAccommodationsComponent implements OnInit{
         formData.append('cloud_name', 'djddmwtoy');
         this.uploadService.uploadImg(formData).subscribe(
           (response) => {
-            console.log('Imagen subida correctamente:', response);
+            const url = response.url;
+            const imageData = {
+              id: accommodationId,
+              url: url
+            };
+            
           },
           (error) => {
             console.error('Error al subir la imagen:', error);
