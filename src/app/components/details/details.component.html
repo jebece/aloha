@@ -208,7 +208,15 @@
                         </figure>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="i >= 8 && i < 12">
+                <ng-container *ngIf="i == 8">
+                    <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3 mt-md-0 pt-lg-3" (click)="selectImageUrl(image.url)">
+                        <figure>
+                            <img src="{{image.url}}" alt="imagen galeria{{i + 1}}" class="details__gallery-img img-fluid"
+                                data-bs-toggle="modal" data-bs-target="#modal-imagen">
+                        </figure>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="i >= 9 && i < 12">
                     <div class="details__gallery-image col-sm-6 col-md-4 col-lg-3 mt-3" (click)="selectImageUrl(image.url)">
                         <figure>
                             <img src="{{image.url}}" alt="imagen galeria{{i + 1}}" class="details__gallery-img img-fluid"
