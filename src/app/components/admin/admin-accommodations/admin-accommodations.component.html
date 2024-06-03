@@ -313,7 +313,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <ngx-dropzone (change)="onSelect($event)" class="mb-3"
+                                    accept="image/jpeg,image/jpg,image/png">
+                                    <ngx-dropzone-label>Clica o arrastra las imágenes</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
                                 <div class="text-message my-4 text-center">{{adminAccommodationsError}}</div>
+                                <div class="my-4 text-center" *ngIf="showSpinner">
+                                    <div class="spinner-border text-secondary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
                                 <div class="container-xl pt-3">
                                     <div class="admin__modal-edit-form-buttons mb-3 row ">
                                         <button type="button"

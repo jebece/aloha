@@ -20,6 +20,11 @@ export class ImageService {
     .pipe(catchError(this.handleError));
   }
 
+  public deleteImagesByAccommodationId(accommodationId: any){
+    return this.http.delete(environment.urlHost + '/api/image/delete/accommodation/' + accommodationId)
+    .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('Se ha producido un error ', error.error);

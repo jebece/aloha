@@ -16,7 +16,7 @@ import { ImageService } from '../../../services/image/image.service';
   templateUrl: './admin-accommodations.component.html',
   styleUrl: './admin-accommodations.component.css'
 })
-export class AdminAccommodationsComponent implements OnInit{
+export class AdminAccommodationsComponent implements OnInit {
   userLoginOn: boolean = false;
   user?: User;
   decodedToken: any;
@@ -50,8 +50,8 @@ export class AdminAccommodationsComponent implements OnInit{
 
   private jwtDecoderService = inject(JwtDecoderService);
 
-  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService, private uploadService: UploadService, private imageService: ImageService) {}
-  
+  constructor(private loginService: LoginService, private userService: UserService, private accommodationService: AccommodationService, private formBuilder: FormBuilder, private router: Router, private spinner: NgxSpinnerService, private toastr: ToastrService, private uploadService: UploadService, private imageService: ImageService) { }
+
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
       next: (userLoginOn) => {
@@ -59,45 +59,45 @@ export class AdminAccommodationsComponent implements OnInit{
       }
     });
     if (this.userLoginOn) {
-    this.userService.getUser().subscribe({
-      next: (userData) => {
-        this.user = userData;
-        if (this.user && this.user.token) {
-          this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+      this.userService.getUser().subscribe({
+        next: (userData) => {
+          this.user = userData;
+          if (this.user && this.user.token) {
+            this.decodedToken = this.jwtDecoderService.decodeToken(this.user.token);
+          }
+          if (this.decodedToken.role === 'ADMIN') {
+            this.unautorized = false;
+          }
         }
-        if (this.decodedToken.role === 'ADMIN') {
-          this.unautorized = false;
-        }
-      }
-    });
+      });
     }
     if (this.unautorized) {
       this.router.navigate(['login']);
       this.toastr.error('Inicia sesión como administrador', 'Acceso restringido', { timeOut: 2000, toastClass: 'ngx-toastr custom-toast', positionClass: 'toast-bottom-right' });
     } else {
-    this.accommodationService.getAccommodations().subscribe(
-      (data) => {
-        this.accommodations = data;
-        if (Array.isArray(this.accommodations) && this.accommodations.length > 0) {
-          this.showRows = true;
+      this.accommodationService.getAccommodations().subscribe(
+        (data) => {
+          this.accommodations = data;
+          if (Array.isArray(this.accommodations) && this.accommodations.length > 0) {
+            this.showRows = true;
+          }
+        },
+        (error) => {
+          console.error('Error al obtener los alojamientos', error);
         }
-      },
-      (error) => {
-        console.error('Error al obtener los alojamientos', error);
-      }
-    );
+      );
 
-    this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 500);
-  }
+      this.spinner.show();
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
+    }
   }
 
   setOrder(columnName: string) {
-    if(this.order === columnName) {
+    if (this.order === columnName) {
       this.reverse = !this.reverse;
-    }else {
+    } else {
       this.reverse = false;
     }
     this.order = columnName;
@@ -106,44 +106,44 @@ export class AdminAccommodationsComponent implements OnInit{
   createAccommodation() {
     if (this.adminAccommodationsForm.valid) {
       if (this.files.length > 0) {
-      this.showSpinner = true;
-      let name = this.adminAccommodationsForm.get('name')?.value;
-      let description = this.adminAccommodationsForm.get('description')?.value;
-      let address = this.adminAccommodationsForm.get('address')?.value;
-      let location = this.adminAccommodationsForm.get('location')?.value;
-  
-      const accommodationData = {
-        name: name!,
-        description: description!,
-        address: address!,
-        location: location!
-      };
-  
-      this.accommodationService.createAccommodation(accommodationData).subscribe(
-        (response) => {
-          console.log('Alojamiento creado correctamente:', response);
-          this.accommodationService.getAccommodations().subscribe(
-            (data) => {
-              this.accommodationsChecking = data;
-              for (let i = 0; i < this.accommodationsChecking.length; i++) {
-                if (this.accommodationsChecking[i].name == name && this.accommodationsChecking[i].description == description && this.accommodationsChecking[i].address == address && this.accommodationsChecking[i].location == location) {
-                  this.accommodationIdFind = this.accommodationsChecking[i].id;
+        this.showSpinner = true;
+        let name = this.adminAccommodationsForm.get('name')?.value;
+        let description = this.adminAccommodationsForm.get('description')?.value;
+        let address = this.adminAccommodationsForm.get('address')?.value;
+        let location = this.adminAccommodationsForm.get('location')?.value;
+
+        const accommodationData = {
+          name: name!,
+          description: description!,
+          address: address!,
+          location: location!
+        };
+
+        this.accommodationService.createAccommodation(accommodationData).subscribe(
+          (response) => {
+            console.log('Alojamiento creado correctamente:', response);
+            this.accommodationService.getAccommodations().subscribe(
+              (data) => {
+                this.accommodationsChecking = data;
+                for (let i = 0; i < this.accommodationsChecking.length; i++) {
+                  if (this.accommodationsChecking[i].name == name && this.accommodationsChecking[i].description == description && this.accommodationsChecking[i].address == address && this.accommodationsChecking[i].location == location) {
+                    this.accommodationIdFind = this.accommodationsChecking[i].id;
+                  }
                 }
+                if (this.accommodationIdFind !== null) {
+                  this.uploadImages(this.accommodationIdFind);
+                }
+              },
+              (error) => {
+                console.error('Error al obtener los alojamientos', error);
               }
-              if(this.accommodationIdFind !== null) {
-                this.uploadImages(this.accommodationIdFind);
-              }
-            },
-            (error) => {
-              console.error('Error al obtener los alojamientos', error);
-            }
-          );
-        },
-        (error) => {
-          console.error('Error al crear alojamiento:', error);
-          this.adminAccommodationsError = 'Error al crear el alojamiento. Inténtalo de nuevo.';
-        }
-      );
+            );
+          },
+          (error) => {
+            console.error('Error al crear alojamiento:', error);
+            this.adminAccommodationsError = 'Error al crear el alojamiento. Inténtalo de nuevo.';
+          }
+        );
       } else {
         this.adminAccommodationsError = 'Debes subir al menos una imagen';
       }
@@ -152,32 +152,41 @@ export class AdminAccommodationsComponent implements OnInit{
 
   editAccommodation() {
     if (this.adminAccommodationsEditForm.valid) {
+      if (this.files.length > 0) {
+        this.showSpinner = true;
+        let editName = this.adminAccommodationsEditForm.get('editName')?.value;
+        let editDescription = this.adminAccommodationsEditForm.get('editDescription')?.value;
+        let editAddress = this.adminAccommodationsEditForm.get('editAddress')?.value;
+        let editLocation = this.adminAccommodationsEditForm.get('editLocation')?.value;
 
-      let editName = this.adminAccommodationsEditForm.get('editName')?.value;
-      let editDescription = this.adminAccommodationsEditForm.get('editDescription')?.value;
-      let editAddress = this.adminAccommodationsEditForm.get('editAddress')?.value;
-      let editLocation = this.adminAccommodationsEditForm.get('editLocation')?.value;
-
-      const accommodationData = {
-        id: this.selectedAccommodationId!,
-        name: editName!,
-        description: editDescription!,
-        address: editAddress!,
-        location: editLocation!
-      };
-      this.accommodationService.updateAccommodation(accommodationData).subscribe(
-        (response) => {
-          console.log('Alojamiento modificado correctamente:', response);
-          this.adminAccommodationsEditForm.reset();
-          this.router.navigate(['admin-accommodations']).then(() => {
-            window.location.reload();
-          });
-        },
-        (error) => {
-          console.error('Error al modificar al alojamiento:', error);
-          this.adminAccommodationsError = 'Error al modificar al alojamiento. Inténtalo de nuevo.';
-        }
-      );
+        const accommodationData = {
+          id: this.selectedAccommodationId!,
+          name: editName!,
+          description: editDescription!,
+          address: editAddress!,
+          location: editLocation!
+        };
+        this.accommodationService.updateAccommodation(accommodationData).subscribe(
+          (response) => {
+            console.log('Alojamiento modificado correctamente:', response);
+            this.imageService.deleteImagesByAccommodationId(this.selectedAccommodationId!).subscribe(
+              (response) => {
+                console.log('Imágenes eliminadas correctamente:', response);
+                this.uploadImages(this.selectedAccommodationId!);
+              },
+              (error) => {
+                console.error('Error al eliminar las imágenes:', error);
+              }
+            );
+          },
+          (error) => {
+            console.error('Error al modificar al alojamiento:', error);
+            this.adminAccommodationsError = 'Error al modificar al alojamiento. Inténtalo de nuevo.';
+          }
+        );
+      }else{
+        this.adminAccommodationsError = 'Debes subir al menos una imagen';
+      }
     }
   }
 
@@ -258,7 +267,7 @@ export class AdminAccommodationsComponent implements OnInit{
 
     this.files.push(...event.addedFiles);
   }
-  
+
   onRemove(event: any) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
@@ -276,7 +285,7 @@ export class AdminAccommodationsComponent implements OnInit{
             const url = response.url;
             const imageData = {
               url: url,
-              accommodation:{
+              accommodation: {
                 id: accommodationId
               }
             };
@@ -298,7 +307,7 @@ export class AdminAccommodationsComponent implements OnInit{
     this.router.navigate(['admin-accommodations']).then(() => {
       setTimeout(() => {
         window.location.reload();
-      }, 5000); 
+      }, 5000);
     });
   }
 }
