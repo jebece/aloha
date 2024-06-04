@@ -270,14 +270,8 @@
         </div>
       </section>
       <section class="consulta__results col-lg-9">
-        <div class="consulta__results-main-title">
+        <div class="consulta__results-main-title mb-4">
           <div>{{data?.length ? data.length : 0}} alojamientos encontrados</div>
-        </div>
-        <div class="consulta__results-filters d-flex justify-content-end mt-4" *ngIf="showRows">
-          <select class="consulta__results-select form-select">
-            <option selected>Precio ascendente</option>
-            <option>Precio descendente</option>
-          </select>
         </div>
         <div *ngFor="let item of data | paginate: { itemsPerPage: 5, currentPage: page }; let i = index" class="consulta__results-alohamientos container-xl mb-4">
           <div class="consulta__results-alohamiento row p-3 mt-3">
