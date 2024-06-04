@@ -41,7 +41,7 @@ export class ConsultaComponent implements OnInit {
   maxPrice: number = 300;
   selectedAccoUnitId: number | null = null;
   selectedAccoUnitToPay: number | null = null;
-  images: any[] = [];
+  images: any[][] = [];
 
   minDate: string = '';
   minEndDate: string = '';
@@ -200,7 +200,7 @@ export class ConsultaComponent implements OnInit {
             this.imageService.getImagesByAccommodationId(this.data[i].accommodation.id).subscribe(
               (response) => {
                 if (!this.images[i]) {
-                  this.images[i] = [];
+                  this.images[i]= [];
                 }
                 this.images[i].push(response);
               });

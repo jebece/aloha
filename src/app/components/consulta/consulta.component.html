@@ -284,7 +284,7 @@
             <div class="consulta__results-alohamiento-carrousel col-lg-4">
               <div [id]="'carousel' + i" class="carousel slide">
                 <div class="carousel-inner">
-                  <div *ngFor="let img of images[i][0]; let imgIndex = index" [class.active]="imgIndex === 0" class="carousel-item">
+                  <div *ngFor="let img of (images[i]?.[0] || []); let imgIndex = index" [class.active]="imgIndex === 0" class="carousel-item">
                     <img [src]="img.url" class="d-block w-100 object-fit-cover" alt="Image {{img.id}}" class="carousel-img"/>
                   </div>
                 </div>
