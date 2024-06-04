@@ -8,6 +8,7 @@ import { UserService } from '../../services/user/user.service';
 import { User } from '../../services/auth/user';
 import { JwtDecoderService } from '../../services/jwt-decoder/jwt-decoder.service';
 import { ImageService } from '../../services/image/image.service';
+import { AccommodationUnit } from './AccommodationUnit';
 
 @Component({
   selector: 'app-consulta',
@@ -45,6 +46,8 @@ export class ConsultaComponent implements OnInit {
 
   minDate: string = '';
   minEndDate: string = '';
+
+  order: string = 'asc';
 
   private jwtDecoderService = inject(JwtDecoderService);
 
@@ -139,6 +142,8 @@ export class ConsultaComponent implements OnInit {
     this.bookStart = this.start;
     this.bookEnd = this.end;
     this.showRows = false;
+    this.data = null;
+    this.images = [];
 
     const startDate = this.start ? new Date(this.start) : new Date(this.minDate);
     const endDate = this.end ? new Date(this.end) : new Date(this.minEndDate);
@@ -192,8 +197,12 @@ export class ConsultaComponent implements OnInit {
         queryParams['end'],
         queryParams['people']
       )
-      .subscribe((response) => {
-        this.data = response;
+      .subscribe((response: AccommodationUnit[]) => {
+        if(this.order=='asc'){
+          this.data = response.sort((a, b) => a.price - b.price);
+        }else if(this.order=='desc'){
+          this.data = response.sort((a: any, b: any) => b.price - a.price);
+        }        
         if (Array.isArray(this.data) && this.data.length > 0) {
           this.showRows = true;
           for (let i = 0; i < this.data.length; i++) {
@@ -251,5 +260,14 @@ export class ConsultaComponent implements OnInit {
   selectAccoUnitToPay(id: number) {
     this.selectedAccoUnitToPay = id;
     this.goToPay(this.selectedAccoUnitToPay);
+  }
+
+  changeOrder(): void {
+    if (this.order === 'asc') {
+      this.order = 'desc';
+    } else {
+      this.order = 'asc';
+    }
+    this.searchSamePageAccommodation();
   }
 }

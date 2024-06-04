@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Accommodationunit } from '../../models/accommodationunit';
 import { environment } from '../../environments/environments';
+import { Observable } from 'rxjs';
+import { AccommodationUnit } from '../../components/consulta/AccommodationUnit';
 
 @Injectable({
   providedIn: 'root',
@@ -66,8 +68,8 @@ export class CategoryaccommodationunitService {
     start: string,
     end: string,
     capacity: number
-  ) {
-    return this.http.get<Accommodationunit>(
+  ): Observable<AccommodationUnit[]> {
+    return this.http.get<Accommodationunit[]>(
       `${this.urlAccommodation}/location/${location}/price/${maxPrice}/services/${services}/categories/${categories}/check-in/${start}/check-out/${end}/capacity/${capacity}`
     );
   }
