@@ -2387,6 +2387,9 @@ body {
   border-color: #272A57;
   border-radius: 20px;
   padding: 4rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .inicio__cities-grid-madrid {
   background-image: linear-gradient(to right, rgba(39, 42, 87, 0.4) 0%, rgba(39, 42, 87, 0.4) 100%), url("./assets/img/madrid.jpg");
@@ -2531,6 +2534,9 @@ body {
   border-color: #272A57;
   border-radius: 20px;
   padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .inicio__category-grid-houses {
   background-image: linear-gradient(to right, rgba(39, 42, 87, 0.4) 0%, rgba(39, 42, 87, 0.4) 100%), url("./assets/img/catCasa.jpg");
